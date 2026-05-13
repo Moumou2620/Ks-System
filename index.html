@@ -6,9 +6,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#1a1f2e">
 <title>KS System</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- Kun Supabase loader ved start - resten lazy -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 :root{
@@ -23,8 +22,6 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 #sLogin{align-items:center;justify-content:center;
   background:radial-gradient(ellipse at 30% 40%,rgba(74,158,255,.08) 0%,transparent 60%),
              radial-gradient(ellipse at 70% 70%,rgba(46,213,115,.05) 0%,transparent 50%);}
-
-/* LOGIN */
 .login-box{width:100%;max-width:380px;padding:20px;}
 .ll-main{font-family:'IBM Plex Mono',monospace;font-size:40px;font-weight:500;letter-spacing:6px;color:var(--accent);display:block;text-align:center;}
 .ll-sub{font-size:11px;color:var(--text-dim);letter-spacing:3px;text-transform:uppercase;display:block;margin-top:4px;text-align:center;margin-bottom:28px;}
@@ -36,14 +33,13 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 .lc-label{font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;}
 .lc-input{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:15px;padding:12px 14px;outline:none;width:100%;transition:border-color .15s;}
 .lc-input:focus{border-color:var(--accent);}
-.lc-btn{background:var(--accent);color:#0f1319;border:none;border-radius:8px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;width:100%;font-family:'IBM Plex Sans',sans-serif;}
+.lc-btn{background:var(--accent);color:#0f1319;border:none;border-radius:8px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;width:100%;font-family:'IBM Plex Sans',sans-serif;transition:background .15s;}
+.lc-btn:hover{background:#6ab3ff;}
 .lc-btn:disabled{opacity:.6;cursor:not-allowed;}
 .lc-msg{padding:10px 14px;font-size:13px;border-radius:6px;text-align:center;display:none;}
 .lc-msg.err{background:rgba(255,71,87,.12);border:1px solid rgba(255,71,87,.3);color:var(--red);}
 .lc-msg.ok{background:rgba(46,213,115,.12);border:1px solid rgba(46,213,115,.3);color:var(--green);}
 .lc-msg.show{display:block;}
-
-/* TOPBAR */
 .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:9px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex-shrink:0;}
 .logo{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:500;letter-spacing:2px;color:var(--accent);cursor:pointer;white-space:nowrap;}
 .logo small{color:var(--text-dim);font-size:9px;display:block;letter-spacing:1px;}
@@ -62,13 +58,9 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 .rp-admin{background:rgba(255,165,2,.2);color:var(--orange);}
 .rp-bruger{background:rgba(74,158,255,.2);color:var(--accent);}
 .rp-gaest{background:rgba(122,138,170,.2);color:var(--text-dim);}
-
-/* NOTIF BADGE */
 .notif-btn{position:relative;}
-.notif-badge{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;display:none;}
+.notif-badge{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:none;align-items:center;justify-content:center;}
 .notif-badge.show{display:flex;}
-
-/* DASHBOARD */
 #sDash{background:var(--bg);}
 .dash-body{max-width:900px;margin:0 auto;padding:28px 20px;flex:1;}
 .dash-title{font-size:20px;font-weight:700;}
@@ -83,8 +75,6 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 .pc-sdot{width:7px;height:7px;border-radius:50%;}
 .new-card{background:transparent;border:2px dashed var(--border);border-radius:10px;padding:16px;cursor:pointer;transition:all .18s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:130px;color:var(--text-dim);}
 .new-card:hover{border-color:var(--accent);color:var(--accent);}
-
-/* APP */
 #sApp{background:var(--bg);}
 .proj-btn{font-size:13px;font-weight:600;cursor:pointer;padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);transition:border-color .15s;max-width:220px;}
 .proj-btn:hover{border-color:var(--accent);}
@@ -92,10 +82,8 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 .layout{display:flex;flex:1;overflow:hidden;}
 .sidebar{width:258px;min-width:258px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
 .sb-tabs{display:flex;border-bottom:1px solid var(--border);}
-.sb-tab{flex:1;padding:9px 4px;text-align:center;font-size:11px;font-weight:600;cursor:pointer;color:var(--text-dim);border-bottom:2px solid transparent;transition:all .15s;position:relative;}
+.sb-tab{flex:1;padding:9px 4px;text-align:center;font-size:11px;font-weight:600;cursor:pointer;color:var(--text-dim);border-bottom:2px solid transparent;transition:all .15s;}
 .sb-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
-.sb-tab-badge{position:absolute;top:4px;right:8px;background:var(--red);color:#fff;font-size:8px;font-weight:700;width:14px;height:14px;border-radius:50%;display:none;align-items:center;justify-content:center;}
-.sb-tab-badge.show{display:flex;}
 .sb-panel{display:none;flex-direction:column;flex:1;overflow:hidden;}
 .sb-panel.active{display:flex;}
 .f-list{padding:6px;overflow-y:auto;flex:1;}
@@ -176,8 +164,6 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 .ipho img{width:100%;height:100%;object-fit:cover;}
 .ip-f{padding:9px 13px;border-top:1px solid var(--border);display:flex;gap:7px;}
 .gstamp{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;background:rgba(46,213,115,.15);color:var(--green);border:1px solid rgba(46,213,115,.3);}
-
-/* ── CHAT ── */
 #sChat{background:var(--bg);}
 .chat-layout{display:flex;flex:1;overflow:hidden;}
 .chat-sidebar{width:260px;min-width:260px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;}
@@ -187,47 +173,43 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 .chat-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 .chat-item{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:8px;cursor:pointer;transition:all .15s;margin-bottom:3px;}
 .chat-item:hover{background:var(--surface2);}
-.chat-item.on{background:var(--surface3);border-left:2px solid var(--accent);}
-.chat-item-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;}
+.chat-item.on{background:var(--surface3);border-left:3px solid var(--accent);padding-left:7px;}
+.chat-item-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;}
 .chat-item-info{flex:1;min-width:0;}
 .chat-item-name{font-size:12px;font-weight:600;}
-.chat-item-last{font-size:11px;color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.chat-item-badge{background:var(--red);color:#fff;font-size:9px;font-weight:700;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;flex-shrink:0;}
+.chat-item-last{font-size:11px;color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px;}
+.chat-unread{background:var(--red);color:#fff;font-size:9px;font-weight:700;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;flex-shrink:0;}
 .chat-area{flex:1;display:flex;flex-direction:column;overflow:hidden;}
-.chat-header{padding:12px 16px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0;}
-.chat-header-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;}
-.chat-header-name{font-size:14px;font-weight:600;}
-.chat-header-sub{font-size:11px;color:var(--text-dim);}
-.chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;}
-.chat-messages::-webkit-scrollbar{width:4px;}
-.chat-messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
-.chat-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:8px;color:var(--text-dim);}
-.chat-empty-icon{font-size:40px;opacity:.2;}
+.chat-hdr{padding:12px 16px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.chat-hdr-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;}
+.chat-hdr-name{font-size:14px;font-weight:600;}
+.chat-hdr-sub{font-size:11px;color:var(--text-dim);}
+.chat-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px;}
+.chat-msgs::-webkit-scrollbar{width:4px;}
+.chat-msgs::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+.chat-empty{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--text-dim);}
+.no-chat{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:var(--text-dim);}
 .msg-row{display:flex;gap:8px;align-items:flex-end;}
 .msg-row.mine{flex-direction:row-reverse;}
-.msg-av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;}
-.msg-bubble{max-width:68%;padding:9px 12px;border-radius:12px;font-size:13px;line-height:1.4;}
-.msg-bubble.other{background:var(--surface2);border-bottom-left-radius:3px;}
-.msg-bubble.mine{background:var(--accent);color:#0f1319;border-bottom-right-radius:3px;}
+.msg-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;}
+.msg-bbl{max-width:68%;padding:9px 12px;border-radius:12px;font-size:13px;line-height:1.4;word-break:break-word;}
+.msg-bbl.other{background:var(--surface2);border-bottom-left-radius:3px;}
+.msg-bbl.mine{background:var(--accent);color:#0f1319;border-bottom-right-radius:3px;}
 .msg-time{font-size:10px;color:var(--text-dim);margin-top:3px;}
 .msg-row.mine .msg-time{text-align:right;}
 .msg-img{max-width:200px;border-radius:8px;cursor:pointer;display:block;margin-top:5px;}
-.msg-sender{font-size:10px;font-weight:600;color:var(--accent);margin-bottom:2px;}
-.chat-input-area{padding:12px 16px;background:var(--surface);border-top:1px solid var(--border);display:flex;gap:8px;align-items:flex-end;flex-shrink:0;}
-.chat-input{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:20px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:13px;padding:9px 14px;outline:none;resize:none;max-height:100px;transition:border-color .15s;}
-.chat-input:focus{border-color:var(--accent);}
-.chat-send-btn{width:36px;height:36px;border-radius:50%;background:var(--accent);border:none;color:#0f1319;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;transition:background .15s;}
-.chat-send-btn:hover{background:#6ab3ff;}
+.msg-sender{font-size:10px;font-weight:600;color:var(--accent);margin-bottom:3px;}
+.chat-inp-area{padding:12px 16px;background:var(--surface);border-top:1px solid var(--border);display:flex;gap:8px;align-items:flex-end;flex-shrink:0;}
+.chat-inp{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:20px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:13px;padding:9px 14px;outline:none;resize:none;max-height:100px;transition:border-color .15s;}
+.chat-inp:focus{border-color:var(--accent);}
+.chat-send{width:36px;height:36px;border-radius:50%;background:var(--accent);border:none;color:#0f1319;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.chat-send:hover{background:#6ab3ff;}
 .chat-img-btn{width:36px;height:36px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
 .chat-img-btn:hover{background:var(--surface3);}
-.no-chat-selected{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:var(--text-dim);}
-.no-chat-icon{font-size:48px;opacity:.2;}
-.chat-img-preview{display:flex;gap:6px;flex-wrap:wrap;padding:8px 16px;background:var(--surface);border-top:1px solid var(--border);}
-.chat-img-preview-item{position:relative;width:56px;height:56px;}
-.chat-img-preview-item img{width:100%;height:100%;object-fit:cover;border-radius:6px;}
-.chat-img-preview-del{position:absolute;top:-4px;right:-4px;background:var(--red);border:none;color:#fff;border-radius:50%;width:16px;height:16px;cursor:pointer;font-size:9px;display:flex;align-items:center;justify-content:center;}
-
-/* MODALS */
+.img-preview-bar{display:flex;gap:6px;flex-wrap:wrap;padding:8px 16px;background:var(--surface);border-top:1px solid var(--border);}
+.img-prev-item{position:relative;width:56px;height:56px;}
+.img-prev-item img{width:100%;height:100%;object-fit:cover;border-radius:6px;}
+.img-prev-del{position:absolute;top:-4px;right:-4px;background:var(--red);border:none;color:#fff;border-radius:50%;width:16px;height:16px;cursor:pointer;font-size:9px;display:flex;align-items:center;justify-content:center;}
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .2s;}
 .ov.open{opacity:1;pointer-events:all;}
 .modal{background:var(--surface);border:1px solid var(--border);border-radius:12px;width:100%;max-width:560px;max-height:92vh;overflow-y:auto;transform:translateY(20px);transition:transform .2s;}
@@ -292,11 +274,7 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 .pb-w{width:260px;height:6px;background:var(--surface3);border-radius:3px;overflow:hidden;}
 .pb-f{height:100%;background:var(--accent);border-radius:3px;transition:width .3s;}
 input[type="file"]{display:none;}
-@media(max-width:768px){
-  .sidebar{display:none;}
-  .info-panel{position:fixed;right:0;top:0;bottom:0;z-index:150;}
-  .chat-sidebar{width:200px;min-width:200px;}
-}
+@media(max-width:768px){.sidebar{display:none;}.info-panel{position:fixed;right:0;top:0;bottom:0;z-index:150;}.chat-sidebar{width:200px;min-width:200px;}}
 </style>
 </head>
 <body>
@@ -308,8 +286,8 @@ input[type="file"]{display:none;}
     <span class="ll-sub">Kvalitetssikring</span>
     <div class="login-card">
       <div class="lc-tabs">
-        <div class="lc-tab active" id="tabLogin" onclick="switchAuthTab('login')">Log ind</div>
-        <div class="lc-tab" id="tabReg" onclick="switchAuthTab('register')">Opret konto</div>
+        <div class="lc-tab active" id="tabLogin" onclick="switchTab('login')">Log ind</div>
+        <div class="lc-tab" id="tabReg" onclick="switchTab('register')">Opret konto</div>
       </div>
       <div id="loginFields">
         <div style="display:flex;flex-direction:column;gap:12px">
@@ -335,29 +313,17 @@ input[type="file"]{display:none;}
   <div class="topbar">
     <div class="logo" onclick="goDash()">KS<small>System</small></div>
     <div class="tb-r">
-      <div class="u-chip">
-        <div class="u-av" id="dAv"></div>
-        <span id="dName"></span>
-        <span class="r-pill" id="dRole"></span>
-      </div>
-      <button class="btn btn-g btn-sm notif-btn" onclick="goChat()">
-        💬 Beskeder
-        <span class="notif-badge" id="dashMsgBadge"></span>
-      </button>
+      <div class="u-chip"><div class="u-av" id="dAv"></div><span id="dName"></span><span class="r-pill" id="dRole"></span></div>
+      <button class="btn btn-g btn-sm notif-btn" onclick="goChat()">💬 Beskeder<span class="notif-badge" id="msgBadge1"></span></button>
       <button class="btn btn-w btn-sm" id="dAdminBtn" onclick="openAdmin()" style="display:none">👥 Brugere</button>
       <button class="btn btn-g btn-sm" onclick="doLogout()">🚪 Log ud</button>
     </div>
   </div>
   <div class="dash-body">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
-      <div>
-        <div class="dash-title">Mine projekter</div>
-        <div style="font-size:13px;color:var(--text-dim);margin-top:3px" id="dSub"></div>
-      </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:0">
+      <div><div class="dash-title">Mine projekter</div><div style="font-size:13px;color:var(--text-dim);margin-top:3px" id="dSub"></div></div>
     </div>
-    <div class="proj-grid" id="projGrid">
-      <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-dim)"><div class="spinner" style="margin:0 auto 12px"></div>Indlæser...</div>
-    </div>
+    <div class="proj-grid" id="projGrid"><div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-dim)"><div class="spinner" style="margin:0 auto 12px"></div>Indlæser...</div></div>
   </div>
 </div>
 
@@ -366,19 +332,10 @@ input[type="file"]{display:none;}
   <div class="topbar">
     <div class="logo" onclick="goDash()">KS<small>System</small></div>
     <span style="color:var(--border);font-size:18px">›</span>
-    <div class="proj-btn" id="appProjBtn" onclick="openProjEdit()">
-      <span id="appProjName">Projekt</span>
-      <small id="appProjSub"></small>
-    </div>
+    <div class="proj-btn" id="appProjBtn" onclick="openProjEdit()"><span id="appProjName">Projekt</span><small id="appProjSub"></small></div>
     <div class="tb-r">
-      <div class="u-chip" style="padding:3px 8px">
-        <div class="u-av" id="aAv" style="width:20px;height:20px;font-size:10px"></div>
-        <span id="aName" style="font-size:11px"></span>
-      </div>
-      <button class="btn btn-g btn-sm notif-btn" onclick="goChat()">
-        💬
-        <span class="notif-badge" id="appMsgBadge"></span>
-      </button>
+      <div class="u-chip" style="padding:3px 8px"><div class="u-av" id="aAv" style="width:20px;height:20px;font-size:10px"></div><span id="aName" style="font-size:11px"></span></div>
+      <button class="btn btn-g btn-sm notif-btn" onclick="goChat()">💬<span class="notif-badge" id="msgBadge2"></span></button>
       <button class="btn btn-g btn-sm" id="btnUp" onclick="document.getElementById('fUp').click()">📐 Upload</button>
       <button class="btn btn-s btn-sm" id="btnRpt" onclick="openRapport()">📄 Rapport</button>
       <button class="btn btn-g btn-sm" onclick="doLogout()">🚪</button>
@@ -390,10 +347,7 @@ input[type="file"]{display:none;}
       <div class="sb-tabs">
         <div class="sb-tab active" onclick="sbTab('fag')">🔨 Fag</div>
         <div class="sb-tab" onclick="sbTab('status')">🚦 Status</div>
-        <div class="sb-tab" onclick="sbTab('liste')">
-          📋 Liste
-          <span class="sb-tab-badge" id="chatTabBadge"></span>
-        </div>
+        <div class="sb-tab" onclick="sbTab('liste')">📋 Liste</div>
       </div>
       <div class="sb-panel active" id="sbp-fag"><div class="f-list" id="fagList"></div></div>
       <div class="sb-panel" id="sbp-status"><div class="f-list" id="stList"></div></div>
@@ -411,19 +365,9 @@ input[type="file"]{display:none;}
         <button class="btn btn-g btn-sm" onclick="zRst()">⊡</button>
       </div>
       <div class="c-wrap" id="cWrap">
-        <div class="e-state" id="eState">
-          <div class="e-icon">📄</div>
-          <div class="e-title">Ingen tegning uploadet</div>
-          <div class="e-sub">Upload en PDF eller et billede.</div>
-          <button class="btn btn-p" onclick="document.getElementById('fUp').click()">📐 Upload Tegning</button>
-        </div>
-        <div class="loading-box" id="loadBox" style="display:none">
-          <div class="spinner"></div><span id="loadTxt">Indlæser...</span>
-        </div>
-        <div id="planCont" style="display:none;position:relative;">
-          <canvas id="planCv"></canvas>
-          <div id="dotsLyr" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;"></div>
-        </div>
+        <div class="e-state" id="eState"><div class="e-icon">📄</div><div class="e-title">Ingen tegning uploadet</div><div class="e-sub">Upload en PDF eller et billede.</div><button class="btn btn-p" onclick="document.getElementById('fUp').click()">📐 Upload Tegning</button></div>
+        <div class="loading-box" id="loadBox" style="display:none"><div class="spinner"></div><span id="loadTxt">Indlæser...</span></div>
+        <div id="planCont" style="display:none;position:relative;"><canvas id="planCv"></canvas><div id="dotsLyr" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;"></div></div>
       </div>
       <div class="st-bar" id="stBar"></div>
     </div>
@@ -435,31 +379,25 @@ input[type="file"]{display:none;}
   </div>
 </div>
 
-<!-- CHAT SCREEN -->
+<!-- CHAT -->
 <div id="sChat" class="screen">
   <div class="topbar">
     <div class="logo" onclick="goDash()">KS<small>System</small></div>
     <span style="color:var(--border);font-size:18px">›</span>
     <span style="font-size:13px;font-weight:600">💬 Beskeder</span>
     <div class="tb-r">
-      <div class="u-chip" style="padding:3px 8px">
-        <div class="u-av" id="chatAv" style="width:20px;height:20px;font-size:10px"></div>
-        <span id="chatUName" style="font-size:11px"></span>
-      </div>
+      <div class="u-chip" style="padding:3px 8px"><div class="u-av" id="chatAv" style="width:20px;height:20px;font-size:10px"></div><span id="chatUN" style="font-size:11px"></span></div>
       <button class="btn btn-g btn-sm" onclick="goDash()">← Tilbage</button>
       <button class="btn btn-g btn-sm" onclick="doLogout()">🚪</button>
     </div>
   </div>
   <div class="chat-layout">
     <div class="chat-sidebar">
-      <div class="chat-sidebar-title">Samtaler</div>
-      <div class="chat-list" id="chatList"></div>
+      <div class="chat-sidebar-title">💬 Samtaler</div>
+      <div class="chat-list" id="chatList"><div style="padding:16px;text-align:center;color:var(--text-dim);font-size:12px"><div class="spinner" style="margin:0 auto 8px"></div>Indlæser...</div></div>
     </div>
     <div class="chat-area" id="chatArea">
-      <div class="no-chat-selected">
-        <div class="no-chat-icon">💬</div>
-        <div style="font-size:13px">Vælg en samtale til venstre</div>
-      </div>
+      <div class="no-chat"><div style="font-size:48px;opacity:.2">💬</div><div style="font-size:13px">Vælg en samtale til venstre</div></div>
     </div>
   </div>
 </div>
@@ -467,7 +405,7 @@ input[type="file"]{display:none;}
 <!-- MODALS -->
 <div class="ov" id="mModal">
   <div class="modal">
-    <div class="mh"><div class="mt" id="mMT">Tilføj punkt</div><button class="mx" onclick="closeMModal()">✕</button></div>
+    <div class="mh"><div class="mt" id="mMT">Tilføj punkt</div><button class="mx" onclick="closeMM()">✕</button></div>
     <div class="mb-body">
       <div class="fg"><label class="fl">🔨 Faggruppe</label><div class="fag-grid" id="fagGrid"></div></div>
       <div class="sdiv"></div>
@@ -476,17 +414,16 @@ input[type="file"]{display:none;}
       <div class="fg"><label class="fl">Beskrivelse</label><input type="text" class="inp" id="mTit" placeholder="Hvad skal laves eller hvad er fejlen?"></div>
       <div class="fg"><label class="fl">Bemærkninger</label><textarea class="txa" id="mDes" placeholder="Uddybende info, ansvarlig, deadline..."></textarea></div>
       <div class="fg"><label class="fl">Fotos</label>
-        <div class="ph-drop" onclick="pickPhoto()"><span class="ph-ico">📸</span>Klik for at tilføje fotos</div>
-        <div class="ph-grid" id="mPhGrid"></div>
+        <div class="ph-drop" onclick="pickPh()"><span class="ph-ico">📸</span>Klik for at tilføje fotos</div>
+        <div class="ph-grid" id="mPhG"></div>
       </div>
     </div>
-    <div class="mfoot"><button class="btn btn-g" onclick="closeMModal()">Annuller</button><button class="btn btn-p" onclick="saveMrk()">Gem punkt</button></div>
+    <div class="mfoot"><button class="btn btn-g" onclick="closeMM()">Annuller</button><button class="btn btn-p" onclick="saveMrk()">Gem punkt</button></div>
   </div>
 </div>
-
 <div class="ov" id="pModal">
   <div class="modal modal-sm">
-    <div class="mh"><div class="mt" id="pMT">Projekt</div><button class="mx" onclick="closePModal()">✕</button></div>
+    <div class="mh"><div class="mt" id="pMT">Projekt</div><button class="mx" onclick="closePM()">✕</button></div>
     <div class="mb-body">
       <div class="fg"><label class="fl">Projektnavn *</label><input type="text" class="inp" id="pNavn"></div>
       <div class="fg"><label class="fl">Adresse</label><input type="text" class="inp" id="pAddr"></div>
@@ -495,20 +432,16 @@ input[type="file"]{display:none;}
       <div class="fg"><label class="fl">KS-ansvarlig</label><input type="text" class="inp" id="pAns"></div>
       <div id="pErr" style="font-size:12px;color:var(--red);display:none"></div>
     </div>
-    <div class="mfoot"><button class="btn btn-g" onclick="closePModal()">Annuller</button><button class="btn btn-p" id="pSaveBtn" onclick="savePModal()">Gem</button></div>
+    <div class="mfoot"><button class="btn btn-g" onclick="closePM()">Annuller</button><button class="btn btn-p" id="pSaveBtn" onclick="savePM()">Gem</button></div>
   </div>
 </div>
-
 <div class="ov" id="renModal">
   <div class="modal modal-sm">
     <div class="mh"><div class="mt" id="renT">Omdøb side</div><button class="mx" onclick="closeRen()">✕</button></div>
-    <div class="mb-body">
-      <div class="fg"><label class="fl">Sidenavn</label><input type="text" class="inp" id="renInp" placeholder="F.eks. Stueplan, 1. sal, Kælder..."></div>
-    </div>
-    <div class="mfoot"><button class="btn btn-g" onclick="closeRen()">Annuller</button><button class="btn btn-d btn-sm" onclick="clearPgN()">Nulstil</button><button class="btn btn-p" onclick="saveRen()">Gem</button></div>
+    <div class="mb-body"><div class="fg"><label class="fl">Sidenavn</label><input type="text" class="inp" id="renInp" placeholder="F.eks. Stueplan, 1. sal..."></div></div>
+    <div class="mfoot"><button class="btn btn-g" onclick="closeRen()">Annuller</button><button class="btn btn-d btn-sm" onclick="clearPN()">Nulstil</button><button class="btn btn-p" onclick="saveRen()">Gem</button></div>
   </div>
 </div>
-
 <div class="ov" id="adminModal">
   <div class="modal modal-md">
     <div class="mh"><div class="mt">👥 Brugeradministration</div><button class="mx" onclick="closeAdmin()">✕</button></div>
@@ -516,49 +449,38 @@ input[type="file"]{display:none;}
       <div class="fg"><div class="fl" style="margin-bottom:8px">Brugere</div><table class="aut" id="ausT"></table></div>
       <div class="sdiv"></div>
       <div style="font-size:12px;color:var(--text-dim);background:var(--surface2);padding:12px;border-radius:8px;border:1px solid var(--border);line-height:1.6">
-        💡 <strong>Inviter nye brugere:</strong> Send dem linket og bed dem klikke <strong>"Opret konto"</strong>. Giv dem derefter adgang til projekter via <strong>"👥 Adgang"</strong>.
+        💡 <strong>Inviter:</strong> Send linket og bed dem klikke <strong>"Opret konto"</strong>. Giv derefter adgang via <strong>"👥 Adgang"</strong> på projektet.
       </div>
     </div>
     <div class="mfoot"><button class="btn btn-g" onclick="closeAdmin()">Luk</button></div>
   </div>
 </div>
-
 <div class="ov" id="accModal">
   <div class="modal modal-md">
-    <div class="mh"><div class="mt" id="accT">Adgang til projekt</div><button class="mx" onclick="closeAcc()">✕</button></div>
+    <div class="mh"><div class="mt" id="accT">Adgang</div><button class="mx" onclick="closeAcc()">✕</button></div>
     <div class="mb-body">
-      <div style="font-size:12px;color:var(--text-dim);margin-bottom:8px">Vælg hvilke brugere der har adgang og med hvilken rolle.</div>
+      <div style="font-size:12px;color:var(--text-dim);margin-bottom:8px">Vælg brugere og roller for dette projekt.</div>
       <div class="acc-grid" id="accGrid"></div>
       <div style="font-size:11px;color:var(--text-dim);margin-top:6px"><strong>Roller:</strong> Admin = fuld adgang · Bruger = tilføje/redigere · Gæst = kun se</div>
     </div>
     <div class="mfoot"><button class="btn btn-g" onclick="closeAcc()">Annuller</button><button class="btn btn-p" onclick="saveAcc()">Gem adgang</button></div>
   </div>
 </div>
-
 <div class="ov" id="rptModal">
   <div class="modal" style="max-width:540px">
     <div class="mh"><div class="mt">📄 Generer rapport</div><button class="mx" onclick="closeRpt()">✕</button></div>
     <div class="mb-body">
       <div class="rpt-sec">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-          <div class="rpt-t" style="margin-bottom:0">🔨 Faggrupper</div>
-          <div style="display:flex;gap:8px"><button class="all-btn" onclick="togAllF(true)">Alle</button><button class="all-btn" onclick="togAllF(false)">Ingen</button></div>
-        </div>
-        <div class="chk-grid" id="rFGrid"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div class="rpt-t" style="margin-bottom:0">🔨 Faggrupper</div><div style="display:flex;gap:8px"><button class="all-btn" onclick="togAllF(true)">Alle</button><button class="all-btn" onclick="togAllF(false)">Ingen</button></div></div>
+        <div class="chk-grid" id="rFG"></div>
       </div>
       <div class="rpt-sec">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-          <div class="rpt-t" style="margin-bottom:0">🚦 Status</div>
-          <div style="display:flex;gap:8px"><button class="all-btn" onclick="togAllS(true)">Alle</button><button class="all-btn" onclick="togAllS(false)">Ingen</button></div>
-        </div>
-        <div class="chk-grid" id="rSGrid"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div class="rpt-t" style="margin-bottom:0">🚦 Status</div><div style="display:flex;gap:8px"><button class="all-btn" onclick="togAllS(true)">Alle</button><button class="all-btn" onclick="togAllS(false)">Ingen</button></div></div>
+        <div class="chk-grid" id="rSG"></div>
       </div>
       <div class="rpt-sec" id="rSideSec">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-          <div class="rpt-t" style="margin-bottom:0">📄 Sider</div>
-          <div style="display:flex;gap:8px"><button class="all-btn" onclick="togAllPg(true)">Alle</button><button class="all-btn" onclick="togAllPg(false)">Ingen</button></div>
-        </div>
-        <div class="chk-grid" id="rPgGrid"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div class="rpt-t" style="margin-bottom:0">📄 Sider</div><div style="display:flex;gap:8px"><button class="all-btn" onclick="togAllP(true)">Alle</button><button class="all-btn" onclick="togAllP(false)">Ingen</button></div></div>
+        <div class="chk-grid" id="rPG"></div>
       </div>
       <div class="rpt-sec">
         <div class="rpt-t">📋 Indhold</div>
@@ -574,27 +496,33 @@ input[type="file"]{display:none;}
     <div class="mfoot"><button class="btn btn-g" onclick="closeRpt()">Annuller</button><button class="btn btn-s" onclick="genRpt()">📄 Generer PDF</button></div>
   </div>
 </div>
-
-<div class="rp-ov" id="rpOv">
-  <div class="rp-box"><div class="spinner"></div><div style="font-weight:600;font-size:15px">Genererer rapport...</div><div id="rpTxt" style="font-size:12px;color:var(--text-dim)">Forbereder</div><div class="pb-w"><div class="pb-f" id="pbF" style="width:0%"></div></div></div>
-</div>
+<div class="rp-ov" id="rpOv"><div class="rp-box"><div class="spinner"></div><div style="font-weight:600;font-size:15px">Genererer rapport...</div><div id="rpTxt" style="font-size:12px;color:var(--text-dim)">Forbereder</div><div class="pb-w"><div class="pb-f" id="pbF" style="width:0%"></div></div></div></div>
 <div class="lb" id="lb" onclick="closeLb()"><button class="lb-x">✕</button><img id="lbImg" src="" alt=""></div>
 <div class="tip" id="tip"></div>
-<input type="file" id="chatImgInput" accept="image/*" multiple style="display:none" onchange="handleChatImgPick(event)">
+<input type="file" id="chatImgIn" accept="image/*" multiple style="display:none" onchange="onChatImg(event)">
 
 <script>
-// ════════════════════════════════════════════════════
-// SUPABASE
-// ════════════════════════════════════════════════════
-const SUPA_URL='https://oiumrheethkalyohvjvr.supabase.co';
-const SUPA_KEY='sb_publishable_DWyEFCtPZZyPkqgJnXF-ZQ_ItUHSsRb';
-const sb=supabase.createClient(SUPA_URL,SUPA_KEY);
-pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-const {jsPDF}=window.jspdf;
+// ── SUPABASE ──
+const SB_URL='https://oiumrheethkalyohvjvr.supabase.co';
+const SB_KEY='sb_publishable_DWyEFCtPZZyPkqgJnXF-ZQ_ItUHSsRb';
+const sb=supabase.createClient(SB_URL,SB_KEY);
 
-// ════════════════════════════════════════════════════
-// CONSTANTS
-// ════════════════════════════════════════════════════
+// ── LAZY LOAD LIBS ──
+let _pdfjs=null,_jspdf=null;
+async function getPdfjs(){
+  if(_pdfjs)return _pdfjs;
+  await loadJS('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
+  window.pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  _pdfjs=window.pdfjsLib;return _pdfjs;
+}
+async function getJspdf(){
+  if(_jspdf)return _jspdf;
+  await loadJS('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+  _jspdf=window.jspdf.jsPDF;return _jspdf;
+}
+function loadJS(src){return new Promise((res,rej)=>{if(document.querySelector(`script[src="${src}"]`)){res();return;}const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
+
+// ── CONSTANTS ──
 const FAGS=[
   {id:'toemrer',navn:'Tømrer',emoji:'🪚',farve:'#e67e22',desc:'Træ, konstruktioner, vinduer, døre'},
   {id:'murer',navn:'Murer',emoji:'🧱',farve:'#c0392b',desc:'Murværk, beton, puds, fliser'},
@@ -629,823 +557,430 @@ const gS=id=>STS.find(s=>s.id===id)||STS[0];
 const h2r=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
 const slp=ms=>new Promise(r=>setTimeout(r,ms));
 const tod=()=>new Date().toLocaleDateString('da-DK');
-const fmtTime=d=>new Date(d).toLocaleTimeString('da-DK',{hour:'2-digit',minute:'2-digit'});
-const fmtDate=d=>{const n=new Date(d);const t=new Date();const diff=t-n;if(diff<86400000)return fmtTime(d);return n.toLocaleDateString('da-DK',{day:'numeric',month:'short'});};
-const avColor=str=>{const colors=['#e67e22','#c0392b','#2980b9','#8e44ad','#4caf50','#00bcd4','#f39c12','#607d8b'];let h=0;for(let i=0;i<str.length;i++)h=(h<<5)-h+str.charCodeAt(i);return colors[Math.abs(h)%colors.length];};
-const initials=name=>(name||'?').split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,2)||'?';
-
-// PERMISSIONS
+const fmtD=d=>{const n=new Date(d),t=new Date();return (t-n)<86400000?n.toLocaleTimeString('da-DK',{hour:'2-digit',minute:'2-digit'}):n.toLocaleDateString('da-DK',{day:'numeric',month:'short'});};
+const avc=s=>{const c=['#e67e22','#c0392b','#2980b9','#8e44ad','#4caf50','#00bcd4','#f39c12','#607d8b'];let h=0;for(let i=0;i<s.length;i++)h=(h<<5)-h+s.charCodeAt(i);return c[Math.abs(h)%c.length];};
+const ini=n=>(n||'?').split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,2)||'?';
 const PERMS={admin:['view','add','edit_own','edit_any','delete','approve','export','rename','upload','edit_proj','manage'],bruger:['view','add','edit_own','export'],gaest:['view']};
-let CProjRole=null;
-function can(p){return CProjRole?(PERMS[CProjRole]||[]).includes(p):false;}
+let CPR=null;
+const can=p=>CPR?(PERMS[CPR]||[]).includes(p):false;
 
-// STATE
-let CU=null,CP=null,CMarkers=[],CPageNames={},CProfiles={};
-const A={zoom:1,mode:'add',selFag:'toemrer',selSt:'fejl',selMrk:null,editMrkId:null,pendCoords:null,mPhotos:[],fMode:'all',fVal:'all',pdfDoc:null,pgRendering:false,rFag:new Set(),rSt:new Set(),rPg:new Set(),renPg:null,totalPages:0,currentPage:1};
+// ── STATE ──
+let CU=null,CP=null,CMkrs=[],CPgN={},CPrf={},AllProf=[];
+const A={zoom:1,mode:'add',sF:'toemrer',sS:'fejl',sM:null,eMId:null,pC:null,mPh:[],fM:'all',fV:'all',pdfd:null,pgR:false,rF:new Set(),rS:new Set(),rP:new Set(),rPg:null,tP:0,cP:1};
+let CSubs=[],actCT=null,actCId=null,cPendImgs=[],unread={};
 
-// CHAT STATE
-let chatSubs=[];
-let activeChatType=null; // 'project' | 'direct'
-let activeChatId=null;   // project_id or user_id
-let chatPendingImgs=[];
-let allProfiles=[];
-let unreadCounts={};
-
-// ════════════════════════════════════════════════════
-// AUTH
-// ════════════════════════════════════════════════════
-let authMode='login';
-function switchAuthTab(m){
-  authMode=m;
-  document.getElementById('tabLogin').classList.toggle('active',m==='login');
-  document.getElementById('tabReg').classList.toggle('active',m==='register');
-  document.getElementById('loginFields').style.display=m==='login'?'block':'none';
-  document.getElementById('regFields').style.display=m==='register'?'block':'none';
-  document.getElementById('lBtn').textContent=m==='login'?'Log ind':'Opret konto';
-  hideLMsg();
-}
-function showLMsg(msg,type='err'){const el=document.getElementById('lMsg');el.textContent=msg;el.className='lc-msg '+type+' show';}
+// ── AUTH ──
+let aMode='login';
+function switchTab(m){aMode=m;document.getElementById('tabLogin').classList.toggle('active',m==='login');document.getElementById('tabReg').classList.toggle('active',m==='register');document.getElementById('loginFields').style.display=m==='login'?'block':'none';document.getElementById('regFields').style.display=m==='register'?'block':'none';document.getElementById('lBtn').textContent=m==='login'?'Log ind':'Opret konto';hideLMsg();}
+function showLMsg(msg,t='err'){const e=document.getElementById('lMsg');e.textContent=msg;e.className='lc-msg '+t+' show';}
 function hideLMsg(){document.getElementById('lMsg').className='lc-msg';}
-
 async function doAuth(){
   const btn=document.getElementById('lBtn');btn.disabled=true;btn.textContent='Vent...';hideLMsg();
   try{
-    if(authMode==='login'){
-      const email=document.getElementById('lEmail').value.trim();const pass=document.getElementById('lPass').value;
-      if(!email||!pass){showLMsg('Udfyld begge felter.');btn.disabled=false;btn.textContent='Log ind';return;}
-      const {data,error}=await sb.auth.signInWithPassword({email,password:pass});
+    if(aMode==='login'){
+      const em=document.getElementById('lEmail').value.trim(),pw=document.getElementById('lPass').value;
+      if(!em||!pw){showLMsg('Udfyld begge felter.');btn.disabled=false;btn.textContent='Log ind';return;}
+      const {data,error}=await sb.auth.signInWithPassword({email:em,password:pw});
       if(error){showLMsg(error.message==='Invalid login credentials'?'Forkert email eller adgangskode':error.message);btn.disabled=false;btn.textContent='Log ind';return;}
-      await loadUserProfile(data.user);btn.disabled=false;btn.textContent='Log ind';showDash();
+      await loadProf(data.user);btn.disabled=false;btn.textContent='Log ind';showDash();
     }else{
-      const name=document.getElementById('rName').value.trim();const email=document.getElementById('rEmail').value.trim();const pass=document.getElementById('rPass').value;
-      if(!name||!email||!pass){showLMsg('Udfyld alle felter.');btn.disabled=false;btn.textContent='Opret konto';return;}
-      if(pass.length<6){showLMsg('Adgangskode skal være mindst 6 tegn.');btn.disabled=false;btn.textContent='Opret konto';return;}
-      const {data,error}=await sb.auth.signUp({email,password:pass});
+      const nm=document.getElementById('rName').value.trim(),em=document.getElementById('rEmail').value.trim(),pw=document.getElementById('rPass').value;
+      if(!nm||!em||!pw){showLMsg('Udfyld alle felter.');btn.disabled=false;btn.textContent='Opret konto';return;}
+      if(pw.length<6){showLMsg('Kode skal være mindst 6 tegn.');btn.disabled=false;btn.textContent='Opret konto';return;}
+      const {data,error}=await sb.auth.signUp({email:em,password:pw});
       if(error){showLMsg(error.message);btn.disabled=false;btn.textContent='Opret konto';return;}
       const {count}=await sb.from('profiles').select('*',{count:'exact',head:true});
-      const role=count===0?'admin':'bruger';
-      await sb.from('profiles').upsert({id:data.user.id,display_name:name,role});
-      CU={id:data.user.id,email,display_name:name,role};
-      btn.disabled=false;btn.textContent='Opret konto';
-      showLMsg('Konto oprettet! ✓','ok');setTimeout(()=>showDash(),800);
+      await sb.from('profiles').upsert({id:data.user.id,display_name:nm,role:count===0?'admin':'bruger'});
+      CU={id:data.user.id,email:em,display_name:nm,role:count===0?'admin':'bruger'};
+      btn.disabled=false;btn.textContent='Opret konto';showLMsg('Konto oprettet! ✓','ok');setTimeout(()=>showDash(),800);
     }
-  }catch(err){showLMsg('Fejl: '+err.message);btn.disabled=false;btn.textContent=authMode==='login'?'Log ind':'Opret konto';}
+  }catch(e){showLMsg('Fejl: '+e.message);btn.disabled=false;btn.textContent=aMode==='login'?'Log ind':'Opret konto';}
 }
-
-async function loadUserProfile(user){
+async function loadProf(user){
   const {data}=await sb.from('profiles').select('*').eq('id',user.id).single();
   if(data){CU={id:user.id,email:user.email,display_name:data.display_name||user.email,role:data.role||'bruger'};}
-  else{const {count}=await sb.from('profiles').select('*',{count:'exact',head:true});const role=count===0?'admin':'bruger';await sb.from('profiles').insert({id:user.id,display_name:user.email,role});CU={id:user.id,email:user.email,display_name:user.email,role};}
+  else{const {count}=await sb.from('profiles').select('*',{count:'exact',head:true});const r=count===0?'admin':'bruger';await sb.from('profiles').insert({id:user.id,display_name:user.email,role:r});CU={id:user.id,email:user.email,display_name:user.email,role:r};}
 }
-
-async function doLogout(){
-  chatSubs.forEach(s=>s.unsubscribe());chatSubs=[];
-  await sb.auth.signOut();CU=null;CP=null;CMarkers=[];
-  showScreen('sLogin');
-}
-
+async function doLogout(){CSubs.forEach(s=>s.unsubscribe());CSubs=[];await sb.auth.signOut();CU=null;CP=null;CMkrs=[];showScr('sLogin');}
 document.getElementById('lPass').addEventListener('keydown',e=>{if(e.key==='Enter')doAuth();});
 document.getElementById('lEmail').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('lPass').focus();});
 
-// ════════════════════════════════════════════════════
-// SCREENS
-// ════════════════════════════════════════════════════
-function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+// ── SCREENS ──
+function showScr(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
 
-// ════════════════════════════════════════════════════
-// DASHBOARD
-// ════════════════════════════════════════════════════
+// ── DASHBOARD ──
 async function showDash(){
-  showScreen('sDash');
-  const ini=initials(CU.display_name);
-  const av=document.getElementById('dAv');av.textContent=ini;av.style.background=avColor(CU.display_name);
+  showScr('sDash');
+  const av=document.getElementById('dAv');av.textContent=ini(CU.display_name);av.style.background=avc(CU.display_name);
   document.getElementById('dName').textContent=CU.display_name;
-  const rp=document.getElementById('dRole');rp.textContent={admin:'Admin',bruger:'Bruger',gaest:'Gæst'}[CU.role]||CU.role;rp.className='r-pill rp-'+CU.role;
+  const rp=document.getElementById('dRole');rp.textContent={admin:'Admin',bruger:'Bruger',gaest:'Gæst'}[CU.role];rp.className='r-pill rp-'+CU.role;
   document.getElementById('dAdminBtn').style.display=CU.role==='admin'?'':'none';
-  await loadProfiles();
-  await loadProjects();
-  await loadUnreadCounts();
-  subscribeToMessages();
+  await loadAllProf();await loadProjs();await loadUnread();subGlobal();
 }
-function goDash(){CP=null;CMarkers=[];A.pdfDoc=null;showDash();}
+function goDash(){CP=null;CMkrs=[];A.pdfd=null;showDash();}
+async function loadAllProf(){const {data}=await sb.from('profiles').select('*');AllProf=data||[];AllProf.forEach(p=>CPrf[p.id]=p.display_name);}
 
-async function loadProfiles(){
-  const {data}=await sb.from('profiles').select('*');
-  allProfiles=data||[];
-  allProfiles.forEach(p=>CProfiles[p.id]=p.display_name);
-}
-
-async function loadProjects(){
+async function loadProjs(){
   const grid=document.getElementById('projGrid');
   grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-dim)"><div class="spinner" style="margin:0 auto 12px"></div>Indlæser...</div>';
-  let projs=[];
-  if(CU.role==='admin'){const {data}=await sb.from('projects').select('*').order('created_at',{ascending:false});projs=data||[];}
-  else{const {data}=await sb.from('project_access').select('project_id,role,projects(*)').eq('user_id',CU.id);projs=(data||[]).map(r=>({...r.projects,_myRole:r.role}));}
-  document.getElementById('dSub').textContent=projs.length+' projekt'+(projs.length===1?'':'er');
-  if(!projs.length&&CU.role!=='admin'){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-dim)"><div style="font-size:48px;opacity:.2;margin-bottom:12px">📁</div><div>Du har ikke adgang til nogen projekter endnu.</div></div>';return;}
-  const ids=projs.map(p=>p.id);let counts={};
-  if(ids.length){const {data:mc}=await sb.from('markers').select('project_id,status').in('project_id',ids);(mc||[]).forEach(m=>{if(!counts[m.project_id])counts[m.project_id]={total:0,fejl:0,godkendt:0};counts[m.project_id].total++;if(m.status==='fejl')counts[m.project_id].fejl++;if(m.status==='godkendt')counts[m.project_id].godkendt++;});}
+  let ps=[];
+  if(CU.role==='admin'){const {data}=await sb.from('projects').select('*').order('created_at',{ascending:false});ps=data||[];}
+  else{const {data}=await sb.from('project_access').select('project_id,role,projects(*)').eq('user_id',CU.id);ps=(data||[]).map(r=>({...r.projects,_r:r.role}));}
+  document.getElementById('dSub').textContent=ps.length+' projekt'+(ps.length===1?'':'er');
+  if(!ps.length&&CU.role!=='admin'){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text-dim)"><div style="font-size:48px;opacity:.2;margin-bottom:12px">📁</div><div>Du har ikke adgang til nogen projekter.<br>Kontakt din administrator.</div></div>';return;}
+  const ids=ps.map(p=>p.id);let cts={};
+  if(ids.length){const {data:mc}=await sb.from('markers').select('project_id,status').in('project_id',ids);(mc||[]).forEach(m=>{if(!cts[m.project_id])cts[m.project_id]={t:0,f:0,g:0};cts[m.project_id].t++;if(m.status==='fejl')cts[m.project_id].f++;if(m.status==='godkendt')cts[m.project_id].g++;});}
   const rCol={admin:'#ffa502',bruger:'#4a9eff',gaest:'#7a8aaa'};
-  let html=projs.map(p=>{
-    const r=CU.role==='admin'?'admin':(p._myRole||'bruger');const c=counts[p.id]||{total:0,fejl:0,godkendt:0};
+  let html=ps.map(p=>{
+    const r=CU.role==='admin'?'admin':(p._r||'bruger');const c=cts[p.id]||{t:0,f:0,g:0};
     return `<div class="proj-card" onclick="openProj('${p.id}')">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
         <div><div class="pc-name">${p.navn}</div>${p.addr?`<div class="pc-sub">${p.addr}</div>`:''}${p.sag?`<div class="pc-sag">${p.sag}</div>`:''}</div>
         <span style="font-size:10px;padding:2px 7px;border-radius:8px;font-weight:600;background:${rCol[r]}22;color:${rCol[r]};flex-shrink:0">${{admin:'Admin',bruger:'Bruger',gaest:'Gæst'}[r]}</span>
       </div>
-      <div class="pc-stats">
-        <span class="pc-stat"><span class="pc-sdot" style="background:#ff4757"></span>${c.fejl} fejl</span>
-        <span class="pc-stat"><span class="pc-sdot" style="background:#2ed573"></span>${c.godkendt} godkendt</span>
-        <span class="pc-stat"><span class="pc-sdot" style="background:#4a9eff"></span>${c.total} total</span>
-      </div>
-      ${CU.role==='admin'?`<div style="display:flex;gap:5px;margin-top:2px" onclick="event.stopPropagation()">
-        <button class="btn btn-g btn-xs" onclick="openAcc('${p.id}')">👥 Adgang</button>
-        <button class="btn btn-g btn-xs" onclick="editProjDash('${p.id}')">✏️</button>
-        <button class="btn btn-d btn-xs" onclick="delProj('${p.id}')">🗑️</button>
-      </div>`:''}
+      <div class="pc-stats"><span class="pc-stat"><span class="pc-sdot" style="background:#ff4757"></span>${c.f} fejl</span><span class="pc-stat"><span class="pc-sdot" style="background:#2ed573"></span>${c.g} godkendt</span><span class="pc-stat"><span class="pc-sdot" style="background:#4a9eff"></span>${c.t} total</span></div>
+      ${CU.role==='admin'?`<div style="display:flex;gap:5px;margin-top:2px" onclick="event.stopPropagation()"><button class="btn btn-g btn-xs" onclick="openAcc('${p.id}')">👥 Adgang</button><button class="btn btn-g btn-xs" onclick="editPD('${p.id}')">✏️</button><button class="btn btn-d btn-xs" onclick="delP('${p.id}')">🗑️</button></div>`:''}
     </div>`;}).join('');
-  if(CU.role==='admin')html+=`<div class="new-card" onclick="openNewProj()"><div style="font-size:32px;opacity:.3">+</div><div style="font-size:13px;font-weight:500">Nyt projekt</div></div>`;
+  if(CU.role==='admin')html+=`<div class="new-card" onclick="openNP()"><div style="font-size:32px;opacity:.3">+</div><div style="font-size:13px;font-weight:500">Nyt projekt</div></div>`;
   grid.innerHTML=html;
 }
 
-// ════════════════════════════════════════════════════
-// PROJECT CRUD
-// ════════════════════════════════════════════════════
-let _pMode='new',_pId=null;
-function openNewProj(){_pMode='new';_pId=null;document.getElementById('pMT').textContent='Nyt projekt';document.getElementById('pSaveBtn').textContent='Opret';['pNavn','pAddr','pSag','pByg','pAns'].forEach(id=>document.getElementById(id).value='');document.getElementById('pErr').style.display='none';document.getElementById('pModal').classList.add('open');setTimeout(()=>document.getElementById('pNavn').focus(),100);}
-function editProjDash(pid){_pMode='edit';_pId=pid;document.getElementById('pMT').textContent='Rediger projekt';document.getElementById('pSaveBtn').textContent='Gem';document.getElementById('pErr').style.display='none';document.getElementById('pModal').classList.add('open');}
-function openProjEdit(){if(!can('edit_proj'))return;_pMode='edit';_pId=CP.id;document.getElementById('pMT').textContent='Rediger projekt';document.getElementById('pSaveBtn').textContent='Gem';document.getElementById('pNavn').value=CP.navn||'';document.getElementById('pAddr').value=CP.addr||'';document.getElementById('pSag').value=CP.sag||'';document.getElementById('pByg').value=CP.byg||'';document.getElementById('pAns').value=CP.ans||'';document.getElementById('pErr').style.display='none';document.getElementById('pModal').classList.add('open');}
-function closePModal(){document.getElementById('pModal').classList.remove('open');}
-async function savePModal(){
-  const navn=document.getElementById('pNavn').value.trim();if(!navn){document.getElementById('pErr').textContent='Projektnavn mangler.';document.getElementById('pErr').style.display='block';return;}
-  const dat={navn,addr:document.getElementById('pAddr').value.trim(),sag:document.getElementById('pSag').value.trim(),byg:document.getElementById('pByg').value.trim(),ans:document.getElementById('pAns').value.trim()};
-  if(_pMode==='new'){
-    dat.created_by=CU.id;const {data,error}=await sb.from('projects').insert(dat).select().single();
-    if(error){alert('Fejl: '+error.message);return;}
-    await sb.from('project_access').insert({project_id:data.id,user_id:CU.id,role:'admin'});
-  }else{
-    const {error}=await sb.from('projects').update(dat).eq('id',_pId);
-    if(error){alert('Fejl: '+error.message);return;}
-    if(CP&&CP.id===_pId){Object.assign(CP,dat);updateAppBar();}
-  }
-  closePModal();loadProjects();
+// ── PROJECT CRUD ──
+let _pM='new',_pId=null;
+function openNP(){_pM='new';_pId=null;document.getElementById('pMT').textContent='Nyt projekt';document.getElementById('pSaveBtn').textContent='Opret';['pNavn','pAddr','pSag','pByg','pAns'].forEach(id=>document.getElementById(id).value='');document.getElementById('pErr').style.display='none';document.getElementById('pModal').classList.add('open');setTimeout(()=>document.getElementById('pNavn').focus(),100);}
+function editPD(pid){_pM='edit';_pId=pid;document.getElementById('pMT').textContent='Rediger';document.getElementById('pSaveBtn').textContent='Gem';document.getElementById('pErr').style.display='none';document.getElementById('pModal').classList.add('open');}
+function openProjEdit(){if(!can('edit_proj'))return;_pM='edit';_pId=CP.id;document.getElementById('pMT').textContent='Rediger';document.getElementById('pSaveBtn').textContent='Gem';document.getElementById('pNavn').value=CP.navn||'';document.getElementById('pAddr').value=CP.addr||'';document.getElementById('pSag').value=CP.sag||'';document.getElementById('pByg').value=CP.byg||'';document.getElementById('pAns').value=CP.ans||'';document.getElementById('pErr').style.display='none';document.getElementById('pModal').classList.add('open');}
+function closePM(){document.getElementById('pModal').classList.remove('open');}
+async function savePM(){
+  const n=document.getElementById('pNavn').value.trim();if(!n){document.getElementById('pErr').textContent='Projektnavn mangler.';document.getElementById('pErr').style.display='block';return;}
+  const d={navn:n,addr:document.getElementById('pAddr').value.trim(),sag:document.getElementById('pSag').value.trim(),byg:document.getElementById('pByg').value.trim(),ans:document.getElementById('pAns').value.trim()};
+  if(_pM==='new'){d.created_by=CU.id;const {data,error}=await sb.from('projects').insert(d).select().single();if(error){alert('Fejl: '+error.message);return;}await sb.from('project_access').insert({project_id:data.id,user_id:CU.id,role:'admin'});}
+  else{const {error}=await sb.from('projects').update(d).eq('id',_pId);if(error){alert('Fejl: '+error.message);return;}if(CP&&CP.id===_pId){Object.assign(CP,d);updAppBar();}}
+  closePM();loadProjs();
 }
-async function delProj(pid){if(!confirm('Slet projektet og alle punkter?'))return;await sb.from('projects').delete().eq('id',pid);loadProjects();}
+async function delP(pid){if(!confirm('Slet projektet og alle punkter?'))return;await sb.from('projects').delete().eq('id',pid);loadProjs();}
 
-// ACCESS
-let _accPid=null;
+// ── ACCESS ──
+let _aPid=null;
 async function openAcc(pid){
-  _accPid=pid;const p=(await sb.from('projects').select('navn').eq('id',pid).single()).data;
+  _aPid=pid;const p=(await sb.from('projects').select('navn').eq('id',pid).single()).data;
   document.getElementById('accT').textContent='Adgang: '+(p?.navn||'');
-  const others=allProfiles.filter(u=>u.id!==CU.id);
-  const {data:existing}=await sb.from('project_access').select('*').eq('project_id',pid);
-  const accMap={};(existing||[]).forEach(a=>accMap[a.user_id]=a.role);
-  document.getElementById('accGrid').innerHTML=!others.length
-    ?'<div style="font-size:12px;color:var(--text-dim);padding:8px">Ingen andre brugere.</div>'
-    :others.map(u=>{const cur=accMap[u.id]||'';const chk=!!cur;
-      return `<div class="acc-item"><input type="checkbox" id="ac_${u.id}" ${chk?'checked':''} onchange="updAcc('${u.id}')"><label for="ac_${u.id}" style="font-size:12px;cursor:pointer;flex:1">${u.display_name}</label>
-        <select class="acc-rsel" id="acr_${u.id}" ${!chk?'disabled':''}><option value="bruger" ${cur==='bruger'?'selected':''}>Bruger</option><option value="gaest" ${cur==='gaest'?'selected':''}>Gæst</option><option value="admin" ${cur==='admin'?'selected':''}>Admin</option></select>
-      </div>`;}).join('');
+  const others=AllProf.filter(u=>u.id!==CU.id);
+  const {data:ex}=await sb.from('project_access').select('*').eq('project_id',pid);
+  const am={};(ex||[]).forEach(a=>am[a.user_id]=a.role);
+  document.getElementById('accGrid').innerHTML=!others.length?'<div style="font-size:12px;color:var(--text-dim);padding:8px">Ingen andre brugere.</div>':others.map(u=>{const cur=am[u.id]||'';const chk=!!cur;return `<div class="acc-item"><input type="checkbox" id="ac_${u.id}" ${chk?'checked':''} onchange="updAcc('${u.id}')"><label for="ac_${u.id}" style="font-size:12px;cursor:pointer;flex:1">${u.display_name}</label><select class="acc-rsel" id="acr_${u.id}" ${!chk?'disabled':''}><option value="bruger" ${cur==='bruger'?'selected':''}>Bruger</option><option value="gaest" ${cur==='gaest'?'selected':''}>Gæst</option><option value="admin" ${cur==='admin'?'selected':''}>Admin</option></select></div>`;}).join('');
   document.getElementById('accModal').classList.add('open');
 }
 function updAcc(uid){document.getElementById('acr_'+uid).disabled=!document.getElementById('ac_'+uid).checked;}
 async function saveAcc(){
-  const others=allProfiles.filter(u=>u.id!==CU.id);
-  for(const u of others){
-    const chk=document.getElementById('ac_'+u.id)?.checked;const role=document.getElementById('acr_'+u.id)?.value;
-    if(chk&&role)await sb.from('project_access').upsert({project_id:_accPid,user_id:u.id,role});
-    else await sb.from('project_access').delete().eq('project_id',_accPid).eq('user_id',u.id);
-  }
-  closeAcc();loadProjects();
+  for(const u of AllProf.filter(u=>u.id!==CU.id)){const chk=document.getElementById('ac_'+u.id)?.checked;const role=document.getElementById('acr_'+u.id)?.value;if(chk&&role)await sb.from('project_access').upsert({project_id:_aPid,user_id:u.id,role});else await sb.from('project_access').delete().eq('project_id',_aPid).eq('user_id',u.id);}
+  closeAcc();loadProjs();
 }
 function closeAcc(){document.getElementById('accModal').classList.remove('open');}
 
-// ════════════════════════════════════════════════════
-// OPEN PROJECT
-// ════════════════════════════════════════════════════
+// ── OPEN PROJECT ──
 async function openProj(pid){
-  showScreen('sApp');
-  document.getElementById('eState').style.display='flex';
-  document.getElementById('planCont').style.display='none';
-  document.getElementById('loadBox').style.display='none';
+  showScr('sApp');document.getElementById('eState').style.display='flex';document.getElementById('planCont').style.display='none';document.getElementById('loadBox').style.display='none';
   const {data:p}=await sb.from('projects').select('*').eq('id',pid).single();CP=p;
-  if(CU.role==='admin'){CProjRole='admin';}
-  else{const {data:acc}=await sb.from('project_access').select('role').eq('project_id',pid).eq('user_id',CU.id).single();CProjRole=acc?.role||null;}
-  const {data:mkrs}=await sb.from('markers').select('*').eq('project_id',pid).order('id');CMarkers=mkrs||[];
-  const {data:pgns}=await sb.from('page_names').select('*').eq('project_id',pid);CPageNames={};(pgns||[]).forEach(r=>CPageNames[r.page_num]=r.name);
-  const uids=[...new Set(CMarkers.map(m=>m.created_by).filter(Boolean))];
-  if(uids.length){const {data:profs}=await sb.from('profiles').select('id,display_name').in('id',uids);(profs||[]).forEach(p=>CProfiles[p.id]=p.display_name);}
-  A.totalPages=CMarkers.length?Math.max(...CMarkers.map(m=>m.page_num||1)):0;
-  A.currentPage=1;A.zoom=1;A.selMrk=null;A.fMode='all';A.fVal='all';A.pdfDoc=null;
-  updateAppBar();buildFagGrid();buildStGrid();buildFagFilter();buildStFilter();buildStBar();setMode('add');buildPgTabs();renderDots();renderMList();
-  if(CP.plan_data||CP.plan_url)await loadPlan();
-  updateMsgBadge();
+  if(CU.role==='admin'){CPR='admin';}else{const {data:acc}=await sb.from('project_access').select('role').eq('project_id',pid).eq('user_id',CU.id).single();CPR=acc?.role||null;}
+  const {data:mk}=await sb.from('markers').select('*').eq('project_id',pid).order('id');CMkrs=mk||[];
+  const {data:pg}=await sb.from('page_names').select('*').eq('project_id',pid);CPgN={};(pg||[]).forEach(r=>CPgN[r.page_num]=r.name);
+  const uids=[...new Set(CMkrs.map(m=>m.created_by).filter(Boolean))];
+  if(uids.length){const {data:pr}=await sb.from('profiles').select('id,display_name').in('id',uids);(pr||[]).forEach(p=>CPrf[p.id]=p.display_name);}
+  A.tP=CMkrs.length?Math.max(...CMkrs.map(m=>m.page_num||1)):0;A.cP=1;A.zoom=1;A.sM=null;A.fM='all';A.fV='all';A.pdfd=null;
+  updAppBar();bFagG();bStG();bFagF();bStF();bStB();setMode('add');bPgT();rdDots();rdML();
+  if(CP.plan_data||CP.plan_url)loadPlan();
+  updMsgBadge();
 }
 
-function updateAppBar(){
-  document.getElementById('appProjName').textContent=CP.navn;
-  document.getElementById('appProjSub').textContent=[CP.addr,CP.sag].filter(Boolean).join(' · ')||'Klik for at redigere';
-  document.getElementById('btnUp').style.display=can('upload')?'':'none';
-  document.getElementById('btnRpt').style.display=can('export')?'':'none';
+function updAppBar(){
+  document.getElementById('appProjName').textContent=CP.navn;document.getElementById('appProjSub').textContent=[CP.addr,CP.sag].filter(Boolean).join(' · ')||'Klik for at redigere';
+  document.getElementById('btnUp').style.display=can('upload')?'':'none';document.getElementById('btnRpt').style.display=can('export')?'':'none';
   document.getElementById('appProjBtn').style.cursor=can('edit_proj')?'pointer':'default';
-  const av=document.getElementById('aAv');av.textContent=initials(CU.display_name);av.style.background=avColor(CU.display_name);
-  document.getElementById('aName').textContent=CU.display_name;
+  const av=document.getElementById('aAv');av.textContent=ini(CU.display_name);av.style.background=avc(CU.display_name);document.getElementById('aName').textContent=CU.display_name;
 }
 
-// ════════════════════════════════════════════════════
-// FILE LOADING
-// ════════════════════════════════════════════════════
+// ── FILE LOADING ──
 async function loadFile(e){
-  if(!can('upload'))return;const file=e.target.files[0];if(!file)return;
-  showLoad('Uploader...');
-  try{
-    const b64=await rdDU(file);const isPdf=file.type==='application/pdf';
-    await sb.from('projects').update({plan_data:b64,plan_type:isPdf?'pdf':'image'}).eq('id',CP.id);
-    CP.plan_data=b64;CP.plan_type=isPdf?'pdf':'image';
-    await loadPlan();
-  }catch(err){showEmpty('Fejl: '+err.message);}
-  e.target.value='';
+  if(!can('upload'))return;const file=e.target.files[0];if(!file)return;showLoad('Uploader...');
+  try{const b64=await rdDU(file);const isPdf=file.type==='application/pdf';await sb.from('projects').update({plan_data:b64,plan_type:isPdf?'pdf':'image'}).eq('id',CP.id);CP.plan_data=b64;CP.plan_type=isPdf?'pdf':'image';await loadPlan();}
+  catch(err){showEmpty('Fejl: '+err.message);}e.target.value='';
 }
 function rdDU(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=ev=>res(ev.target.result);r.onerror=rej;r.readAsDataURL(f);});}
-
 async function loadPlan(){
   const src=CP.plan_data||CP.plan_url;if(!src)return;
   if(CP.plan_type==='pdf'){
-    showLoad('Indlæser PDF...');
-    let data;
-    if(CP.plan_data&&CP.plan_data.startsWith('data:')){const b=atob(CP.plan_data.split(',')[1]);const by=new Uint8Array(b.length);for(let i=0;i<b.length;i++)by[i]=b.charCodeAt(i);data=by;}
+    showLoad('Indlæser PDF...');const pdfjs=await getPdfjs();
+    let data;if(CP.plan_data&&CP.plan_data.startsWith('data:')){const b=atob(CP.plan_data.split(',')[1]);const by=new Uint8Array(b.length);for(let i=0;i<b.length;i++)by[i]=b.charCodeAt(i);data=by;}
     else{const r=await fetch(src);data=await r.arrayBuffer();}
-    A.pdfDoc=await pdfjsLib.getDocument({data}).promise;
-    A.totalPages=A.pdfDoc.numPages;A.currentPage=1;buildPgTabs();await renderPdf(1);
-  }else{A.totalPages=1;A.currentPage=1;buildPgTabs();await renderImgSrc(src);}
-  renderDots();
+    A.pdfd=await pdfjs.getDocument({data}).promise;A.tP=A.pdfd.numPages;A.cP=1;bPgT();await rdPdf(1);
+  }else{A.tP=1;A.cP=1;bPgT();await rdImgS(src);}rdDots();
 }
-
 function showLoad(t){document.getElementById('loadBox').style.display='flex';document.getElementById('eState').style.display='none';document.getElementById('planCont').style.display='none';document.getElementById('loadTxt').textContent=t||'Indlæser...';}
-function showEmpty(msg){document.getElementById('eState').style.display='flex';if(msg)document.getElementById('eState').querySelector('.e-sub').textContent=msg;document.getElementById('planCont').style.display='none';document.getElementById('loadBox').style.display='none';}
-function showCv(){document.getElementById('loadBox').style.display='none';document.getElementById('eState').style.display='none';document.getElementById('planCont').style.display='block';document.getElementById('planCont').onclick=handleCvClick;}
+function showEmpty(m){document.getElementById('eState').style.display='flex';if(m)document.getElementById('eState').querySelector('.e-sub').textContent=m;document.getElementById('planCont').style.display='none';document.getElementById('loadBox').style.display='none';}
+function showCv(){document.getElementById('loadBox').style.display='none';document.getElementById('eState').style.display='none';document.getElementById('planCont').style.display='block';document.getElementById('planCont').onclick=handleClick;}
 
-// PAGE TABS
-function pgNm(p){return CPageNames[p]||(A.totalPages>1?`Side ${p}`:'Tegning');}
-function buildPgTabs(){
-  const bar=document.getElementById('pgTabs');
-  if(A.totalPages<=1){bar.style.display='none';return;}
-  bar.style.display='flex';bar.innerHTML='';
-  for(let i=1;i<=A.totalPages;i++){
-    const c=CMarkers.filter(m=>(m.page_num||1)===i&&m.status==='fejl').length;
-    const t=document.createElement('div');t.className='ptab'+(i===A.currentPage?' on':'');
-    t.innerHTML=`<div class="ptab-lbl">${pgNm(i)}${c?`<span class="tbadge">${c}</span>`:''}</div>${can('rename')?`<div class="ren-btn" onclick="openRen(event,${i})">✏️</div>`:''}`;
-    t.querySelector('.ptab-lbl').onclick=()=>swPg(i);bar.appendChild(t);
-  }
-}
-async function swPg(p){if(p===A.currentPage||A.pgRendering)return;A.currentPage=p;closeInfo();showLoad(pgNm(p)+'...');if(A.pdfDoc)await renderPdf(p);buildPgTabs();renderDots();renderMList();buildStBar();}
-function openRen(e,p){e.stopPropagation();A.renPg=p;document.getElementById('renT').textContent='Omdøb: '+pgNm(p);document.getElementById('renInp').value=CPageNames[p]||'';document.getElementById('renModal').classList.add('open');setTimeout(()=>document.getElementById('renInp').select(),100);}
+// ── PAGE TABS ──
+const pgNm=p=>CPgN[p]||(A.tP>1?`Side ${p}`:'Tegning');
+function bPgT(){const bar=document.getElementById('pgTabs');if(A.tP<=1){bar.style.display='none';return;}bar.style.display='flex';bar.innerHTML='';for(let i=1;i<=A.tP;i++){const c=CMkrs.filter(m=>(m.page_num||1)===i&&m.status==='fejl').length;const t=document.createElement('div');t.className='ptab'+(i===A.cP?' on':'');t.innerHTML=`<div class="ptab-lbl">${pgNm(i)}${c?`<span class="tbadge">${c}</span>`:''}</div>${can('rename')?`<div class="ren-btn" onclick="openRen(event,${i})">✏️</div>`:''}`;t.querySelector('.ptab-lbl').onclick=()=>swPg(i);bar.appendChild(t);}}
+async function swPg(p){if(p===A.cP||A.pgR)return;A.cP=p;closeInfo();showLoad(pgNm(p)+'...');if(A.pdfd)await rdPdf(p);bPgT();rdDots();rdML();bStB();}
+function openRen(e,p){e.stopPropagation();A.rPg=p;document.getElementById('renT').textContent='Omdøb: '+pgNm(p);document.getElementById('renInp').value=CPgN[p]||'';document.getElementById('renModal').classList.add('open');setTimeout(()=>document.getElementById('renInp').select(),100);}
 function closeRen(){document.getElementById('renModal').classList.remove('open');}
-async function saveRen(){const v=document.getElementById('renInp').value.trim();if(v){CPageNames[A.renPg]=v;await sb.from('page_names').upsert({project_id:CP.id,page_num:A.renPg,name:v});}else{delete CPageNames[A.renPg];await sb.from('page_names').delete().eq('project_id',CP.id).eq('page_num',A.renPg);}closeRen();buildPgTabs();buildStBar();}
-async function clearPgN(){delete CPageNames[A.renPg];await sb.from('page_names').delete().eq('project_id',CP.id).eq('page_num',A.renPg);closeRen();buildPgTabs();buildStBar();}
+async function saveRen(){const v=document.getElementById('renInp').value.trim();if(v){CPgN[A.rPg]=v;await sb.from('page_names').upsert({project_id:CP.id,page_num:A.rPg,name:v});}else{delete CPgN[A.rPg];await sb.from('page_names').delete().eq('project_id',CP.id).eq('page_num',A.rPg);}closeRen();bPgT();bStB();}
+async function clearPN(){delete CPgN[A.rPg];await sb.from('page_names').delete().eq('project_id',CP.id).eq('page_num',A.rPg);closeRen();bPgT();bStB();}
 document.getElementById('renInp').addEventListener('keydown',e=>{if(e.key==='Enter')saveRen();});
 
-// RENDER
-async function renderPdf(pn){
-  if(!A.pdfDoc)return;A.pgRendering=true;
-  const pg=await A.pdfDoc.getPage(pn);const mw=document.getElementById('cWrap').clientWidth-60;
-  const vp0=pg.getViewport({scale:1});const vp=pg.getViewport({scale:Math.min(mw/vp0.width,2)*A.zoom});
-  const cv=document.getElementById('planCv');cv.width=vp.width;cv.height=vp.height;
-  const ctx=cv.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,cv.width,cv.height);
-  await pg.render({canvasContext:ctx,viewport:vp}).promise;showCv();A.pgRendering=false;
-}
-async function renderImgSrc(src){
-  return new Promise(res=>{const img=new Image();img.crossOrigin='anonymous';img.onload=()=>{
-    const mw=document.getElementById('cWrap').clientWidth-60;const base=Math.min(mw/img.width,1);
-    const cv=document.getElementById('planCv');cv.width=img.width*base*A.zoom;cv.height=img.height*base*A.zoom;
-    cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);showCv();res();};img.src=src;});
-}
+// ── RENDER ──
+async function rdPdf(pn){if(!A.pdfd)return;A.pgR=true;const pg=await A.pdfd.getPage(pn);const mw=document.getElementById('cWrap').clientWidth-60;const vp0=pg.getViewport({scale:1});const vp=pg.getViewport({scale:Math.min(mw/vp0.width,2)*A.zoom});const cv=document.getElementById('planCv');cv.width=vp.width;cv.height=vp.height;const ctx=cv.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,cv.width,cv.height);await pg.render({canvasContext:ctx,viewport:vp}).promise;showCv();A.pgR=false;}
+async function rdImgS(src){return new Promise(res=>{const img=new Image();img.crossOrigin='anonymous';img.onload=()=>{const mw=document.getElementById('cWrap').clientWidth-60;const base=Math.min(mw/img.width,1);const cv=document.getElementById('planCv');cv.width=img.width*base*A.zoom;cv.height=img.height*base*A.zoom;cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);showCv();res();};img.src=src;});}
 async function zIn(){A.zoom=Math.min(4,A.zoom+.25);await apZ();}
 async function zOut(){A.zoom=Math.max(.25,A.zoom-.25);await apZ();}
 async function zRst(){A.zoom=1;await apZ();}
-async function apZ(){document.getElementById('zLbl').textContent=Math.round(A.zoom*100)+'%';showLoad('');if(A.pdfDoc)await renderPdf(A.currentPage);else if(CP.plan_data||CP.plan_url)await renderImgSrc(CP.plan_data||CP.plan_url);renderDots();}
+async function apZ(){document.getElementById('zLbl').textContent=Math.round(A.zoom*100)+'%';showLoad('');if(A.pdfd)await rdPdf(A.cP);else if(CP.plan_data||CP.plan_url)await rdImgS(CP.plan_data||CP.plan_url);rdDots();}
 
-// SIDEBAR
-function buildFagGrid(){document.getElementById('fagGrid').innerHTML=FAGS.map(f=>`<div class="fo${A.selFag===f.id?' on':''}" data-f="${f.id}" onclick="selFag('${f.id}')" style="color:${f.farve};${A.selFag===f.id?`border-color:${f.farve};background:${f.farve}18;`:''}"><span class="fo-em">${f.emoji}</span><span class="fo-nm">${f.navn}</span></div>`).join('');}
-function buildStGrid(){document.getElementById('stGrid').innerHTML=STS.map(s=>`<div class="sto${A.selSt===s.id?' on':''}" data-s="${s.id}" onclick="selSt('${s.id}')" style="color:${s.farve};${A.selSt===s.id?`border-color:${s.farve};background:${s.farve}22;`:''}"><span class="stdot" style="background:${s.farve}"></span>${s.navn}</div>`).join('');}
-function buildFagFilter(){
-  const all=fiEl('all','all','Alle punkter','linear-gradient(135deg,#ff4757,#4a9eff,#2ed573)',CMarkers.length,'','#4a9eff');
-  document.getElementById('fagList').innerHTML=all+FAGS.map(f=>fiEl('fag',f.id,`${f.emoji} ${f.navn}`,f.farve,CMarkers.filter(m=>m.fag===f.id).length,f.desc,f.farve)).join('');
-}
-function buildStFilter(){
-  const all=fiEl('all','all','Alle punkter','linear-gradient(135deg,#ff4757,#4a9eff,#2ed573)',CMarkers.length,'','#4a9eff');
-  document.getElementById('stList').innerHTML=all+STS.map(s=>fiEl('st',s.id,s.navn,s.farve,CMarkers.filter(m=>m.status===s.id).length,'',s.farve)).join('');
-}
-function fiEl(mode,val,lbl,dot,cnt,sub,col){
-  const on=(mode==='all'&&A.fMode==='all')||(A.fMode===mode&&A.fVal===val);
-  return `<div class="fi${on?' on':''}" style="${on?`color:${col};border-color:${col}`:''}" onclick="setF('${mode}','${val}')">
-    <div class="fi-dot" style="background:${dot}"></div>
-    <div class="fi-lbl">${lbl}${sub?`<span class="fi-sub">${sub}</span>`:''}</div>
-    <span class="fi-cnt">${cnt}</span></div>`;
-}
-function buildStBar(){
-  const act=FAGS.filter(f=>CMarkers.some(m=>m.fag===f.id));
-  const pi=A.totalPages>1?`<span class="ss" style="margin-left:auto;color:var(--accent);font-weight:600">${pgNm(A.currentPage)} (${A.currentPage}/${A.totalPages})</span>`:'';
-  document.getElementById('stBar').innerHTML=`<span class="ss">Total: ${CMarkers.length}</span>`+act.map(f=>`<span class="ss"><span class="ssdot" style="background:${f.farve}"></span>${f.emoji} ${f.navn}: ${CMarkers.filter(m=>m.fag===f.id).length}</span>`).join('')+pi;
-}
+// ── SIDEBAR ──
+function bFagG(){document.getElementById('fagGrid').innerHTML=FAGS.map(f=>`<div class="fo${A.sF===f.id?' on':''}" data-f="${f.id}" onclick="sF('${f.id}')" style="color:${f.farve};${A.sF===f.id?`border-color:${f.farve};background:${f.farve}18;`:''}"><span class="fo-em">${f.emoji}</span><span class="fo-nm">${f.navn}</span></div>`).join('');}
+function bStG(){document.getElementById('stGrid').innerHTML=STS.map(s=>`<div class="sto${A.sS===s.id?' on':''}" data-s="${s.id}" onclick="sS('${s.id}')" style="color:${s.farve};${A.sS===s.id?`border-color:${s.farve};background:${s.farve}22;`:''}"><span class="stdot" style="background:${s.farve}"></span>${s.navn}</div>`).join('');}
+function bFagF(){const all=fEl('all','all','Alle punkter','linear-gradient(135deg,#ff4757,#4a9eff,#2ed573)',CMkrs.length,'','#4a9eff');document.getElementById('fagList').innerHTML=all+FAGS.map(f=>fEl('fag',f.id,`${f.emoji} ${f.navn}`,f.farve,CMkrs.filter(m=>m.fag===f.id).length,f.desc,f.farve)).join('');}
+function bStF(){const all=fEl('all','all','Alle punkter','linear-gradient(135deg,#ff4757,#4a9eff,#2ed573)',CMkrs.length,'','#4a9eff');document.getElementById('stList').innerHTML=all+STS.map(s=>fEl('st',s.id,s.navn,s.farve,CMkrs.filter(m=>m.status===s.id).length,'',s.farve)).join('');}
+function fEl(mode,val,lbl,dot,cnt,sub,col){const on=(mode==='all'&&A.fM==='all')||(A.fM===mode&&A.fV===val);return `<div class="fi${on?' on':''}" style="${on?`color:${col};border-color:${col}`:''}" onclick="setF('${mode}','${val}')"><div class="fi-dot" style="background:${dot}"></div><div class="fi-lbl">${lbl}${sub?`<span class="fi-sub">${sub}</span>`:''}</div><span class="fi-cnt">${cnt}</span></div>`;}
+function bStB(){const act=FAGS.filter(f=>CMkrs.some(m=>m.fag===f.id));const pi=A.tP>1?`<span class="ss" style="margin-left:auto;color:var(--accent);font-weight:600">${pgNm(A.cP)} (${A.cP}/${A.tP})</span>`:'';document.getElementById('stBar').innerHTML=`<span class="ss">Total: ${CMkrs.length}</span>`+act.map(f=>`<span class="ss"><span class="ssdot" style="background:${f.farve}"></span>${f.emoji} ${f.navn}: ${CMkrs.filter(m=>m.fag===f.id).length}</span>`).join('')+pi;}
 function sbTab(t){const ts=['fag','status','liste'];document.querySelectorAll('.sb-tab').forEach((el,i)=>el.classList.toggle('active',ts[i]===t));document.querySelectorAll('.sb-panel').forEach(p=>p.classList.remove('active'));document.getElementById('sbp-'+t).classList.add('active');}
-function setF(m,v){A.fMode=m;A.fVal=v;buildFagFilter();buildStFilter();renderDots();renderMList();}
-function mFit(m){if(A.fMode==='all')return true;if(A.fMode==='fag')return m.fag===A.fVal;if(A.fMode==='st')return m.status===A.fVal;return true;}
-function selFag(id){A.selFag=id;document.querySelectorAll('.fo').forEach(el=>{const f=gF(el.dataset.f);const on=el.dataset.f===id;el.classList.toggle('on',on);el.style.borderColor=on?f.farve:'';el.style.background=on?f.farve+'18':''});}
-function selSt(id){A.selSt=id;const s=gS(id);document.querySelectorAll('.sto').forEach(el=>{const on=el.dataset.s===id;el.classList.toggle('on',on);el.style.borderColor=on?s.farve:'';el.style.background=on?s.farve+'22':''});}
+function setF(m,v){A.fM=m;A.fV=v;bFagF();bStF();rdDots();rdML();}
+function mFit(m){if(A.fM==='all')return true;if(A.fM==='fag')return m.fag===A.fV;if(A.fM==='st')return m.status===A.fV;return true;}
+function sF(id){A.sF=id;document.querySelectorAll('.fo').forEach(el=>{const f=gF(el.dataset.f);const on=el.dataset.f===id;el.classList.toggle('on',on);el.style.borderColor=on?f.farve:'';el.style.background=on?f.farve+'18':''});}
+function sS(id){A.sS=id;const s=gS(id);document.querySelectorAll('.sto').forEach(el=>{const on=el.dataset.s===id;el.classList.toggle('on',on);el.style.borderColor=on?s.farve:'';el.style.background=on?s.farve+'22':''});}
 
-// MARKERS
+// ── MARKERS ──
 function setMode(m){if(m==='add'&&!can('add'))m='select';A.mode=m;document.querySelectorAll('.m-btn').forEach(b=>b.classList.remove('on'));document.getElementById('m'+m[0].toUpperCase()+m.slice(1)).classList.add('on');const pc=document.getElementById('planCont');if(pc)pc.style.cursor=m==='add'&&can('add')?'crosshair':'default';}
-function handleCvClick(e){
-  if(A.mode!=='add'||!can('add'))return;
-  if(e.target.classList.contains('map-dot')||e.target.classList.contains('dot-icon'))return;
-  const cv=document.getElementById('planCv');const rect=cv.getBoundingClientRect();
-  A.pendCoords={px:(e.clientX-rect.left)/cv.clientWidth,py:(e.clientY-rect.top)/cv.clientHeight,page:A.currentPage};
-  A.editMrkId=null;A.mPhotos=[];selFag(A.selFag);selSt(A.selSt);
-  document.getElementById('mTit').value='';document.getElementById('mDes').value='';
-  document.getElementById('mPhGrid').innerHTML='';
-  document.getElementById('mMT').textContent='Tilføj punkt';
-  document.getElementById('mModal').classList.add('open');setTimeout(()=>document.getElementById('mTit').focus(),100);
-}
-function closeMModal(){document.getElementById('mModal').classList.remove('open');A.pendCoords=null;A.editMrkId=null;}
-function pickPhoto(){const i=document.createElement('input');i.type='file';i.accept='image/*';i.multiple=true;i.onchange=e=>{Array.from(e.target.files).forEach(f=>{const r=new FileReader();r.onload=ev=>{A.mPhotos.push(ev.target.result);renderMPh();};r.readAsDataURL(f);});};i.click();}
-function renderMPh(){document.getElementById('mPhGrid').innerHTML=A.mPhotos.map((s,i)=>`<div class="ph-th"><img src="${s}"><button class="ph-del" onclick="delPh(${i})">✕</button></div>`).join('');}
-function delPh(i){A.mPhotos.splice(i,1);renderMPh();}
-
+function handleClick(e){if(A.mode!=='add'||!can('add'))return;if(e.target.classList.contains('map-dot')||e.target.classList.contains('dot-icon'))return;const cv=document.getElementById('planCv');const rect=cv.getBoundingClientRect();A.pC={px:(e.clientX-rect.left)/cv.clientWidth,py:(e.clientY-rect.top)/cv.clientHeight,page:A.cP};A.eMId=null;A.mPh=[];sF(A.sF);sS(A.sS);document.getElementById('mTit').value='';document.getElementById('mDes').value='';document.getElementById('mPhG').innerHTML='';document.getElementById('mMT').textContent='Tilføj punkt';document.getElementById('mModal').classList.add('open');setTimeout(()=>document.getElementById('mTit').focus(),100);}
+function closeMM(){document.getElementById('mModal').classList.remove('open');A.pC=null;A.eMId=null;}
+function pickPh(){const i=document.createElement('input');i.type='file';i.accept='image/*';i.multiple=true;i.onchange=e=>{Array.from(e.target.files).forEach(f=>{const r=new FileReader();r.onload=ev=>{A.mPh.push(ev.target.result);rdMPh();};r.readAsDataURL(f);});};i.click();}
+function rdMPh(){document.getElementById('mPhG').innerHTML=A.mPh.map((s,i)=>`<div class="ph-th"><img src="${s}"><button class="ph-del" onclick="delPh(${i})">✕</button></div>`).join('');}
+function delPh(i){A.mPh.splice(i,1);rdMPh();}
 async function saveMrk(){
   const tit=document.getElementById('mTit').value.trim();if(!tit){document.getElementById('mTit').focus();return;}
   const btn=document.querySelector('#mModal .btn-p');btn.disabled=true;btn.textContent='Gemmer...';
   try{
-    if(A.editMrkId!==null){
-      const m=CMarkers.find(m=>m.id===A.editMrkId);
-      if(m){const ok=can('edit_any')||(can('edit_own')&&m.created_by===CU.id);if(!ok){alert('Du kan kun redigere egne punkter.');btn.disabled=false;btn.textContent='Gem punkt';return;}
-        const upd={fag:A.selFag,status:A.selSt,title:tit,note:document.getElementById('mDes').value,photos:A.mPhotos,updated_at:new Date().toISOString(),updated_by:CU.id};
-        await sb.from('markers').update(upd).eq('id',A.editMrkId);Object.assign(m,upd);}
-    }else{
-      if(!can('add')){alert('Du har ikke adgang til at tilføje punkter.');btn.disabled=false;btn.textContent='Gem punkt';return;}
-      const ins={project_id:CP.id,page_num:A.pendCoords.page,fag:A.selFag,status:A.selSt,title:tit,note:document.getElementById('mDes').value,photos:A.mPhotos,px:A.pendCoords.px,py:A.pendCoords.py,created_by:CU.id,godkendt:false};
-      const {data,error}=await sb.from('markers').insert(ins).select().single();
-      if(error){alert('Fejl: '+error.message);btn.disabled=false;btn.textContent='Gem punkt';return;}
-      CMarkers.push(data);if(data.page_num>A.totalPages){A.totalPages=data.page_num;buildPgTabs();}
-    }
-    btn.disabled=false;btn.textContent='Gem punkt';
-    closeMModal();renderDots();renderMList();buildFagFilter();buildStFilter();buildStBar();buildPgTabs();
-  }catch(err){alert('Fejl: '+err.message);btn.disabled=false;btn.textContent='Gem punkt';}
+    if(A.eMId!==null){const m=CMkrs.find(m=>m.id===A.eMId);if(m){const ok=can('edit_any')||(can('edit_own')&&m.created_by===CU.id);if(!ok){alert('Du kan kun redigere egne punkter.');btn.disabled=false;btn.textContent='Gem punkt';return;}const upd={fag:A.sF,status:A.sS,title:tit,note:document.getElementById('mDes').value,photos:A.mPh,updated_at:new Date().toISOString(),updated_by:CU.id};await sb.from('markers').update(upd).eq('id',A.eMId);Object.assign(m,upd);}}
+    else{if(!can('add')){alert('Du har ikke adgang.');btn.disabled=false;btn.textContent='Gem punkt';return;}const ins={project_id:CP.id,page_num:A.pC.page,fag:A.sF,status:A.sS,title:tit,note:document.getElementById('mDes').value,photos:A.mPh,px:A.pC.px,py:A.pC.py,created_by:CU.id,godkendt:false};const {data,error}=await sb.from('markers').insert(ins).select().single();if(error){alert('Fejl: '+error.message);btn.disabled=false;btn.textContent='Gem punkt';return;}CMkrs.push(data);if(data.page_num>A.tP){A.tP=data.page_num;bPgT();}}
+    btn.disabled=false;btn.textContent='Gem punkt';closeMM();rdDots();rdML();bFagF();bStF();bStB();bPgT();
+  }catch(e){alert('Fejl: '+e.message);btn.disabled=false;btn.textContent='Gem punkt';}
 }
-
-async function godkend(id){
-  if(!can('approve')){alert('Kun admin kan godkende.');return;}
-  const upd={godkendt:true,godkendt_af:CU.display_name,godkendt_dato:tod(),status:'godkendt'};
-  await sb.from('markers').update(upd).eq('id',id);
-  const m=CMarkers.find(m=>m.id===id);if(m)Object.assign(m,upd);
-  renderDots();renderMList();buildFagFilter();buildStFilter();buildStBar();buildPgTabs();openInfo(id);
-}
-async function afvisGdk(id){
-  if(!can('approve'))return;const upd={godkendt:false,godkendt_af:null,godkendt_dato:null};
-  await sb.from('markers').update(upd).eq('id',id);const m=CMarkers.find(m=>m.id===id);if(m)Object.assign(m,upd);renderDots();renderMList();openInfo(id);
-}
-
-function renderDots(){
-  const lyr=document.getElementById('dotsLyr');lyr.innerHTML='';const cv=document.getElementById('planCv');
-  CMarkers.filter(m=>(m.page_num||1)===A.currentPage&&mFit(m)).forEach(m=>{
-    const f=gF(m.fag);const d=document.createElement('div');
-    d.className='map-dot'+(A.selMrk===m.id?' on':'');d.dataset.id=m.id;d.textContent=m.id;
-    d.style.cssText=`background:${f.farve};box-shadow:0 0 12px ${f.farve}88;left:${m.px*cv.clientWidth}px;top:${m.py*cv.clientHeight}px;pointer-events:all;`;
-    const ic=document.createElement('span');ic.className='dot-icon';ic.textContent=m.godkendt?'✅':(SE[m.status]||'●');d.appendChild(ic);
-    d.onclick=e=>{e.stopPropagation();selMrk(m.id);};
-    d.onmouseenter=e=>showTip(e,`#${m.id} ${f.emoji} ${f.navn}\n${m.title}`);d.onmouseleave=hideTip;
-    lyr.appendChild(d);
-  });
-}
+async function godkend(id){if(!can('approve')){alert('Kun admin kan godkende.');return;}const upd={godkendt:true,godkendt_af:CU.display_name,godkendt_dato:tod(),status:'godkendt'};await sb.from('markers').update(upd).eq('id',id);const m=CMkrs.find(m=>m.id===id);if(m)Object.assign(m,upd);rdDots();rdML();bFagF();bStF();bStB();bPgT();openInfo(id);}
+async function afvis(id){if(!can('approve'))return;const upd={godkendt:false,godkendt_af:null,godkendt_dato:null};await sb.from('markers').update(upd).eq('id',id);const m=CMkrs.find(m=>m.id===id);if(m)Object.assign(m,upd);rdDots();rdML();openInfo(id);}
+function rdDots(){const lyr=document.getElementById('dotsLyr');lyr.innerHTML='';const cv=document.getElementById('planCv');CMkrs.filter(m=>(m.page_num||1)===A.cP&&mFit(m)).forEach(m=>{const f=gF(m.fag);const d=document.createElement('div');d.className='map-dot'+(A.sM===m.id?' on':'');d.dataset.id=m.id;d.textContent=m.id;d.style.cssText=`background:${f.farve};box-shadow:0 0 12px ${f.farve}88;left:${m.px*cv.clientWidth}px;top:${m.py*cv.clientHeight}px;pointer-events:all;`;const ic=document.createElement('span');ic.className='dot-icon';ic.textContent=m.godkendt?'✅':(SE[m.status]||'●');d.appendChild(ic);d.onclick=e=>{e.stopPropagation();selMrk(m.id);};d.onmouseenter=e=>showTip(e,`#${m.id} ${f.emoji} ${f.navn}\n${m.title}`);d.onmouseleave=hideTip;lyr.appendChild(d);});}
 function showTip(e,t){const el=document.getElementById('tip');el.textContent=t;el.style.left=(e.clientX+14)+'px';el.style.top=(e.clientY-10)+'px';el.classList.add('show');}
 function hideTip(){document.getElementById('tip').classList.remove('show');}
-function selMrk(id){A.selMrk=id;renderDots();renderMList();openInfo(id);}
-
+function selMrk(id){A.sM=id;rdDots();rdML();openInfo(id);}
 function openInfo(id){
-  const m=CMarkers.find(m=>m.id===id);if(!m)return;
-  const f=gF(m.fag);const s=gS(m.status);
+  const m=CMkrs.find(m=>m.id===id);if(!m)return;const f=gF(m.fag);const s=gS(m.status);
   document.getElementById('ipT').textContent=`#${m.id} — ${f.emoji} ${f.navn}`;
-  const cname=CProfiles[m.created_by]||'?';
+  const cn=CPrf[m.created_by]||'?';
   const phs=m.photos&&m.photos.length?`<div><div class="ifl">Fotos (${m.photos.length})</div><div class="iphot">${m.photos.map(p=>`<div class="ipho" onclick="openLb('${p}')"><img src="${p}"></div>`).join('')}</div></div>`:'';
   const gst=m.godkendt?`<span class="gstamp">✅ Godkendt af ${m.godkendt_af} — ${m.godkendt_dato}</span>`:'';
-  document.getElementById('ipB').innerHTML=`
-    <div><div class="ifl">Faggruppe</div><span class="sbadge" style="background:${f.farve}22;color:${f.farve}">${f.emoji} ${f.navn}</span><div style="font-size:11px;color:var(--text-dim);margin-top:3px">${f.desc}</div></div>
-    <div><div class="ifl">Status</div><span class="sbadge" style="background:${s.farve}22;color:${s.farve}">● ${s.navn}</span></div>
-    ${gst}
-    <div><div class="ifl">Beskrivelse</div><div class="ifv" style="font-weight:600">${m.title}</div></div>
-    ${m.note?`<div><div class="ifl">Bemærkninger</div><div class="ifv" style="font-size:12px;line-height:1.5;color:var(--text-dim)">${m.note}</div></div>`:''}
-    ${phs}
-    <div style="display:flex;gap:12px;flex-wrap:wrap">
-      ${A.totalPages>1?`<div><div class="ifl">Side</div><div class="ifv" style="font-size:12px;font-family:'IBM Plex Mono',monospace">${pgNm(m.page_num||1)}</div></div>`:''}
-      <div><div class="ifl">Oprettet af</div><div class="ifv" style="font-size:12px;font-family:'IBM Plex Mono',monospace">${cname}</div></div>
-      <div><div class="ifl">Dato</div><div class="ifv" style="font-size:12px;font-family:'IBM Plex Mono',monospace">${new Date(m.created_at).toLocaleDateString('da-DK')}</div></div>
-    </div>`;
+  document.getElementById('ipB').innerHTML=`<div><div class="ifl">Faggruppe</div><span class="sbadge" style="background:${f.farve}22;color:${f.farve}">${f.emoji} ${f.navn}</span><div style="font-size:11px;color:var(--text-dim);margin-top:3px">${f.desc}</div></div><div><div class="ifl">Status</div><span class="sbadge" style="background:${s.farve}22;color:${s.farve}">● ${s.navn}</span></div>${gst}<div><div class="ifl">Beskrivelse</div><div class="ifv" style="font-weight:600">${m.title}</div></div>${m.note?`<div><div class="ifl">Bemærkninger</div><div class="ifv" style="font-size:12px;line-height:1.5;color:var(--text-dim)">${m.note}</div></div>`:''}${phs}<div style="display:flex;gap:12px;flex-wrap:wrap">${A.tP>1?`<div><div class="ifl">Side</div><div class="ifv" style="font-size:12px;font-family:'IBM Plex Mono',monospace">${pgNm(m.page_num||1)}</div></div>`:''}<div><div class="ifl">Oprettet af</div><div class="ifv" style="font-size:12px;font-family:'IBM Plex Mono',monospace">${cn}</div></div><div><div class="ifl">Dato</div><div class="ifv" style="font-size:12px;font-family:'IBM Plex Mono',monospace">${new Date(m.created_at).toLocaleDateString('da-DK')}</div></div></div>`;
   const canE=can('edit_any')||(can('edit_own')&&m.created_by===CU.id);
-  document.getElementById('ipF').innerHTML=
-    (can('approve')&&!m.godkendt?`<button class="btn btn-s btn-sm" onclick="godkend(${m.id})">✅ Godkend</button>`:'')  +
-    (can('approve')&&m.godkendt?`<button class="btn btn-g btn-sm" onclick="afvisGdk(${m.id})">↩ Fortryd</button>`:'')  +
-    (canE?`<button class="btn btn-g btn-sm" style="flex:1" onclick="editMrk(${m.id})">✏️ Redigér</button>`:'<div style="flex:1"></div>')  +
-    (can('delete')?`<button class="btn btn-d btn-sm" onclick="delMrk(${m.id})">🗑️</button>`:'');
+  document.getElementById('ipF').innerHTML=(can('approve')&&!m.godkendt?`<button class="btn btn-s btn-sm" onclick="godkend(${m.id})">✅ Godkend</button>`:'')+( can('approve')&&m.godkendt?`<button class="btn btn-g btn-sm" onclick="afvis(${m.id})">↩ Fortryd</button>`:'')+( canE?`<button class="btn btn-g btn-sm" style="flex:1" onclick="editMrk(${m.id})">✏️ Redigér</button>`:'<div style="flex:1"></div>')+(can('delete')?`<button class="btn btn-d btn-sm" onclick="delMrk(${m.id})">🗑️</button>`:'');
   document.getElementById('infoPanel').classList.add('open');
 }
-function closeInfo(){document.getElementById('infoPanel').classList.remove('open');A.selMrk=null;renderDots();}
-function editMrk(id){
-  const m=CMarkers.find(m=>m.id===id);if(!m)return;
-  A.editMrkId=m.id;A.mPhotos=[...(m.photos||[])];A.selFag=m.fag;A.selSt=m.status;
-  buildFagGrid();buildStGrid();
-  document.getElementById('mTit').value=m.title;document.getElementById('mDes').value=m.note||'';
-  document.getElementById('mMT').textContent='Redigér punkt #'+m.id;renderMPh();
-  document.getElementById('mModal').classList.add('open');
-}
-async function delMrk(id){
-  if(!can('delete')){alert('Kun admin kan slette.');return;}if(!confirm('Slet punkt?'))return;
-  await sb.from('markers').delete().eq('id',id);CMarkers=CMarkers.filter(m=>m.id!==id);A.selMrk=null;
-  closeInfo();renderDots();renderMList();buildFagFilter();buildStFilter();buildStBar();buildPgTabs();
-}
-function renderMList(){
-  const list=document.getElementById('mList');const fil=CMarkers.filter(m=>mFit(m));
-  if(!fil.length){list.innerHTML='<div style="padding:20px;text-align:center;color:var(--text-dim);font-size:12px">Ingen punkter</div>';return;}
-  const pgs=[...new Set(fil.map(m=>m.page_num||1))].sort((a,b)=>a-b);
-  list.innerHTML=pgs.map(pg=>{
-    const lbl=A.totalPages>1?`<div class="pg-lbl">${pgNm(pg)}</div>`:'';
-    const cards=fil.filter(m=>(m.page_num||1)===pg).map(m=>{
-      const f=gF(m.fag);const s=gS(m.status);const cn=CProfiles[m.created_by]||'';
-      return `<div class="mc${A.selMrk===m.id?' on':''}" onclick="jmpTo(${m.id})" style="${A.selMrk===m.id?`border-color:${f.farve}`:''}">
-        <div class="mc-h"><div class="mc-dot" style="background:${f.farve}"></div><div class="mc-id">#${m.id}</div>${A.totalPages>1?`<div class="mc-pg">${pgNm(m.page_num||1)}</div>`:''}</div>
-        <div class="mc-tit">${m.title}${m.godkendt?' ✅':''}</div>
-        <div class="mc-tags"><span class="mbadge" style="background:${f.farve}22;color:${f.farve}">${f.emoji} ${f.navn}</span><span class="mbadge" style="background:${s.farve}22;color:${s.farve}">● ${s.navn}</span></div>
-        <div class="mc-meta"><span>${new Date(m.created_at).toLocaleDateString('da-DK')}</span>${cn?`<span>👤 ${cn}</span>`:''}</div>
-      </div>`;}).join('');return lbl+cards;}).join('');
-}
-async function jmpTo(id){const m=CMarkers.find(m=>m.id===id);if(!m)return;if((m.page_num||1)!==A.currentPage)await swPg(m.page_num||1);selMrk(id);}
+function closeInfo(){document.getElementById('infoPanel').classList.remove('open');A.sM=null;rdDots();}
+function editMrk(id){const m=CMkrs.find(m=>m.id===id);if(!m)return;A.eMId=m.id;A.mPh=[...(m.photos||[])];A.sF=m.fag;A.sS=m.status;bFagG();bStG();document.getElementById('mTit').value=m.title;document.getElementById('mDes').value=m.note||'';document.getElementById('mMT').textContent='Redigér punkt #'+m.id;rdMPh();document.getElementById('mModal').classList.add('open');}
+async function delMrk(id){if(!can('delete')){alert('Kun admin kan slette.');return;}if(!confirm('Slet punkt?'))return;await sb.from('markers').delete().eq('id',id);CMkrs=CMkrs.filter(m=>m.id!==id);A.sM=null;closeInfo();rdDots();rdML();bFagF();bStF();bStB();bPgT();}
+function rdML(){const list=document.getElementById('mList');const fil=CMkrs.filter(m=>mFit(m));if(!fil.length){list.innerHTML='<div style="padding:20px;text-align:center;color:var(--text-dim);font-size:12px">Ingen punkter</div>';return;}const pgs=[...new Set(fil.map(m=>m.page_num||1))].sort((a,b)=>a-b);list.innerHTML=pgs.map(pg=>{const lbl=A.tP>1?`<div class="pg-lbl">${pgNm(pg)}</div>`:'';const cards=fil.filter(m=>(m.page_num||1)===pg).map(m=>{const f=gF(m.fag);const s=gS(m.status);const cn=CPrf[m.created_by]||'';return `<div class="mc${A.sM===m.id?' on':''}" onclick="jmpTo(${m.id})" style="${A.sM===m.id?`border-color:${f.farve}`:''}"><div class="mc-h"><div class="mc-dot" style="background:${f.farve}"></div><div class="mc-id">#${m.id}</div>${A.tP>1?`<div class="mc-pg">${pgNm(m.page_num||1)}</div>`:''}</div><div class="mc-tit">${m.title}${m.godkendt?' ✅':''}</div><div class="mc-tags"><span class="mbadge" style="background:${f.farve}22;color:${f.farve}">${f.emoji} ${f.navn}</span><span class="mbadge" style="background:${s.farve}22;color:${s.farve}">● ${s.navn}</span></div><div class="mc-meta"><span>${new Date(m.created_at).toLocaleDateString('da-DK')}</span>${cn?`<span>👤 ${cn}</span>`:''}</div></div>`;}).join('');return lbl+cards;}).join('');}
+async function jmpTo(id){const m=CMkrs.find(m=>m.id===id);if(!m)return;if((m.page_num||1)!==A.cP)await swPg(m.page_num||1);selMrk(id);}
 function openLb(src){document.getElementById('lbImg').src=src;document.getElementById('lb').classList.add('open');}
 function closeLb(){document.getElementById('lb').classList.remove('open');}
 
-// ════════════════════════════════════════════════════
-// ADMIN
-// ════════════════════════════════════════════════════
-async function openAdmin(){
-  const {data:profs}=await sb.from('profiles').select('*');
-  document.getElementById('ausT').innerHTML=`<thead><tr><th>Navn</th><th>Rolle</th></tr></thead><tbody>`+
-  (profs||[]).map(u=>`<tr><td>${u.display_name||'?'}</td>
-    <td><select class="rsel" onchange="chgRole('${u.id}',this.value)"><option value="admin" ${u.role==='admin'?'selected':''}>Admin</option><option value="bruger" ${u.role==='bruger'?'selected':''}>Bruger</option><option value="gaest" ${u.role==='gaest'?'selected':''}>Gæst</option></select></td>
-  </tr>`).join('')+'</tbody>';
-  document.getElementById('adminModal').classList.add('open');
-}
+// ── ADMIN ──
+async function openAdmin(){const {data:pr}=await sb.from('profiles').select('*');document.getElementById('ausT').innerHTML=`<thead><tr><th>Navn</th><th>Rolle</th></tr></thead><tbody>`+(pr||[]).map(u=>`<tr><td>${u.display_name||'?'}</td><td><select class="rsel" onchange="chgR('${u.id}',this.value)"><option value="admin" ${u.role==='admin'?'selected':''}>Admin</option><option value="bruger" ${u.role==='bruger'?'selected':''}>Bruger</option><option value="gaest" ${u.role==='gaest'?'selected':''}>Gæst</option></select></td></tr>`).join('')+'</tbody>';document.getElementById('adminModal').classList.add('open');}
 function closeAdmin(){document.getElementById('adminModal').classList.remove('open');}
-async function chgRole(uid,r){await sb.from('profiles').update({role:r}).eq('id',uid);}
+async function chgR(uid,r){await sb.from('profiles').update({role:r}).eq('id',uid);}
 
-// ════════════════════════════════════════════════════
-// CHAT
-// ════════════════════════════════════════════════════
+// ── CHAT ──
 async function goChat(){
-  showScreen('sChat');
-  const av=document.getElementById('chatAv');av.textContent=initials(CU.display_name);av.style.background=avColor(CU.display_name);
-  document.getElementById('chatUName').textContent=CU.display_name;
-  await buildChatList();
+  showScr('sChat');
+  const av=document.getElementById('chatAv');av.textContent=ini(CU.display_name);av.style.background=avc(CU.display_name);
+  document.getElementById('chatUN').textContent=CU.display_name;
+  await bChatList();
+}
+async function loadUnread(){
+  const {data}=await sb.from('direct_messages').select('sender_id').eq('receiver_id',CU.id).eq('is_read',false);
+  unread={};(data||[]).forEach(m=>{unread[m.sender_id]=(unread[m.sender_id]||0)+1;});
+  updMsgBadge();
+}
+function updMsgBadge(){
+  const tot=Object.values(unread).reduce((a,b)=>a+b,0);
+  ['msgBadge1','msgBadge2'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.textContent=tot>9?'9+':tot;el.classList.toggle('show',tot>0);});
+}
+function subGlobal(){
+  const sub=sb.channel('gdm_'+CU.id).on('postgres_changes',{event:'INSERT',schema:'public',table:'direct_messages',filter:`receiver_id=eq.${CU.id}`},payload=>{
+    if(actCT==='direct'&&actCId===payload.new.sender_id)return;
+    unread[payload.new.sender_id]=(unread[payload.new.sender_id]||0)+1;updMsgBadge();
+    if('Notification' in window&&Notification.permission==='granted'){const nm=CPrf[payload.new.sender_id]||'En bruger';new Notification('Ny besked fra '+nm,{body:payload.new.message||'📷 Billede'});}
+  }).subscribe();
+  CSubs.push(sub);
 }
 
-async function loadUnreadCounts(){
-  // Count unread direct messages
-  const {data}=await sb.from('direct_messages').select('id,sender_id').eq('receiver_id',CU.id).eq('is_read',false);
-  unreadCounts={};
-  (data||[]).forEach(m=>{unreadCounts[m.sender_id]=(unreadCounts[m.sender_id]||0)+1;});
-  const total=Object.values(unreadCounts).reduce((a,b)=>a+b,0);
-  updateMsgBadge(total);
-}
-
-function updateMsgBadge(count){
-  const total=count!==undefined?count:Object.values(unreadCounts).reduce((a,b)=>a+b,0);
-  ['dashMsgBadge','appMsgBadge'].forEach(id=>{
-    const el=document.getElementById(id);if(!el)return;
-    el.textContent=total>9?'9+':total;el.classList.toggle('show',total>0);
-  });
-}
-
-async function buildChatList(){
+async function bChatList(){
   const list=document.getElementById('chatList');
-  list.innerHTML='<div style="padding:16px;text-align:center;color:var(--text-dim);font-size:12px"><div class="spinner" style="margin:0 auto 8px"></div>Indlæser...</div>';
-
-  // Get all projects user has access to (for group chats)
+  list.innerHTML='<div style="padding:16px;text-align:center;color:var(--text-dim);font-size:12px"><div class="spinner" style="margin:0 auto 8px"></div></div>';
+  // Projekter
   let projs=[];
   if(CU.role==='admin'){const {data}=await sb.from('projects').select('id,navn').order('created_at',{ascending:false});projs=data||[];}
   else{const {data}=await sb.from('project_access').select('project_id,projects(id,navn)').eq('user_id',CU.id);projs=(data||[]).map(r=>r.projects).filter(Boolean);}
-
-  // Get last message per project chat
-  const projLastMsg={};
-  if(projs.length){
-    for(const p of projs){
-      const {data}=await sb.from('project_messages').select('message,image_url,created_at,sender_id').eq('project_id',p.id).order('created_at',{ascending:false}).limit(1);
-      if(data&&data[0])projLastMsg[p.id]=data[0];
-    }
-  }
-
-  // Get all other users for direct messages
-  const others=allProfiles.filter(u=>u.id!==CU.id);
-
-  // Get last DM per user
-  const dmLastMsg={};
-  for(const u of others){
-    const {data}=await sb.from('direct_messages').select('message,image_url,created_at,sender_id,is_read,receiver_id')
-      .or(`and(sender_id.eq.${CU.id},receiver_id.eq.${u.id}),and(sender_id.eq.${u.id},receiver_id.eq.${CU.id})`)
-      .order('created_at',{ascending:false}).limit(1);
-    if(data&&data[0])dmLastMsg[u.id]=data[0];
-  }
-
+  // Last project msgs
+  const plm={};
+  for(const p of projs){const {data}=await sb.from('project_messages').select('message,image_url,created_at').eq('project_id',p.id).order('created_at',{ascending:false}).limit(1);if(data&&data[0])plm[p.id]=data[0];}
+  // Direct msgs
+  const others=AllProf.filter(u=>u.id!==CU.id);
+  const dlm={};
+  for(const u of others){const {data}=await sb.from('direct_messages').select('message,image_url,created_at,sender_id').or(`and(sender_id.eq.${CU.id},receiver_id.eq.${u.id}),and(sender_id.eq.${u.id},receiver_id.eq.${CU.id})`).order('created_at',{ascending:false}).limit(1);if(data&&data[0])dlm[u.id]=data[0];}
   let html='';
-
-  // PROJECT CHATS
   if(projs.length){
     html+=`<div style="padding:8px 10px 4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim)">Projekter</div>`;
-    html+=projs.map(p=>{
-      const last=projLastMsg[p.id];
-      const lastTxt=last?(last.image_url?'📷 Billede':last.message):'Ingen beskeder endnu';
-      const lastTime=last?fmtDate(last.created_at):'';
-      const isActive=activeChatType==='project'&&activeChatId===p.id;
-      return `<div class="chat-item${isActive?' on':''}" onclick="openProjectChat('${p.id}','${p.navn.replace(/'/g,"\\'")}')">
-        <div class="chat-item-av" style="background:${avColor(p.id)};font-size:14px">🏗️</div>
-        <div class="chat-item-info">
-          <div class="chat-item-name">${p.navn}</div>
-          <div class="chat-item-last">${lastTxt}</div>
-        </div>
-        ${lastTime?`<div style="font-size:10px;color:var(--text-dim);flex-shrink:0">${lastTime}</div>`:''}
-      </div>`;}).join('');
+    html+=projs.map(p=>{const last=plm[p.id];const isOn=actCT==='project'&&actCId===p.id;return `<div class="chat-item${isOn?' on':''}" onclick="openPC('${p.id}','${p.navn.replace(/'/g,"\\'")}')"><div class="chat-item-av" style="background:${avc(p.id)}">🏗️</div><div class="chat-item-info"><div class="chat-item-name">${p.navn}</div><div class="chat-item-last">${last?(last.image_url?'📷 Billede':last.message):'Ingen beskeder endnu'}</div></div>${last?`<div style="font-size:10px;color:var(--text-dim);flex-shrink:0">${fmtD(last.created_at)}</div>`:''}</div>`;}).join('');
   }
-
-  // DIRECT MESSAGES
   if(others.length){
     html+=`<div style="padding:12px 10px 4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim)">Direkte beskeder</div>`;
-    html+=others.map(u=>{
-      const last=dmLastMsg[u.id];const unread=unreadCounts[u.id]||0;
-      const lastTxt=last?(last.image_url?'📷 Billede':last.message):'Skriv en besked...';
-      const lastTime=last?fmtDate(last.created_at):'';
-      const isActive=activeChatType==='direct'&&activeChatId===u.id;
-      return `<div class="chat-item${isActive?' on':''}" onclick="openDirectChat('${u.id}')">
-        <div class="chat-item-av" style="background:${avColor(u.display_name)}">${initials(u.display_name)}</div>
-        <div class="chat-item-info">
-          <div class="chat-item-name">${u.display_name}</div>
-          <div class="chat-item-last" style="${unread?'color:var(--text);font-weight:600':''}">${lastTxt}</div>
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">
-          ${lastTime?`<div style="font-size:10px;color:var(--text-dim)">${lastTime}</div>`:''}
-          ${unread?`<div class="chat-item-badge">${unread}</div>`:''}
-        </div>
-      </div>`;}).join('');
+    html+=others.map(u=>{const last=dlm[u.id];const ur=unread[u.id]||0;const isOn=actCT==='direct'&&actCId===u.id;return `<div class="chat-item${isOn?' on':''}" onclick="openDC('${u.id}')"><div class="chat-item-av" style="background:${avc(u.display_name)}">${ini(u.display_name)}</div><div class="chat-item-info"><div class="chat-item-name">${u.display_name}</div><div class="chat-item-last" style="${ur?'color:var(--text);font-weight:600':''}">${last?(last.image_url?'📷 Billede':last.message):'Skriv en besked...'}</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">${last?`<div style="font-size:10px;color:var(--text-dim)">${fmtD(last.created_at)}</div>`:''} ${ur?`<div class="chat-unread">${ur}</div>`:''}</div></div>`;}).join('');
   }
-
   if(!html)html='<div style="padding:20px;text-align:center;color:var(--text-dim);font-size:12px">Ingen samtaler endnu.</div>';
   list.innerHTML=html;
 }
 
-async function openProjectChat(projId,projName){
-  activeChatType='project';activeChatId=projId;chatPendingImgs=[];
-  // Unsubscribe previous
-  chatSubs.forEach(s=>s.unsubscribe());chatSubs=[];
-  buildChatList();
-  renderChatHeader('🏗️',avColor(projId),projName,'Holdchat for projektet');
-  await loadProjectMessages(projId);
-  subscribeProjectChat(projId);
-}
-
-async function openDirectChat(userId){
-  activeChatType='direct';activeChatId=userId;chatPendingImgs=[];
-  chatSubs.forEach(s=>s.unsubscribe());chatSubs=[];
-  // Mark as read
-  await sb.from('direct_messages').update({is_read:true}).eq('sender_id',userId).eq('receiver_id',CU.id).eq('is_read',false);
-  delete unreadCounts[userId];updateMsgBadge();
-  buildChatList();
-  const u=allProfiles.find(p=>p.id===userId);
-  renderChatHeader(initials(u?.display_name||'?'),avColor(u?.display_name||userId),u?.display_name||'Bruger','Direkte besked');
-  await loadDirectMessages(userId);
-  subscribeDirectChat(userId);
-}
-
-function renderChatHeader(avText,avBg,name,sub){
+function rdChatHdr(avTxt,avBg,name,sub){
   document.getElementById('chatArea').innerHTML=`
-    <div class="chat-header">
-      <div class="chat-header-av" style="background:${avBg}">${avText}</div>
-      <div><div class="chat-header-name">${name}</div><div class="chat-header-sub">${sub}</div></div>
+    <div class="chat-hdr"><div class="chat-hdr-av" style="background:${avBg}">${avTxt}</div><div><div class="chat-hdr-name">${name}</div><div class="chat-hdr-sub">${sub}</div></div></div>
+    <div class="chat-msgs" id="chatMsgs"></div>
+    <div class="img-preview-bar" id="imgPrev" style="display:none"></div>
+    <div class="chat-inp-area">
+      <button class="chat-img-btn" onclick="document.getElementById('chatImgIn').click()" title="Send billede">📷</button>
+      <textarea class="chat-inp" id="chatInp" placeholder="Skriv en besked..." rows="1" onkeydown="onChatKey(event)"></textarea>
+      <button class="chat-send" onclick="sendMsg()">➤</button>
+    </div>`;
+}
+
+async function openPC(pid,pname){
+  actCT='project';actCId=pid;cPendImgs=[];CSubs.filter(s=>s.topic&&s.topic.startsWith('proj_')||s.topic&&s.topic.startsWith('dm_')).forEach(s=>s.unsubscribe());
+  bChatList();rdChatHdr('🏗️',avc(pid),pname,'Holdchat for projektet');
+  const {data}=await sb.from('project_messages').select('*').eq('project_id',pid).order('created_at',{ascending:true});
+  rdMsgs(data||[],false);
+  const sub=sb.channel('proj_'+pid).on('postgres_changes',{event:'INSERT',schema:'public',table:'project_messages',filter:`project_id=eq.${pid}`},pl=>{if(pl.new.sender_id!==CU.id)appMsg(pl.new,false);bChatList();}).subscribe();
+  CSubs.push(sub);
+}
+
+async function openDC(uid){
+  actCT='direct';actCId=uid;cPendImgs=[];
+  await sb.from('direct_messages').update({is_read:true}).eq('sender_id',uid).eq('receiver_id',CU.id).eq('is_read',false);
+  delete unread[uid];updMsgBadge();bChatList();
+  const u=AllProf.find(p=>p.id===uid);
+  rdChatHdr(ini(u?.display_name||'?'),avc(u?.display_name||uid),u?.display_name||'Bruger','Direkte besked');
+  const {data}=await sb.from('direct_messages').select('*').or(`and(sender_id.eq.${CU.id},receiver_id.eq.${uid}),and(sender_id.eq.${uid},receiver_id.eq.${CU.id})`).order('created_at',{ascending:true});
+  rdMsgs(data||[],true);
+  const sub=sb.channel('dm_'+CU.id+'_'+uid).on('postgres_changes',{event:'INSERT',schema:'public',table:'direct_messages'},pl=>{const m=pl.new;if(((m.sender_id===uid&&m.receiver_id===CU.id)||(m.sender_id===CU.id&&m.receiver_id===uid))&&m.sender_id!==CU.id){appMsg(m,true);sb.from('direct_messages').update({is_read:true}).eq('id',m.id);bChatList();}}).subscribe();
+  CSubs.push(sub);
+}
+
+function rdMsgs(msgs,isDM){
+  const c=document.getElementById('chatMsgs');if(!c)return;
+  if(!msgs.length){c.innerHTML=`<div class="chat-empty"><div style="font-size:40px;opacity:.2">💬</div><div style="font-size:13px">Ingen beskeder endnu</div></div>`;return;}
+  c.innerHTML=msgs.map(m=>msgHTML(m,isDM)).join('');c.scrollTop=c.scrollHeight;
+}
+
+function appMsg(m,isDM){
+  const c=document.getElementById('chatMsgs');if(!c)return;
+  const emp=c.querySelector('.chat-empty');if(emp)emp.remove();
+  const div=document.createElement('div');div.innerHTML=msgHTML(m,isDM);
+  c.appendChild(div.firstChild);c.scrollTop=c.scrollHeight;
+}
+
+function msgHTML(m,isDM){
+  const mine=m.sender_id===CU.id;const nm=mine?'Du':(CPrf[m.sender_id]||'Bruger');
+  const bg=avc(CPrf[m.sender_id]||m.sender_id||'x');const av=ini(CPrf[m.sender_id]||'?');
+  const img=m.image_url?`<img src="${m.image_url}" class="msg-img" onclick="openLb('${m.image_url}')">`:'' ;
+  const txt=m.message?`<div>${m.message}</div>`:'';
+  return `<div class="msg-row${mine?' mine':''}">
+    ${!mine?`<div class="msg-av" style="background:${bg}">${av}</div>`:''}
+    <div>${!mine&&!isDM?`<div class="msg-sender">${nm}</div>`:''}
+      <div class="msg-bbl${mine?' mine':' other'}">${txt}${img}</div>
+      <div class="msg-time">${fmtD(m.created_at)}</div>
     </div>
-    <div class="chat-messages" id="chatMsgs"></div>
-    <div class="chat-img-preview" id="chatImgPreview" style="display:none"></div>
-    <div class="chat-input-area">
-      <button class="chat-img-btn" onclick="document.getElementById('chatImgInput').click()" title="Send billede">📷</button>
-      <textarea class="chat-input" id="chatInput" placeholder="Skriv en besked..." rows="1" onkeydown="handleChatKey(event)"></textarea>
-      <button class="chat-send-btn" onclick="sendMessage()">➤</button>
-    </div>`;
+  </div>`;
 }
 
-async function loadProjectMessages(projId){
-  const {data}=await sb.from('project_messages').select('*').eq('project_id',projId).order('created_at',{ascending:true});
-  renderMessages(data||[],false);
-}
+function onChatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
+function onChatImg(e){Array.from(e.target.files).forEach(f=>{const r=new FileReader();r.onload=ev=>{cPendImgs.push(ev.target.result);rdImgPrev();};r.readAsDataURL(f);});e.target.value='';}
+function rdImgPrev(){const el=document.getElementById('imgPrev');if(!el)return;if(!cPendImgs.length){el.style.display='none';return;}el.style.display='flex';el.innerHTML=cPendImgs.map((s,i)=>`<div class="img-prev-item"><img src="${s}"><button class="img-prev-del" onclick="delCI(${i})">✕</button></div>`).join('');}
+function delCI(i){cPendImgs.splice(i,1);rdImgPrev();}
 
-async function loadDirectMessages(userId){
-  const {data}=await sb.from('direct_messages').select('*')
-    .or(`and(sender_id.eq.${CU.id},receiver_id.eq.${userId}),and(sender_id.eq.${userId},receiver_id.eq.${CU.id})`)
-    .order('created_at',{ascending:true});
-  renderMessages(data||[],true);
-}
-
-function renderMessages(msgs,isDirect){
-  const container=document.getElementById('chatMsgs');if(!container)return;
-  if(!msgs.length){container.innerHTML=`<div class="chat-empty"><div class="chat-empty-icon">💬</div><div style="font-size:13px">Ingen beskeder endnu. Vær den første til at skrive!</div></div>`;return;}
-  container.innerHTML=msgs.map(m=>{
-    const isMine=m.sender_id===CU.id;
-    const senderName=isMine?'Du':(CProfiles[m.sender_id]||'Bruger');
-    const avBg=avColor(CProfiles[m.sender_id]||m.sender_id||'x');
-    const avTxt=initials(CProfiles[m.sender_id]||'?');
-    const imgHtml=m.image_url?`<img src="${m.image_url}" class="msg-img" onclick="openLb('${m.image_url}')">`:'' ;
-    const txtHtml=m.message?`<div>${m.message}</div>`:'';
-    return `<div class="msg-row${isMine?' mine':''}">
-      ${!isMine?`<div class="msg-av" style="background:${avBg}">${avTxt}</div>`:''}
-      <div>
-        ${!isMine&&!isDirect?`<div class="msg-sender">${senderName}</div>`:''}
-        <div class="msg-bubble${isMine?' mine':' other'}">${txtHtml}${imgHtml}</div>
-        <div class="msg-time">${fmtDate(m.created_at)}</div>
-      </div>
-    </div>`;}).join('');
-  container.scrollTop=container.scrollHeight;
-}
-
-function appendMessage(m,isDirect){
-  const container=document.getElementById('chatMsgs');if(!container)return;
-  // Remove empty state if exists
-  const empty=container.querySelector('.chat-empty');if(empty)empty.remove();
-  const isMine=m.sender_id===CU.id;
-  const senderName=isMine?'Du':(CProfiles[m.sender_id]||'Bruger');
-  const avBg=avColor(CProfiles[m.sender_id]||m.sender_id||'x');
-  const avTxt=initials(CProfiles[m.sender_id]||'?');
-  const imgHtml=m.image_url?`<img src="${m.image_url}" class="msg-img" onclick="openLb('${m.image_url}')">`:'' ;
-  const txtHtml=m.message?`<div>${m.message}</div>`:'';
-  const div=document.createElement('div');
-  div.className=`msg-row${isMine?' mine':''}`;
-  div.innerHTML=`
-    ${!isMine?`<div class="msg-av" style="background:${avBg}">${avTxt}</div>`:''}
-    <div>
-      ${!isMine&&!isDirect?`<div class="msg-sender">${senderName}</div>`:''}
-      <div class="msg-bubble${isMine?' mine':' other'}">${txtHtml}${imgHtml}</div>
-      <div class="msg-time">${fmtDate(m.created_at)}</div>
-    </div>`;
-  container.appendChild(div);container.scrollTop=container.scrollHeight;
-}
-
-function subscribeProjectChat(projId){
-  const sub=sb.channel('proj_chat_'+projId)
-    .on('postgres_changes',{event:'INSERT',schema:'public',table:'project_messages',filter:`project_id=eq.${projId}`},payload=>{
-      if(payload.new.sender_id!==CU.id)appendMessage(payload.new,false);
-      buildChatList();
-    }).subscribe();
-  chatSubs.push(sub);
-}
-
-function subscribeDirectChat(userId){
-  const sub=sb.channel('dm_'+CU.id+'_'+userId)
-    .on('postgres_changes',{event:'INSERT',schema:'public',table:'direct_messages'},payload=>{
-      const m=payload.new;
-      const relevant=(m.sender_id===userId&&m.receiver_id===CU.id)||(m.sender_id===CU.id&&m.receiver_id===userId);
-      if(relevant&&m.sender_id!==CU.id){
-        appendMessage(m,true);
-        sb.from('direct_messages').update({is_read:true}).eq('id',m.id);
-        buildChatList();
-      }
-    }).subscribe();
-  chatSubs.push(sub);
-}
-
-function subscribeToMessages(){
-  // Global subscription for unread badge
-  const sub=sb.channel('global_dm_'+CU.id)
-    .on('postgres_changes',{event:'INSERT',schema:'public',table:'direct_messages',filter:`receiver_id=eq.${CU.id}`},payload=>{
-      if(activeChatType==='direct'&&activeChatId===payload.new.sender_id)return; // already open
-      unreadCounts[payload.new.sender_id]=(unreadCounts[payload.new.sender_id]||0)+1;
-      updateMsgBadge();
-      showBrowserNotification(payload.new);
-    }).subscribe();
-  chatSubs.push(sub);
-}
-
-function showBrowserNotification(msg){
-  const senderName=CProfiles[msg.sender_id]||'En bruger';
-  if('Notification' in window&&Notification.permission==='granted'){
-    new Notification('Ny besked fra '+senderName,{body:msg.message||'📷 Billede',icon:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">💬</text></svg>'});
-  }else if('Notification' in window&&Notification.permission!=='denied'){
-    Notification.requestPermission();
+async function sendMsg(){
+  const inp=document.getElementById('chatInp');if(!inp)return;
+  const txt=inp.value.trim();if(!txt&&!cPendImgs.length)return;
+  inp.value='';const imgs=[...cPendImgs];cPendImgs=[];rdImgPrev();
+  if(actCT==='project'){
+    if(txt){const {data}=await sb.from('project_messages').insert({project_id:actCId,sender_id:CU.id,message:txt}).select().single();if(data)appMsg(data,false);}
+    for(const img of imgs){const {data}=await sb.from('project_messages').insert({project_id:actCId,sender_id:CU.id,message:'',image_url:img}).select().single();if(data)appMsg(data,false);}
+  }else if(actCT==='direct'){
+    if(txt){const {data}=await sb.from('direct_messages').insert({sender_id:CU.id,receiver_id:actCId,message:txt}).select().single();if(data)appMsg(data,true);}
+    for(const img of imgs){const {data}=await sb.from('direct_messages').insert({sender_id:CU.id,receiver_id:actCId,message:'',image_url:img}).select().single();if(data)appMsg(data,true);}
   }
+  bChatList();
 }
 
-function handleChatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}}
-
-function handleChatImgPick(e){
-  Array.from(e.target.files).forEach(f=>{
-    const r=new FileReader();r.onload=ev=>{chatPendingImgs.push(ev.target.result);renderChatImgPreview();};r.readAsDataURL(f);
-  });e.target.value='';
-}
-
-function renderChatImgPreview(){
-  const prev=document.getElementById('chatImgPreview');if(!prev)return;
-  if(!chatPendingImgs.length){prev.style.display='none';return;}
-  prev.style.display='flex';
-  prev.innerHTML=chatPendingImgs.map((s,i)=>`<div class="chat-img-preview-item"><img src="${s}"><button class="chat-img-preview-del" onclick="removeChatImg(${i})">✕</button></div>`).join('');
-}
-function removeChatImg(i){chatPendingImgs.splice(i,1);renderChatImgPreview();}
-
-async function sendMessage(){
-  const input=document.getElementById('chatInput');if(!input)return;
-  const text=input.value.trim();
-  if(!text&&!chatPendingImgs.length)return;
-  input.value='';
-  // Send one message per image + text
-  const imagesToSend=[...chatPendingImgs];chatPendingImgs=[];renderChatImgPreview();
-  if(activeChatType==='project'){
-    // Text message
-    if(text){
-      const {data}=await sb.from('project_messages').insert({project_id:activeChatId,sender_id:CU.id,message:text}).select().single();
-      if(data)appendMessage(data,false);
-    }
-    // Image messages
-    for(const img of imagesToSend){
-      const {data}=await sb.from('project_messages').insert({project_id:activeChatId,sender_id:CU.id,message:'',image_url:img}).select().single();
-      if(data)appendMessage(data,false);
-    }
-  }else if(activeChatType==='direct'){
-    if(text){
-      const {data}=await sb.from('direct_messages').insert({sender_id:CU.id,receiver_id:activeChatId,message:text}).select().single();
-      if(data)appendMessage(data,true);
-    }
-    for(const img of imagesToSend){
-      const {data}=await sb.from('direct_messages').insert({sender_id:CU.id,receiver_id:activeChatId,message:'',image_url:img}).select().single();
-      if(data)appendMessage(data,true);
-    }
-  }
-  buildChatList();
-}
-
-// ════════════════════════════════════════════════════
-// RAPPORT
-// ════════════════════════════════════════════════════
+// ── RAPPORT ──
 function openRapport(){
   if(!can('export'))return;
-  A.rFag=new Set(FAGS.filter(f=>CMarkers.some(m=>m.fag===f.id)).map(f=>f.id));
-  A.rSt=new Set(STS.map(s=>s.id));
-  A.rPg=new Set(Array.from({length:A.totalPages||1},(_,i)=>i+1));
-  bRFag();bRSt();bRPg();upRI();
-  document.getElementById('rSideSec').style.display=A.totalPages>1?'':'none';
-  document.getElementById('rptModal').classList.add('open');
+  A.rF=new Set(FAGS.filter(f=>CMkrs.some(m=>m.fag===f.id)).map(f=>f.id));A.rS=new Set(STS.map(s=>s.id));A.rP=new Set(Array.from({length:A.tP||1},(_,i)=>i+1));
+  bRFG();bRSG();bRPG();upRI();document.getElementById('rSideSec').style.display=A.tP>1?'':'none';document.getElementById('rptModal').classList.add('open');
 }
 function closeRpt(){document.getElementById('rptModal').classList.remove('open');}
-function bRFag(){document.getElementById('rFGrid').innerHTML=FAGS.filter(f=>CMarkers.some(m=>m.fag===f.id)).map(f=>{const c=A.rFag.has(f.id);return `<label class="ci${c?' on':''}" id="rf_${f.id}" style="${c?`color:${f.farve};border-color:${f.farve}`:''}"><input type="checkbox" ${c?'checked':''} onchange="tRF('${f.id}',this.checked)"><span class="cdot" style="background:${f.farve}"></span>${f.emoji} ${f.navn}<span style="margin-left:auto;font-size:10px;opacity:.6">${CMarkers.filter(m=>m.fag===f.id).length}</span></label>`;}).join('');}
-function bRSt(){document.getElementById('rSGrid').innerHTML=STS.map(s=>{const c=A.rSt.has(s.id);return `<label class="ci${c?' on':''}" id="rs_${s.id}" style="${c?`color:${s.farve};border-color:${s.farve}`:''}"><input type="checkbox" ${c?'checked':''} onchange="tRS('${s.id}',this.checked)"><span class="cdot" style="background:${s.farve}"></span>${s.navn}<span style="margin-left:auto;font-size:10px;opacity:.6">${CMarkers.filter(m=>m.status===s.id).length}</span></label>`;}).join('');}
-function bRPg(){if(A.totalPages<=1)return;document.getElementById('rPgGrid').innerHTML=Array.from({length:A.totalPages},(_,i)=>{const p=i+1;const c=A.rPg.has(p);return `<label class="ci${c?' on':''}" id="rp_${p}"><input type="checkbox" ${c?'checked':''} onchange="tRP(${p},this.checked)">📄 ${pgNm(p)}<span style="margin-left:auto;font-size:10px;opacity:.6">${CMarkers.filter(m=>(m.page_num||1)===p).length}</span></label>`;}).join('');}
-function tRF(id,on){if(on)A.rFag.add(id);else A.rFag.delete(id);const el=document.getElementById('rf_'+id);const f=gF(id);if(el){el.classList.toggle('on',on);el.style.color=on?f.farve:'';el.style.borderColor=on?f.farve:'';}upRI();}
-function tRS(id,on){if(on)A.rSt.add(id);else A.rSt.delete(id);const el=document.getElementById('rs_'+id);const s=gS(id);if(el){el.classList.toggle('on',on);el.style.color=on?s.farve:'';el.style.borderColor=on?s.farve:'';}upRI();}
-function tRP(p,on){if(on)A.rPg.add(p);else A.rPg.delete(p);const el=document.getElementById('rp_'+p);if(el){el.classList.toggle('on',on);el.style.borderColor=on?'var(--accent)':'';}upRI();}
-function togAllF(on){FAGS.filter(f=>CMarkers.some(m=>m.fag===f.id)).forEach(f=>tRF(f.id,on));}
+function bRFG(){document.getElementById('rFG').innerHTML=FAGS.filter(f=>CMkrs.some(m=>m.fag===f.id)).map(f=>{const c=A.rF.has(f.id);return `<label class="ci${c?' on':''}" id="rf_${f.id}" style="${c?`color:${f.farve};border-color:${f.farve}`:''}"><input type="checkbox" ${c?'checked':''} onchange="tRF('${f.id}',this.checked)"><span class="cdot" style="background:${f.farve}"></span>${f.emoji} ${f.navn}<span style="margin-left:auto;font-size:10px;opacity:.6">${CMkrs.filter(m=>m.fag===f.id).length}</span></label>`;}).join('');}
+function bRSG(){document.getElementById('rSG').innerHTML=STS.map(s=>{const c=A.rS.has(s.id);return `<label class="ci${c?' on':''}" id="rs_${s.id}" style="${c?`color:${s.farve};border-color:${s.farve}`:''}"><input type="checkbox" ${c?'checked':''} onchange="tRS('${s.id}',this.checked)"><span class="cdot" style="background:${s.farve}"></span>${s.navn}<span style="margin-left:auto;font-size:10px;opacity:.6">${CMkrs.filter(m=>m.status===s.id).length}</span></label>`;}).join('');}
+function bRPG(){if(A.tP<=1)return;document.getElementById('rPG').innerHTML=Array.from({length:A.tP},(_,i)=>{const p=i+1;const c=A.rP.has(p);return `<label class="ci${c?' on':''}" id="rp_${p}"><input type="checkbox" ${c?'checked':''} onchange="tRP(${p},this.checked)">📄 ${pgNm(p)}<span style="margin-left:auto;font-size:10px;opacity:.6">${CMkrs.filter(m=>(m.page_num||1)===p).length}</span></label>`;}).join('');}
+function tRF(id,on){if(on)A.rF.add(id);else A.rF.delete(id);const el=document.getElementById('rf_'+id);const f=gF(id);if(el){el.classList.toggle('on',on);el.style.color=on?f.farve:'';el.style.borderColor=on?f.farve:'';}upRI();}
+function tRS(id,on){if(on)A.rS.add(id);else A.rS.delete(id);const el=document.getElementById('rs_'+id);const s=gS(id);if(el){el.classList.toggle('on',on);el.style.color=on?s.farve:'';el.style.borderColor=on?s.farve:'';}upRI();}
+function tRP(p,on){if(on)A.rP.add(p);else A.rP.delete(p);const el=document.getElementById('rp_'+p);if(el){el.classList.toggle('on',on);el.style.borderColor=on?'var(--accent)':'';}upRI();}
+function togAllF(on){FAGS.filter(f=>CMkrs.some(m=>m.fag===f.id)).forEach(f=>tRF(f.id,on));}
 function togAllS(on){STS.forEach(s=>tRS(s.id,on));}
-function togAllPg(on){Array.from({length:A.totalPages||1},(_,i)=>i+1).forEach(p=>tRP(p,on));}
-function getRMkrs(){return CMarkers.filter(m=>A.rFag.has(m.fag)&&A.rSt.has(m.status)&&(A.totalPages<=1||A.rPg.has(m.page_num||1)));}
+function togAllP(on){Array.from({length:A.tP||1},(_,i)=>i+1).forEach(p=>tRP(p,on));}
+function getRMkrs(){return CMkrs.filter(m=>A.rF.has(m.fag)&&A.rS.has(m.status)&&(A.tP<=1||A.rP.has(m.page_num||1)));}
 function upRI(){const c=getRMkrs().length;document.getElementById('rInfo').textContent=`Rapporten vil indeholde ${c} punkt${c===1?'':'er'}.`;}
 
 async function genRpt(){
   const mkrs=getRMkrs();if(!mkrs.length){alert('Ingen punkter matcher.');return;}
   closeRpt();document.getElementById('rpOv').classList.add('open');
   const setPrg=(p,t)=>{document.getElementById('pbF').style.width=p+'%';document.getElementById('rpTxt').textContent=t;};
-  setPrg(5,'Forbereder...');await slp(80);
-  const doc=new jsPDF({orientation:'p',unit:'mm',format:'a4'});
+  setPrg(5,'Indlæser PDF-bibliotek...');
+  const JsPDF=await getJspdf();await slp(50);
+  const doc=new JsPDF({orientation:'p',unit:'mm',format:'a4'});
   const W=210,H=297,M=14,CW=W-M*2;
   doc.setFillColor(15,19,25);doc.rect(0,0,W,44,'F');doc.setFillColor(74,158,255);doc.rect(0,44,W,1,'F');
   doc.setTextColor(74,158,255);doc.setFont('helvetica','bold');doc.setFontSize(22);doc.text('KS RAPPORT',M,20);
   doc.setTextColor(200,210,230);doc.setFont('helvetica','normal');doc.setFontSize(10);doc.text('Kvalitetssikring',M,27);
   if(CP.navn){doc.setTextColor(255,255,255);doc.setFontSize(13);doc.setFont('helvetica','bold');doc.text(CP.navn,W-M,16,{align:'right'});}
   let ry=22;doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(180,190,210);
-  if(CP.addr){doc.text(CP.addr,W-M,ry,{align:'right'});ry+=5;}
-  if(CP.sag){doc.text('Sag: '+CP.sag,W-M,ry,{align:'right'});ry+=5;}
-  if(CP.byg){doc.text('Bygherre: '+CP.byg,W-M,ry,{align:'right'});ry+=5;}
-  if(CP.ans){doc.text('KS-ansvarlig: '+CP.ans,W-M,ry,{align:'right'});ry+=5;}
+  if(CP.addr){doc.text(CP.addr,W-M,ry,{align:'right'});ry+=5;}if(CP.sag){doc.text('Sag: '+CP.sag,W-M,ry,{align:'right'});ry+=5;}if(CP.byg){doc.text('Bygherre: '+CP.byg,W-M,ry,{align:'right'});ry+=5;}if(CP.ans){doc.text('KS-ansvarlig: '+CP.ans,W-M,ry,{align:'right'});ry+=5;}
   doc.setTextColor(120,130,150);doc.text(new Date().toLocaleDateString('da-DK'),W-M,ry,{align:'right'});
   let y=52;
   if(document.getElementById('rStats').checked){
-    setPrg(15,'Statistik...');await slp(50);
-    doc.setTextColor(74,158,255);doc.setFont('helvetica','bold');doc.setFontSize(12);doc.text('OVERSIGT',M,y);y+=5;
-    doc.setFillColor(30,40,60);doc.rect(M,y,CW,.5,'F');y+=4;
+    setPrg(15,'Statistik...');await slp(30);
+    doc.setTextColor(74,158,255);doc.setFont('helvetica','bold');doc.setFontSize(12);doc.text('OVERSIGT',M,y);y+=5;doc.setFillColor(30,40,60);doc.rect(M,y,CW,.5,'F');y+=4;
     const stats=[{label:'Inkluderede punkter',val:mkrs.length,col:[74,158,255]},{label:'Fejl & Mangler',val:mkrs.filter(m=>m.status==='fejl').length,col:[255,71,87]},{label:'Godkendt',val:mkrs.filter(m=>m.godkendt).length,col:[46,213,115]},{label:'Fremtidigt',val:mkrs.filter(m=>m.status==='fremtid').length,col:[74,158,255]},{label:'Igangværende',val:mkrs.filter(m=>m.status==='igangvaer').length,col:[255,165,2]},{label:'Afventer',val:mkrs.filter(m=>m.status==='afventer').length,col:[162,155,254]}];
     stats.forEach((st,i)=>{const cx=M+(i%3)*(CW/3);const cy=y+Math.floor(i/3)*14;doc.setFillColor(22,30,50);doc.roundedRect(cx,cy,CW/3-3,12,2,2,'F');doc.setFillColor(...st.col);doc.roundedRect(cx,cy,3,12,1,1,'F');doc.setTextColor(...st.col);doc.setFont('helvetica','bold');doc.setFontSize(14);doc.text(String(st.val),cx+8,cy+8.5);doc.setTextColor(180,190,210);doc.setFont('helvetica','normal');doc.setFontSize(8);doc.text(st.label,cx+18,cy+8.5);});y+=32;
-    const fm=FAGS.filter(f=>mkrs.some(m=>m.fag===f.id));
-    if(fm.length){doc.setTextColor(74,158,255);doc.setFont('helvetica','bold');doc.setFontSize(10);doc.text('FORDELING',M,y);y+=5;fm.forEach(f=>{const c=mkrs.filter(m=>m.fag===f.id).length;const bw=(c/mkrs.length)*(CW-50);const[r,g,b]=h2r(f.farve);doc.setTextColor(r,g,b);doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text(f.navn,M,y+3.5);doc.setFillColor(30,40,60);doc.rect(M+42,y,CW-52,5,'F');doc.setFillColor(r,g,b);doc.rect(M+42,y,bw,5,'F');doc.setTextColor(180,190,210);doc.setFont('helvetica','normal');doc.text(String(c),W-M,y+3.5,{align:'right'});y+=7;});y+=4;}
+    const fm=FAGS.filter(f=>mkrs.some(m=>m.fag===f.id));if(fm.length){doc.setTextColor(74,158,255);doc.setFont('helvetica','bold');doc.setFontSize(10);doc.text('FORDELING',M,y);y+=5;fm.forEach(f=>{const c=mkrs.filter(m=>m.fag===f.id).length;const bw=(c/mkrs.length)*(CW-50);const[r,g,b]=h2r(f.farve);doc.setTextColor(r,g,b);doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text(f.navn,M,y+3.5);doc.setFillColor(30,40,60);doc.rect(M+42,y,CW-52,5,'F');doc.setFillColor(r,g,b);doc.rect(M+42,y,bw,5,'F');doc.setTextColor(180,190,210);doc.setFont('helvetica','normal');doc.text(String(c),W-M,y+3.5,{align:'right'});y+=7;});y+=4;}
   }
   if(document.getElementById('rPkts').checked){
-    setPrg(30,'Punkter...');await slp(50);const iF=document.getElementById('rFoto').checked;
+    setPrg(30,'Punkter...');await slp(30);const iF=document.getElementById('rFoto').checked;
     const fgs=FAGS.filter(f=>mkrs.some(m=>m.fag===f.id));
-    for(let fi2=0;fi2<fgs.length;fi2++){
-      const f=fgs[fi2];const fm=mkrs.filter(m=>m.fag===f.id);setPrg(30+fi2/fgs.length*40,'Faggruppe: '+f.navn);await slp(15);
-      if(y>H-30){doc.addPage();y=M;}
-      const[r,g,b]=h2r(f.farve);doc.setFillColor(r,g,b);doc.rect(M,y,CW,7,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(10);doc.text(`${f.navn}  (${fm.length} punkter)`,M+3,y+5);y+=9;
+    for(let fi=0;fi<fgs.length;fi++){
+      const f=fgs[fi];const fm=mkrs.filter(m=>m.fag===f.id);setPrg(30+fi/fgs.length*40,f.navn);await slp(10);
+      if(y>H-30){doc.addPage();y=M;}const[r,g,b]=h2r(f.farve);doc.setFillColor(r,g,b);doc.rect(M,y,CW,7,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(10);doc.text(`${f.navn}  (${fm.length} punkter)`,M+3,y+5);y+=9;
       for(const m of fm){
         const s=gS(m.status);if(y>H-45){doc.addPage();y=M;}
         doc.setFillColor(22,30,50);doc.rect(M,y,CW,7,'F');doc.setFillColor(r,g,b);doc.rect(M,y,2,7,'F');doc.setTextColor(220,230,245);doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text(`#${m.id}  ${m.title}${m.godkendt?' ✓':''}`,M+5,y+4.8);
         const[sr,sg,sb2]=h2r(s.farve);doc.setFillColor(sr,sg,sb2);doc.roundedRect(W-M-30,y+1.5,30,4,1,1,'F');doc.setTextColor(255,255,255);doc.setFontSize(7);doc.setFont('helvetica','bold');doc.text(s.navn,W-M-15,y+4.5,{align:'center'});y+=9;
-        const cn=CProfiles[m.created_by]||'';
-        doc.setTextColor(140,160,185);doc.setFont('helvetica','normal');doc.setFontSize(8);doc.text(['Oprettet: '+new Date(m.created_at).toLocaleDateString('da-DK')+(cn?' af '+cn:''),m.godkendt?'Godkendt: '+m.godkendt_af+' '+m.godkendt_dato:''].filter(Boolean).join('   ·   '),M+5,y);y+=5;
+        const cn=CPrf[m.created_by]||'';doc.setTextColor(140,160,185);doc.setFont('helvetica','normal');doc.setFontSize(8);doc.text(['Oprettet: '+new Date(m.created_at).toLocaleDateString('da-DK')+(cn?' af '+cn:''),m.godkendt?'Godkendt: '+m.godkendt_af+' '+m.godkendt_dato:''].filter(Boolean).join('   ·   '),M+5,y);y+=5;
         if(m.note){doc.setTextColor(180,190,210);doc.setFontSize(8);doc.splitTextToSize(m.note,CW-10).forEach(l=>{if(y>H-20){doc.addPage();y=M;}doc.text(l,M+5,y);y+=4;});}
         if(iF&&m.photos&&m.photos.length){const ps=36;const ppr=Math.floor((CW-5)/(ps+3));for(let pi=0;pi<Math.min(m.photos.length,8);pi++){const col=pi%ppr;if(col===0&&pi>0)y+=ps+3;if(y+ps>H-10){doc.addPage();y=M;}try{doc.addImage(m.photos[pi],'JPEG',M+5+col*(ps+3),y,ps,ps);}catch(e){}}y+=ps+4;}
         y+=4;doc.setFillColor(35,43,62);doc.rect(M,y-2,CW,.3,'F');
@@ -1453,40 +988,30 @@ async function genRpt(){
     }
   }
   if(document.getElementById('rTegn').checked&&(CP.plan_data||CP.plan_url)){
-    setPrg(75,'Tegninger...');await slp(50);
-    const pgs=A.totalPages<=1?[1]:[...A.rPg].sort((a,b)=>a-b);
+    setPrg(75,'Tegninger...');await slp(30);
+    const pdfjs=CP.plan_type==='pdf'?await getPdfjs():null;
+    const pgs=A.tP<=1?[1]:[...A.rP].sort((a,b)=>a-b);
     for(const pg of pgs){
       doc.addPage();y=M;doc.setTextColor(74,158,255);doc.setFont('helvetica','bold');doc.setFontSize(12);doc.text(`TEGNING — ${pgNm(pg)}`,M,y);y+=6;doc.setFillColor(30,40,60);doc.rect(M,y,CW,.5,'F');y+=5;
       let sc;
-      if(CP.plan_type==='pdf'&&A.pdfDoc){const p2=await A.pdfDoc.getPage(pg);const vp=p2.getViewport({scale:2});sc=document.createElement('canvas');sc.width=vp.width;sc.height=vp.height;const ctx=sc.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,sc.width,sc.height);await p2.render({canvasContext:ctx,viewport:vp}).promise;}
+      if(CP.plan_type==='pdf'&&A.pdfd){const p2=await A.pdfd.getPage(pg);const vp=p2.getViewport({scale:2});sc=document.createElement('canvas');sc.width=vp.width;sc.height=vp.height;const ctx=sc.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,sc.width,sc.height);await p2.render({canvasContext:ctx,viewport:vp}).promise;}
       else{sc=document.createElement('canvas');await new Promise(res=>{const img=new Image();img.crossOrigin='anonymous';img.onload=()=>{sc.width=img.width;sc.height=img.height;sc.getContext('2d').drawImage(img,0,0);res();};img.src=CP.plan_data||CP.plan_url;});}
-      const ctx=sc.getContext('2d');
-      mkrs.filter(m=>(m.page_num||1)===pg).forEach(m=>{const f=gF(m.fag);const cx=m.px*sc.width;const cy=m.py*sc.height;const rad=sc.width/60;ctx.beginPath();ctx.arc(cx,cy,rad,0,Math.PI*2);ctx.fillStyle=f.farve;ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=rad/4;ctx.stroke();ctx.fillStyle='#fff';ctx.font=`bold ${rad}px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(m.id,cx,cy);});
+      const ctx=sc.getContext('2d');mkrs.filter(m=>(m.page_num||1)===pg).forEach(m=>{const f=gF(m.fag);const cx=m.px*sc.width;const cy=m.py*sc.height;const rad=sc.width/60;ctx.beginPath();ctx.arc(cx,cy,rad,0,Math.PI*2);ctx.fillStyle=f.farve;ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=rad/4;ctx.stroke();ctx.fillStyle='#fff';ctx.font=`bold ${rad}px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(m.id,cx,cy);});
       const asp=sc.height/sc.width;const iw=CW;const ih=Math.min(iw*asp,H-y-30);try{doc.addImage(sc.toDataURL('image/jpeg',.85),'JPEG',M,y,iw,ih);}catch(e){}y+=ih+5;
-      const fp=FAGS.filter(f=>mkrs.some(m=>m.fag===f.id&&(m.page_num||1)===pg));
-      if(fp.length&&y<H-20){doc.setFontSize(7.5);fp.forEach((f,i)=>{const cx=M+(i%4)*(CW/4);const cy2=y+Math.floor(i/4)*7;const[r,g,b]=h2r(f.farve);doc.setFillColor(r,g,b);doc.circle(cx+3,cy2+2,1.8,'F');doc.setTextColor(180,190,210);doc.text(f.emoji+' '+f.navn,cx+7,cy2+3.5);});}
+      const fp=FAGS.filter(f=>mkrs.some(m=>m.fag===f.id&&(m.page_num||1)===pg));if(fp.length&&y<H-20){doc.setFontSize(7.5);fp.forEach((f,i)=>{const cx=M+(i%4)*(CW/4);const cy2=y+Math.floor(i/4)*7;const[r,g,b]=h2r(f.farve);doc.setFillColor(r,g,b);doc.circle(cx+3,cy2+2,1.8,'F');doc.setTextColor(180,190,210);doc.text(f.emoji+' '+f.navn,cx+7,cy2+3.5);});}
     }
   }
-  setPrg(97,'Gemmer...');await slp(80);
+  setPrg(97,'Gemmer...');await slp(50);
   doc.save(((CP.navn||'KS').replace(/[^a-zA-Z0-9æøåÆØÅ\s-]/g,'').trim()||'KS')+'-'+tod().replace(/\./g,'-')+'.pdf');
-  setPrg(100,'Færdig! ✓');await slp(600);document.getElementById('rpOv').classList.remove('open');
+  setPrg(100,'Færdig! ✓');await slp(500);document.getElementById('rpOv').classList.remove('open');
 }
 
-// ════════════════════════════════════════════════════
-// INIT
-// ════════════════════════════════════════════════════
+// ── INIT ──
 async function initApp(){
   const {data:{session}}=await sb.auth.getSession();
-  if(session){await loadUserProfile(session.user);showDash();}
-  else{showScreen('sLogin');}
-  sb.auth.onAuthStateChange(async(event,session)=>{
-    if(event==='SIGNED_IN'&&session){await loadUserProfile(session.user);showDash();}
-    else if(event==='SIGNED_OUT'){showScreen('sLogin');}
-  });
-  // Request notification permission
-  if('Notification' in window&&Notification.permission==='default'){
-    Notification.requestPermission();
-  }
+  if(session){await loadProf(session.user);showDash();}else{showScr('sLogin');}
+  sb.auth.onAuthStateChange(async(ev,s)=>{if(ev==='SIGNED_IN'&&s){await loadProf(s.user);showDash();}else if(ev==='SIGNED_OUT'){showScr('sLogin');}});
+  if('Notification' in window&&Notification.permission==='default')Notification.requestPermission();
 }
 initApp();
 </script>
