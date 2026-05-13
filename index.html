@@ -14,7 +14,7 @@
 :root{
   --bg:#0f1319;--surface:#1a1f2e;--surface2:#232b3e;--surface3:#2d3650;
   --border:#3a4560;--text:#e8ecf4;--text-dim:#7a8aaa;--accent:#4a9eff;
-  --red:#ff4757;--green:#2ed573;--orange:#ffa502;
+  --red:#ff4757;--green:#2ed573;--orange:#ffa502;--purple:#a29bfe;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
@@ -23,12 +23,12 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 #sLogin{align-items:center;justify-content:center;
   background:radial-gradient(ellipse at 30% 40%,rgba(74,158,255,.08) 0%,transparent 60%),
              radial-gradient(ellipse at 70% 70%,rgba(46,213,115,.05) 0%,transparent 50%);}
+
+/* LOGIN */
 .login-box{width:100%;max-width:380px;padding:20px;}
 .ll-main{font-family:'IBM Plex Mono',monospace;font-size:40px;font-weight:500;letter-spacing:6px;color:var(--accent);display:block;text-align:center;}
-.ll-sub{font-size:11px;color:var(--text-dim);letter-spacing:3px;text-transform:uppercase;display:block;margin-top:4px;text-align:center;}
-.login-logo{margin-bottom:28px;}
+.ll-sub{font-size:11px;color:var(--text-dim);letter-spacing:3px;text-transform:uppercase;display:block;margin-top:4px;text-align:center;margin-bottom:28px;}
 .login-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:30px;display:flex;flex-direction:column;gap:16px;box-shadow:0 20px 60px rgba(0,0,0,.5);}
-.lc-title{font-size:16px;font-weight:600;text-align:center;}
 .lc-tabs{display:flex;background:var(--surface2);border-radius:8px;padding:3px;gap:3px;}
 .lc-tab{flex:1;padding:8px;text-align:center;border-radius:6px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text-dim);transition:all .15s;}
 .lc-tab.active{background:var(--accent);color:#0f1319;font-weight:700;}
@@ -36,8 +36,7 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 .lc-label{font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;}
 .lc-input{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:15px;padding:12px 14px;outline:none;width:100%;transition:border-color .15s;}
 .lc-input:focus{border-color:var(--accent);}
-.lc-btn{background:var(--accent);color:#0f1319;border:none;border-radius:8px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;width:100%;font-family:'IBM Plex Sans',sans-serif;transition:background .15s;}
-.lc-btn:hover{background:#6ab3ff;}
+.lc-btn{background:var(--accent);color:#0f1319;border:none;border-radius:8px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;width:100%;font-family:'IBM Plex Sans',sans-serif;}
 .lc-btn:disabled{opacity:.6;cursor:not-allowed;}
 .lc-msg{padding:10px 14px;font-size:13px;border-radius:6px;text-align:center;display:none;}
 .lc-msg.err{background:rgba(255,71,87,.12);border:1px solid rgba(255,71,87,.3);color:var(--red);}
@@ -64,6 +63,11 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 .rp-bruger{background:rgba(74,158,255,.2);color:var(--accent);}
 .rp-gaest{background:rgba(122,138,170,.2);color:var(--text-dim);}
 
+/* NOTIF BADGE */
+.notif-btn{position:relative;}
+.notif-badge{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;display:none;}
+.notif-badge.show{display:flex;}
+
 /* DASHBOARD */
 #sDash{background:var(--bg);}
 .dash-body{max-width:900px;margin:0 auto;padding:28px 20px;flex:1;}
@@ -88,8 +92,10 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 .layout{display:flex;flex:1;overflow:hidden;}
 .sidebar{width:258px;min-width:258px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
 .sb-tabs{display:flex;border-bottom:1px solid var(--border);}
-.sb-tab{flex:1;padding:9px 4px;text-align:center;font-size:11px;font-weight:600;cursor:pointer;color:var(--text-dim);border-bottom:2px solid transparent;transition:all .15s;}
+.sb-tab{flex:1;padding:9px 4px;text-align:center;font-size:11px;font-weight:600;cursor:pointer;color:var(--text-dim);border-bottom:2px solid transparent;transition:all .15s;position:relative;}
 .sb-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.sb-tab-badge{position:absolute;top:4px;right:8px;background:var(--red);color:#fff;font-size:8px;font-weight:700;width:14px;height:14px;border-radius:50%;display:none;align-items:center;justify-content:center;}
+.sb-tab-badge.show{display:flex;}
 .sb-panel{display:none;flex-direction:column;flex:1;overflow:hidden;}
 .sb-panel.active{display:flex;}
 .f-list{padding:6px;overflow-y:auto;flex:1;}
@@ -125,10 +131,9 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 .ptab.on{background:var(--surface2);color:var(--accent);}
 .ptab-lbl{padding:7px 10px;display:flex;align-items:center;gap:4px;cursor:pointer;}
 .ptab.on .ptab-lbl{font-weight:600;}
-.tbadge{background:var(--red);color:#fff;font-size:9px;padding:1px 5px;border-radius:8px;font-family:'IBM Plex Sans',sans-serif;}
-.ren-btn{padding:0 6px;display:flex;align-items:center;color:var(--text-dim);opacity:0;font-size:12px;cursor:pointer;transition:opacity .15s;}
+.tbadge{background:var(--red);color:#fff;font-size:9px;padding:1px 5px;border-radius:8px;}
+.ren-btn{padding:0 6px;display:flex;align-items:center;color:var(--text-dim);opacity:0;font-size:12px;cursor:pointer;}
 .ptab:hover .ren-btn,.ptab.on .ren-btn{opacity:.6;}
-.ren-btn:hover{color:var(--accent);opacity:1!important;}
 .c-toolbar{padding:7px 12px;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--border);background:var(--surface);flex-wrap:wrap;flex-shrink:0;}
 .m-btn{padding:6px 11px;border-radius:5px;border:1px solid var(--border);background:transparent;color:var(--text-dim);cursor:pointer;font-size:11px;font-family:'IBM Plex Sans',sans-serif;transition:all .15s;display:flex;align-items:center;gap:4px;}
 .m-btn:hover{background:var(--surface2);color:var(--text);}
@@ -168,10 +173,61 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 .sbadge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;}
 .iphot{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;}
 .ipho{aspect-ratio:1;border-radius:5px;overflow:hidden;cursor:pointer;}
-.ipho img{width:100%;height:100%;object-fit:cover;transition:transform .2s;}
-.ipho:hover img{transform:scale(1.05);}
+.ipho img{width:100%;height:100%;object-fit:cover;}
 .ip-f{padding:9px 13px;border-top:1px solid var(--border);display:flex;gap:7px;}
 .gstamp{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;background:rgba(46,213,115,.15);color:var(--green);border:1px solid rgba(46,213,115,.3);}
+
+/* ── CHAT ── */
+#sChat{background:var(--bg);}
+.chat-layout{display:flex;flex:1;overflow:hidden;}
+.chat-sidebar{width:260px;min-width:260px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;}
+.chat-sidebar-title{padding:14px 16px;font-size:13px;font-weight:700;border-bottom:1px solid var(--border);}
+.chat-list{flex:1;overflow-y:auto;padding:6px;}
+.chat-list::-webkit-scrollbar{width:3px;}
+.chat-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+.chat-item{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:8px;cursor:pointer;transition:all .15s;margin-bottom:3px;}
+.chat-item:hover{background:var(--surface2);}
+.chat-item.on{background:var(--surface3);border-left:2px solid var(--accent);}
+.chat-item-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;}
+.chat-item-info{flex:1;min-width:0;}
+.chat-item-name{font-size:12px;font-weight:600;}
+.chat-item-last{font-size:11px;color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.chat-item-badge{background:var(--red);color:#fff;font-size:9px;font-weight:700;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;flex-shrink:0;}
+.chat-area{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.chat-header{padding:12px 16px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.chat-header-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;}
+.chat-header-name{font-size:14px;font-weight:600;}
+.chat-header-sub{font-size:11px;color:var(--text-dim);}
+.chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;}
+.chat-messages::-webkit-scrollbar{width:4px;}
+.chat-messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+.chat-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:8px;color:var(--text-dim);}
+.chat-empty-icon{font-size:40px;opacity:.2;}
+.msg-row{display:flex;gap:8px;align-items:flex-end;}
+.msg-row.mine{flex-direction:row-reverse;}
+.msg-av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;}
+.msg-bubble{max-width:68%;padding:9px 12px;border-radius:12px;font-size:13px;line-height:1.4;}
+.msg-bubble.other{background:var(--surface2);border-bottom-left-radius:3px;}
+.msg-bubble.mine{background:var(--accent);color:#0f1319;border-bottom-right-radius:3px;}
+.msg-time{font-size:10px;color:var(--text-dim);margin-top:3px;}
+.msg-row.mine .msg-time{text-align:right;}
+.msg-img{max-width:200px;border-radius:8px;cursor:pointer;display:block;margin-top:5px;}
+.msg-sender{font-size:10px;font-weight:600;color:var(--accent);margin-bottom:2px;}
+.chat-input-area{padding:12px 16px;background:var(--surface);border-top:1px solid var(--border);display:flex;gap:8px;align-items:flex-end;flex-shrink:0;}
+.chat-input{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:20px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:13px;padding:9px 14px;outline:none;resize:none;max-height:100px;transition:border-color .15s;}
+.chat-input:focus{border-color:var(--accent);}
+.chat-send-btn{width:36px;height:36px;border-radius:50%;background:var(--accent);border:none;color:#0f1319;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;transition:background .15s;}
+.chat-send-btn:hover{background:#6ab3ff;}
+.chat-img-btn{width:36px;height:36px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.chat-img-btn:hover{background:var(--surface3);}
+.no-chat-selected{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:var(--text-dim);}
+.no-chat-icon{font-size:48px;opacity:.2;}
+.chat-img-preview{display:flex;gap:6px;flex-wrap:wrap;padding:8px 16px;background:var(--surface);border-top:1px solid var(--border);}
+.chat-img-preview-item{position:relative;width:56px;height:56px;}
+.chat-img-preview-item img{width:100%;height:100%;object-fit:cover;border-radius:6px;}
+.chat-img-preview-del{position:absolute;top:-4px;right:-4px;background:var(--red);border:none;color:#fff;border-radius:50%;width:16px;height:16px;cursor:pointer;font-size:9px;display:flex;align-items:center;justify-content:center;}
+
+/* MODALS */
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .2s;}
 .ov.open{opacity:1;pointer-events:all;}
 .modal{background:var(--surface);border:1px solid var(--border);border-radius:12px;width:100%;max-width:560px;max-height:92vh;overflow-y:auto;transform:translateY(20px);transition:transform .2s;}
@@ -236,7 +292,11 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 .pb-w{width:260px;height:6px;background:var(--surface3);border-radius:3px;overflow:hidden;}
 .pb-f{height:100%;background:var(--accent);border-radius:3px;transition:width .3s;}
 input[type="file"]{display:none;}
-@media(max-width:768px){.sidebar{display:none;}.info-panel{position:fixed;right:0;top:0;bottom:0;z-index:150;}}
+@media(max-width:768px){
+  .sidebar{display:none;}
+  .info-panel{position:fixed;right:0;top:0;bottom:0;z-index:150;}
+  .chat-sidebar{width:200px;min-width:200px;}
+}
 </style>
 </head>
 <body>
@@ -244,10 +304,8 @@ input[type="file"]{display:none;}
 <!-- LOGIN -->
 <div id="sLogin" class="screen active">
   <div class="login-box">
-    <div class="login-logo">
-      <span class="ll-main">KS</span>
-      <span class="ll-sub">Kvalitetssikring</span>
-    </div>
+    <span class="ll-main">KS</span>
+    <span class="ll-sub">Kvalitetssikring</span>
     <div class="login-card">
       <div class="lc-tabs">
         <div class="lc-tab active" id="tabLogin" onclick="switchAuthTab('login')">Log ind</div>
@@ -256,7 +314,7 @@ input[type="file"]{display:none;}
       <div id="loginFields">
         <div style="display:flex;flex-direction:column;gap:12px">
           <div class="lc-field"><label class="lc-label">Email</label><input class="lc-input" id="lEmail" type="email" placeholder="din@email.dk" autocomplete="email"></div>
-          <div class="lc-field"><label class="lc-label">Adgangskode</label><input class="lc-input" id="lPass" type="password" placeholder="adgangskode" autocomplete="current-password"></div>
+          <div class="lc-field"><label class="lc-label">Adgangskode</label><input class="lc-input" id="lPass" type="password" placeholder="adgangskode"></div>
         </div>
       </div>
       <div id="regFields" style="display:none">
@@ -268,7 +326,6 @@ input[type="file"]{display:none;}
       </div>
       <div class="lc-msg" id="lMsg"></div>
       <button class="lc-btn" id="lBtn" onclick="doAuth()">Log ind</button>
-      <div style="font-size:11px;color:var(--text-dim);text-align:center">KS System — Kvalitetssikring</div>
     </div>
   </div>
 </div>
@@ -283,6 +340,10 @@ input[type="file"]{display:none;}
         <span id="dName"></span>
         <span class="r-pill" id="dRole"></span>
       </div>
+      <button class="btn btn-g btn-sm notif-btn" onclick="goChat()">
+        💬 Beskeder
+        <span class="notif-badge" id="dashMsgBadge"></span>
+      </button>
       <button class="btn btn-w btn-sm" id="dAdminBtn" onclick="openAdmin()" style="display:none">👥 Brugere</button>
       <button class="btn btn-g btn-sm" onclick="doLogout()">🚪 Log ud</button>
     </div>
@@ -295,7 +356,7 @@ input[type="file"]{display:none;}
       </div>
     </div>
     <div class="proj-grid" id="projGrid">
-      <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-dim)"><div class="spinner" style="margin:0 auto 12px"></div>Indlæser projekter...</div>
+      <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-dim)"><div class="spinner" style="margin:0 auto 12px"></div>Indlæser...</div>
     </div>
   </div>
 </div>
@@ -314,6 +375,10 @@ input[type="file"]{display:none;}
         <div class="u-av" id="aAv" style="width:20px;height:20px;font-size:10px"></div>
         <span id="aName" style="font-size:11px"></span>
       </div>
+      <button class="btn btn-g btn-sm notif-btn" onclick="goChat()">
+        💬
+        <span class="notif-badge" id="appMsgBadge"></span>
+      </button>
       <button class="btn btn-g btn-sm" id="btnUp" onclick="document.getElementById('fUp').click()">📐 Upload</button>
       <button class="btn btn-s btn-sm" id="btnRpt" onclick="openRapport()">📄 Rapport</button>
       <button class="btn btn-g btn-sm" onclick="doLogout()">🚪</button>
@@ -325,7 +390,10 @@ input[type="file"]{display:none;}
       <div class="sb-tabs">
         <div class="sb-tab active" onclick="sbTab('fag')">🔨 Fag</div>
         <div class="sb-tab" onclick="sbTab('status')">🚦 Status</div>
-        <div class="sb-tab" onclick="sbTab('liste')">📋 Liste</div>
+        <div class="sb-tab" onclick="sbTab('liste')">
+          📋 Liste
+          <span class="sb-tab-badge" id="chatTabBadge"></span>
+        </div>
       </div>
       <div class="sb-panel active" id="sbp-fag"><div class="f-list" id="fagList"></div></div>
       <div class="sb-panel" id="sbp-status"><div class="f-list" id="stList"></div></div>
@@ -346,7 +414,7 @@ input[type="file"]{display:none;}
         <div class="e-state" id="eState">
           <div class="e-icon">📄</div>
           <div class="e-title">Ingen tegning uploadet</div>
-          <div class="e-sub">Upload en PDF (flersidede understøttet) eller et billede.</div>
+          <div class="e-sub">Upload en PDF eller et billede.</div>
           <button class="btn btn-p" onclick="document.getElementById('fUp').click()">📐 Upload Tegning</button>
         </div>
         <div class="loading-box" id="loadBox" style="display:none">
@@ -363,6 +431,35 @@ input[type="file"]{display:none;}
       <div class="ip-h"><div class="ip-t" id="ipT">Detaljer</div><button class="ip-x" onclick="closeInfo()">✕</button></div>
       <div class="ip-b" id="ipB"></div>
       <div class="ip-f" id="ipF"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CHAT SCREEN -->
+<div id="sChat" class="screen">
+  <div class="topbar">
+    <div class="logo" onclick="goDash()">KS<small>System</small></div>
+    <span style="color:var(--border);font-size:18px">›</span>
+    <span style="font-size:13px;font-weight:600">💬 Beskeder</span>
+    <div class="tb-r">
+      <div class="u-chip" style="padding:3px 8px">
+        <div class="u-av" id="chatAv" style="width:20px;height:20px;font-size:10px"></div>
+        <span id="chatUName" style="font-size:11px"></span>
+      </div>
+      <button class="btn btn-g btn-sm" onclick="goDash()">← Tilbage</button>
+      <button class="btn btn-g btn-sm" onclick="doLogout()">🚪</button>
+    </div>
+  </div>
+  <div class="chat-layout">
+    <div class="chat-sidebar">
+      <div class="chat-sidebar-title">Samtaler</div>
+      <div class="chat-list" id="chatList"></div>
+    </div>
+    <div class="chat-area" id="chatArea">
+      <div class="no-chat-selected">
+        <div class="no-chat-icon">💬</div>
+        <div style="font-size:13px">Vælg en samtale til venstre</div>
+      </div>
     </div>
   </div>
 </div>
@@ -416,12 +513,10 @@ input[type="file"]{display:none;}
   <div class="modal modal-md">
     <div class="mh"><div class="mt">👥 Brugeradministration</div><button class="mx" onclick="closeAdmin()">✕</button></div>
     <div class="mb-body">
-      <div class="fg"><div class="fl" style="margin-bottom:8px">Registrerede brugere</div><table class="aut" id="ausT"></table></div>
+      <div class="fg"><div class="fl" style="margin-bottom:8px">Brugere</div><table class="aut" id="ausT"></table></div>
       <div class="sdiv"></div>
       <div style="font-size:12px;color:var(--text-dim);background:var(--surface2);padding:12px;border-radius:8px;border:1px solid var(--border);line-height:1.6">
-        💡 <strong>Sådan inviterer du nye brugere:</strong><br>
-        Send dem linket til denne fil og bed dem klikke <strong>"Opret konto"</strong> på login-siden.<br>
-        Derefter giver du dem adgang til specifikke projekter via <strong>"👥 Adgang"</strong> knappen på projektet.
+        💡 <strong>Inviter nye brugere:</strong> Send dem linket og bed dem klikke <strong>"Opret konto"</strong>. Giv dem derefter adgang til projekter via <strong>"👥 Adgang"</strong>.
       </div>
     </div>
     <div class="mfoot"><button class="btn btn-g" onclick="closeAdmin()">Luk</button></div>
@@ -485,47 +580,47 @@ input[type="file"]{display:none;}
 </div>
 <div class="lb" id="lb" onclick="closeLb()"><button class="lb-x">✕</button><img id="lbImg" src="" alt=""></div>
 <div class="tip" id="tip"></div>
+<input type="file" id="chatImgInput" accept="image/*" multiple style="display:none" onchange="handleChatImgPick(event)">
 
 <script>
 // ════════════════════════════════════════════════════
-// SUPABASE CONFIG
+// SUPABASE
 // ════════════════════════════════════════════════════
-const SUPA_URL = 'https://oiumrheethkalyohvjvr.supabase.co';
-const SUPA_KEY = 'sb_publishable_DWyEFCtPZZyPkqgJnXF-ZQ_ItUHSsRb';
-const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
-
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-const {jsPDF} = window.jspdf;
+const SUPA_URL='https://oiumrheethkalyohvjvr.supabase.co';
+const SUPA_KEY='sb_publishable_DWyEFCtPZZyPkqgJnXF-ZQ_ItUHSsRb';
+const sb=supabase.createClient(SUPA_URL,SUPA_KEY);
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+const {jsPDF}=window.jspdf;
 
 // ════════════════════════════════════════════════════
 // CONSTANTS
 // ════════════════════════════════════════════════════
 const FAGS=[
-  {id:'toemrer',  navn:'Tømrer',       emoji:'🪚',farve:'#e67e22',desc:'Træ, konstruktioner, vinduer, døre'},
-  {id:'murer',    navn:'Murer',        emoji:'🧱',farve:'#c0392b',desc:'Murværk, beton, puds, fliser'},
-  {id:'vvs',      navn:'VVS',          emoji:'🔧',farve:'#2980b9',desc:'Rør, sanitet, varme, ventilation'},
-  {id:'el',       navn:'Elektriker',   emoji:'⚡',farve:'#f39c12',desc:'El-installation, belysning, tavler'},
-  {id:'maler',    navn:'Maler',        emoji:'🎨',farve:'#8e44ad',desc:'Maling, tapetsering, spartling'},
-  {id:'gulv',     navn:'Gulvlægger',   emoji:'🪵',farve:'#795548',desc:'Gulve, parket, vinyl, tæpper'},
-  {id:'smed',     navn:'Smed',         emoji:'⚙️',farve:'#607d8b',desc:'Metal, stål, gelændere, beslag'},
-  {id:'stillads', navn:'Stillads',     emoji:'🏗️',farve:'#ff7043',desc:'Stillads, lift, adgang'},
-  {id:'isolering',navn:'Isolering',    emoji:'🌡️',farve:'#00bcd4',desc:'Isolering, dampspærre'},
-  {id:'tag',      navn:'Tagdækker',    emoji:'🏠',farve:'#4caf50',desc:'Tag, tagpap, inddækning'},
-  {id:'blik',     navn:'Blikkenslager',emoji:'💧',farve:'#26c6da',desc:'Tagrender, nedløb'},
-  {id:'kloak',    navn:'Kloakmester',  emoji:'🚰',farve:'#5d4037',desc:'Kloak, dræn, brønde'},
-  {id:'glar',     navn:'Glarmester',   emoji:'🪟',farve:'#80cbc4',desc:'Ruder, facadeglas'},
-  {id:'beton',    navn:'Beton/Støb',   emoji:'🏛️',farve:'#90a4ae',desc:'Betonstøbning'},
-  {id:'facade',   navn:'Facade',       emoji:'🏢',farve:'#66bb6a',desc:'Facadeentreprise'},
-  {id:'lift',     navn:'Lift/Kran',    emoji:'🦺',farve:'#ffa726',desc:'Liftoperatør'},
-  {id:'jord',     navn:'Jordarbejde',  emoji:'🚜',farve:'#a1887f',desc:'Udgravning, jord'},
-  {id:'andet',    navn:'Andet',        emoji:'🔩',farve:'#9e9e9e',desc:'Andre faggrupper'},
+  {id:'toemrer',navn:'Tømrer',emoji:'🪚',farve:'#e67e22',desc:'Træ, konstruktioner, vinduer, døre'},
+  {id:'murer',navn:'Murer',emoji:'🧱',farve:'#c0392b',desc:'Murværk, beton, puds, fliser'},
+  {id:'vvs',navn:'VVS',emoji:'🔧',farve:'#2980b9',desc:'Rør, sanitet, varme, ventilation'},
+  {id:'el',navn:'Elektriker',emoji:'⚡',farve:'#f39c12',desc:'El-installation, belysning, tavler'},
+  {id:'maler',navn:'Maler',emoji:'🎨',farve:'#8e44ad',desc:'Maling, tapetsering, spartling'},
+  {id:'gulv',navn:'Gulvlægger',emoji:'🪵',farve:'#795548',desc:'Gulve, parket, vinyl, tæpper'},
+  {id:'smed',navn:'Smed',emoji:'⚙️',farve:'#607d8b',desc:'Metal, stål, gelændere, beslag'},
+  {id:'stillads',navn:'Stillads',emoji:'🏗️',farve:'#ff7043',desc:'Stillads, lift, adgang'},
+  {id:'isolering',navn:'Isolering',emoji:'🌡️',farve:'#00bcd4',desc:'Isolering, dampspærre'},
+  {id:'tag',navn:'Tagdækker',emoji:'🏠',farve:'#4caf50',desc:'Tag, tagpap, inddækning'},
+  {id:'blik',navn:'Blikkenslager',emoji:'💧',farve:'#26c6da',desc:'Tagrender, nedløb'},
+  {id:'kloak',navn:'Kloakmester',emoji:'🚰',farve:'#5d4037',desc:'Kloak, dræn, brønde'},
+  {id:'glar',navn:'Glarmester',emoji:'🪟',farve:'#80cbc4',desc:'Ruder, facadeglas'},
+  {id:'beton',navn:'Beton/Støb',emoji:'🏛️',farve:'#90a4ae',desc:'Betonstøbning'},
+  {id:'facade',navn:'Facade',emoji:'🏢',farve:'#66bb6a',desc:'Facadeentreprise'},
+  {id:'lift',navn:'Lift/Kran',emoji:'🦺',farve:'#ffa726',desc:'Liftoperatør'},
+  {id:'jord',navn:'Jordarbejde',emoji:'🚜',farve:'#a1887f',desc:'Udgravning, jord'},
+  {id:'andet',navn:'Andet',emoji:'🔩',farve:'#9e9e9e',desc:'Andre faggrupper'},
 ];
 const STS=[
-  {id:'fejl',      navn:'Fejl & Mangler',     farve:'#ff4757'},
-  {id:'fremtid',   navn:'Fremtidigt arbejde',  farve:'#4a9eff'},
-  {id:'godkendt',  navn:'Godkendt',            farve:'#2ed573'},
-  {id:'igangvaer', navn:'Igangværende',        farve:'#ffa502'},
-  {id:'afventer',  navn:'Afventer materialer', farve:'#a29bfe'},
+  {id:'fejl',navn:'Fejl & Mangler',farve:'#ff4757'},
+  {id:'fremtid',navn:'Fremtidigt arbejde',farve:'#4a9eff'},
+  {id:'godkendt',navn:'Godkendt',farve:'#2ed573'},
+  {id:'igangvaer',navn:'Igangværende',farve:'#ffa502'},
+  {id:'afventer',navn:'Afventer materialer',farve:'#a29bfe'},
 ];
 const SE={fejl:'❌',fremtid:'🔵',godkendt:'✅',igangvaer:'🔄',afventer:'⏳'};
 const RC={admin:'#ffa502',bruger:'#4a9eff',gaest:'#7a8aaa'};
@@ -534,103 +629,77 @@ const gS=id=>STS.find(s=>s.id===id)||STS[0];
 const h2r=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
 const slp=ms=>new Promise(r=>setTimeout(r,ms));
 const tod=()=>new Date().toLocaleDateString('da-DK');
+const fmtTime=d=>new Date(d).toLocaleTimeString('da-DK',{hour:'2-digit',minute:'2-digit'});
+const fmtDate=d=>{const n=new Date(d);const t=new Date();const diff=t-n;if(diff<86400000)return fmtTime(d);return n.toLocaleDateString('da-DK',{day:'numeric',month:'short'});};
+const avColor=str=>{const colors=['#e67e22','#c0392b','#2980b9','#8e44ad','#4caf50','#00bcd4','#f39c12','#607d8b'];let h=0;for(let i=0;i<str.length;i++)h=(h<<5)-h+str.charCodeAt(i);return colors[Math.abs(h)%colors.length];};
+const initials=name=>(name||'?').split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,2)||'?';
 
-// ════════════════════════════════════════════════════
+// PERMISSIONS
+const PERMS={admin:['view','add','edit_own','edit_any','delete','approve','export','rename','upload','edit_proj','manage'],bruger:['view','add','edit_own','export'],gaest:['view']};
+let CProjRole=null;
+function can(p){return CProjRole?(PERMS[CProjRole]||[]).includes(p):false;}
+
 // STATE
-// ════════════════════════════════════════════════════
-let CU=null;       // current user {id, email, display_name, role}
-let CP=null;       // current project
-let CMarkers=[];   // current project markers
-let CPageNames={}; // current project page names
-let CProfiles={};  // uid -> profile cache
-let CProjRole=null;// current user's role in current project
-
+let CU=null,CP=null,CMarkers=[],CPageNames={},CProfiles={};
 const A={zoom:1,mode:'add',selFag:'toemrer',selSt:'fejl',selMrk:null,editMrkId:null,pendCoords:null,mPhotos:[],fMode:'all',fVal:'all',pdfDoc:null,pgRendering:false,rFag:new Set(),rSt:new Set(),rPg:new Set(),renPg:null,totalPages:0,currentPage:1};
 
-// ════════════════════════════════════════════════════
-// PERMISSIONS
-// ════════════════════════════════════════════════════
-const PERMS={
-  admin:  ['view','add','edit_own','edit_any','delete','approve','export','rename','upload','edit_proj','manage'],
-  bruger: ['view','add','edit_own','export'],
-  gaest:  ['view'],
-};
-function can(perm){
-  const r=CProjRole;
-  return r?(PERMS[r]||[]).includes(perm):false;
-}
+// CHAT STATE
+let chatSubs=[];
+let activeChatType=null; // 'project' | 'direct'
+let activeChatId=null;   // project_id or user_id
+let chatPendingImgs=[];
+let allProfiles=[];
+let unreadCounts={};
 
 // ════════════════════════════════════════════════════
-// AUTH TAB
+// AUTH
 // ════════════════════════════════════════════════════
 let authMode='login';
-function switchAuthTab(mode){
-  authMode=mode;
-  document.getElementById('tabLogin').classList.toggle('active',mode==='login');
-  document.getElementById('tabReg').classList.toggle('active',mode==='register');
-  document.getElementById('loginFields').style.display=mode==='login'?'block':'none';
-  document.getElementById('regFields').style.display=mode==='register'?'block':'none';
-  document.getElementById('lBtn').textContent=mode==='login'?'Log ind':'Opret konto';
+function switchAuthTab(m){
+  authMode=m;
+  document.getElementById('tabLogin').classList.toggle('active',m==='login');
+  document.getElementById('tabReg').classList.toggle('active',m==='register');
+  document.getElementById('loginFields').style.display=m==='login'?'block':'none';
+  document.getElementById('regFields').style.display=m==='register'?'block':'none';
+  document.getElementById('lBtn').textContent=m==='login'?'Log ind':'Opret konto';
   hideLMsg();
 }
-
-function showLMsg(msg,type='err'){
-  const el=document.getElementById('lMsg');
-  el.textContent=msg;el.className='lc-msg '+type+' show';
-}
+function showLMsg(msg,type='err'){const el=document.getElementById('lMsg');el.textContent=msg;el.className='lc-msg '+type+' show';}
 function hideLMsg(){document.getElementById('lMsg').className='lc-msg';}
 
 async function doAuth(){
-  const btn=document.getElementById('lBtn');
-  btn.disabled=true;btn.textContent=authMode==='login'?'Logger ind...':'Opretter konto...';
-  hideLMsg();
+  const btn=document.getElementById('lBtn');btn.disabled=true;btn.textContent='Vent...';hideLMsg();
   try{
     if(authMode==='login'){
-      const email=document.getElementById('lEmail').value.trim();
-      const pass=document.getElementById('lPass').value;
+      const email=document.getElementById('lEmail').value.trim();const pass=document.getElementById('lPass').value;
       if(!email||!pass){showLMsg('Udfyld begge felter.');btn.disabled=false;btn.textContent='Log ind';return;}
       const {data,error}=await sb.auth.signInWithPassword({email,password:pass});
       if(error){showLMsg(error.message==='Invalid login credentials'?'Forkert email eller adgangskode':error.message);btn.disabled=false;btn.textContent='Log ind';return;}
-      await loadUserProfile(data.user);
-      btn.disabled=false;btn.textContent='Log ind';
-      showDash();
+      await loadUserProfile(data.user);btn.disabled=false;btn.textContent='Log ind';showDash();
     }else{
-      const name=document.getElementById('rName').value.trim();
-      const email=document.getElementById('rEmail').value.trim();
-      const pass=document.getElementById('rPass').value;
+      const name=document.getElementById('rName').value.trim();const email=document.getElementById('rEmail').value.trim();const pass=document.getElementById('rPass').value;
       if(!name||!email||!pass){showLMsg('Udfyld alle felter.');btn.disabled=false;btn.textContent='Opret konto';return;}
       if(pass.length<6){showLMsg('Adgangskode skal være mindst 6 tegn.');btn.disabled=false;btn.textContent='Opret konto';return;}
       const {data,error}=await sb.auth.signUp({email,password:pass});
       if(error){showLMsg(error.message);btn.disabled=false;btn.textContent='Opret konto';return;}
-      // Check if all users exist - first user becomes admin
       const {count}=await sb.from('profiles').select('*',{count:'exact',head:true});
       const role=count===0?'admin':'bruger';
       await sb.from('profiles').upsert({id:data.user.id,display_name:name,role});
       CU={id:data.user.id,email,display_name:name,role};
       btn.disabled=false;btn.textContent='Opret konto';
-      showLMsg('Konto oprettet! ✓','ok');
-      setTimeout(()=>showDash(),800);
+      showLMsg('Konto oprettet! ✓','ok');setTimeout(()=>showDash(),800);
     }
-  }catch(err){
-    showLMsg('Fejl: '+err.message);
-    btn.disabled=false;
-    btn.textContent=authMode==='login'?'Log ind':'Opret konto';
-  }
+  }catch(err){showLMsg('Fejl: '+err.message);btn.disabled=false;btn.textContent=authMode==='login'?'Log ind':'Opret konto';}
 }
 
 async function loadUserProfile(user){
   const {data}=await sb.from('profiles').select('*').eq('id',user.id).single();
   if(data){CU={id:user.id,email:user.email,display_name:data.display_name||user.email,role:data.role||'bruger'};}
-  else{
-    // Auto-create profile
-    const {count}=await sb.from('profiles').select('*',{count:'exact',head:true});
-    const role=count===0?'admin':'bruger';
-    await sb.from('profiles').insert({id:user.id,display_name:user.email,role});
-    CU={id:user.id,email:user.email,display_name:user.email,role};
-  }
+  else{const {count}=await sb.from('profiles').select('*',{count:'exact',head:true});const role=count===0?'admin':'bruger';await sb.from('profiles').insert({id:user.id,display_name:user.email,role});CU={id:user.id,email:user.email,display_name:user.email,role};}
 }
 
 async function doLogout(){
+  chatSubs.forEach(s=>s.unsubscribe());chatSubs=[];
   await sb.auth.signOut();CU=null;CP=null;CMarkers=[];
   showScreen('sLogin');
 }
@@ -648,50 +717,40 @@ function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classL
 // ════════════════════════════════════════════════════
 async function showDash(){
   showScreen('sDash');
-  const ini=(CU.display_name||'?').split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,2);
-  const av=document.getElementById('dAv');av.textContent=ini;av.style.background=RC[CU.role]||'#666';
+  const ini=initials(CU.display_name);
+  const av=document.getElementById('dAv');av.textContent=ini;av.style.background=avColor(CU.display_name);
   document.getElementById('dName').textContent=CU.display_name;
-  const rp=document.getElementById('dRole');rp.textContent={admin:'Admin',bruger:'Bruger',gaest:'Gæst'}[CU.role]||CU.role;
-  rp.className='r-pill rp-'+CU.role;
+  const rp=document.getElementById('dRole');rp.textContent={admin:'Admin',bruger:'Bruger',gaest:'Gæst'}[CU.role]||CU.role;rp.className='r-pill rp-'+CU.role;
   document.getElementById('dAdminBtn').style.display=CU.role==='admin'?'':'none';
+  await loadProfiles();
   await loadProjects();
+  await loadUnreadCounts();
+  subscribeToMessages();
 }
-
 function goDash(){CP=null;CMarkers=[];A.pdfDoc=null;showDash();}
+
+async function loadProfiles(){
+  const {data}=await sb.from('profiles').select('*');
+  allProfiles=data||[];
+  allProfiles.forEach(p=>CProfiles[p.id]=p.display_name);
+}
 
 async function loadProjects(){
   const grid=document.getElementById('projGrid');
   grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-dim)"><div class="spinner" style="margin:0 auto 12px"></div>Indlæser...</div>';
   let projs=[];
-  if(CU.role==='admin'){
-    const {data}=await sb.from('projects').select('*').order('created_at',{ascending:false});
-    projs=data||[];
-  }else{
-    const {data}=await sb.from('project_access').select('project_id,role,projects(*)').eq('user_id',CU.id);
-    projs=(data||[]).map(r=>({...r.projects,_myRole:r.role}));
-  }
+  if(CU.role==='admin'){const {data}=await sb.from('projects').select('*').order('created_at',{ascending:false});projs=data||[];}
+  else{const {data}=await sb.from('project_access').select('project_id,role,projects(*)').eq('user_id',CU.id);projs=(data||[]).map(r=>({...r.projects,_myRole:r.role}));}
   document.getElementById('dSub').textContent=projs.length+' projekt'+(projs.length===1?'':'er');
-  if(!projs.length&&CU.role!=='admin'){
-    grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-dim)"><div style="font-size:48px;opacity:.2;margin-bottom:12px">📁</div><div>Du har ikke adgang til nogen projekter endnu.<br>Kontakt din administrator.</div></div>';return;
-  }
-  // Load marker counts
-  const ids=projs.map(p=>p.id);
-  let counts={};
-  if(ids.length){
-    const {data:mc}=await sb.from('markers').select('project_id,status').in('project_id',ids);
-    (mc||[]).forEach(m=>{if(!counts[m.project_id])counts[m.project_id]={total:0,fejl:0,godkendt:0};counts[m.project_id].total++;if(m.status==='fejl')counts[m.project_id].fejl++;if(m.status==='godkendt')counts[m.project_id].godkendt++;});
-  }
+  if(!projs.length&&CU.role!=='admin'){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-dim)"><div style="font-size:48px;opacity:.2;margin-bottom:12px">📁</div><div>Du har ikke adgang til nogen projekter endnu.</div></div>';return;}
+  const ids=projs.map(p=>p.id);let counts={};
+  if(ids.length){const {data:mc}=await sb.from('markers').select('project_id,status').in('project_id',ids);(mc||[]).forEach(m=>{if(!counts[m.project_id])counts[m.project_id]={total:0,fejl:0,godkendt:0};counts[m.project_id].total++;if(m.status==='fejl')counts[m.project_id].fejl++;if(m.status==='godkendt')counts[m.project_id].godkendt++;});}
   const rCol={admin:'#ffa502',bruger:'#4a9eff',gaest:'#7a8aaa'};
   let html=projs.map(p=>{
-    const r=CU.role==='admin'?'admin':(p._myRole||'bruger');
-    const c=counts[p.id]||{total:0,fejl:0,godkendt:0};
+    const r=CU.role==='admin'?'admin':(p._myRole||'bruger');const c=counts[p.id]||{total:0,fejl:0,godkendt:0};
     return `<div class="proj-card" onclick="openProj('${p.id}')">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
-        <div>
-          <div class="pc-name">${p.navn}</div>
-          ${p.addr?`<div class="pc-sub">${p.addr}</div>`:''}
-          ${p.sag?`<div class="pc-sag">${p.sag}</div>`:''}
-        </div>
+        <div><div class="pc-name">${p.navn}</div>${p.addr?`<div class="pc-sub">${p.addr}</div>`:''}${p.sag?`<div class="pc-sag">${p.sag}</div>`:''}</div>
         <span style="font-size:10px;padding:2px 7px;border-radius:8px;font-weight:600;background:${rCol[r]}22;color:${rCol[r]};flex-shrink:0">${{admin:'Admin',bruger:'Bruger',gaest:'Gæst'}[r]}</span>
       </div>
       <div class="pc-stats">
@@ -714,16 +773,14 @@ async function loadProjects(){
 // ════════════════════════════════════════════════════
 let _pMode='new',_pId=null;
 function openNewProj(){_pMode='new';_pId=null;document.getElementById('pMT').textContent='Nyt projekt';document.getElementById('pSaveBtn').textContent='Opret';['pNavn','pAddr','pSag','pByg','pAns'].forEach(id=>document.getElementById(id).value='');document.getElementById('pErr').style.display='none';document.getElementById('pModal').classList.add('open');setTimeout(()=>document.getElementById('pNavn').focus(),100);}
-function editProjDash(pid){_pMode='edit';_pId=pid;const p=CP&&CP.id===pid?CP:null;document.getElementById('pMT').textContent='Rediger projekt';document.getElementById('pSaveBtn').textContent='Gem';if(p){document.getElementById('pNavn').value=p.navn||'';document.getElementById('pAddr').value=p.addr||'';document.getElementById('pSag').value=p.sag||'';document.getElementById('pByg').value=p.byg||'';document.getElementById('pAns').value=p.ans||'';}document.getElementById('pErr').style.display='none';document.getElementById('pModal').classList.add('open');}
-function openProjEdit(){if(!can('edit_proj'))return;editProjDash(CP.id);document.getElementById('pNavn').value=CP.navn||'';document.getElementById('pAddr').value=CP.addr||'';document.getElementById('pSag').value=CP.sag||'';document.getElementById('pByg').value=CP.byg||'';document.getElementById('pAns').value=CP.ans||'';}
+function editProjDash(pid){_pMode='edit';_pId=pid;document.getElementById('pMT').textContent='Rediger projekt';document.getElementById('pSaveBtn').textContent='Gem';document.getElementById('pErr').style.display='none';document.getElementById('pModal').classList.add('open');}
+function openProjEdit(){if(!can('edit_proj'))return;_pMode='edit';_pId=CP.id;document.getElementById('pMT').textContent='Rediger projekt';document.getElementById('pSaveBtn').textContent='Gem';document.getElementById('pNavn').value=CP.navn||'';document.getElementById('pAddr').value=CP.addr||'';document.getElementById('pSag').value=CP.sag||'';document.getElementById('pByg').value=CP.byg||'';document.getElementById('pAns').value=CP.ans||'';document.getElementById('pErr').style.display='none';document.getElementById('pModal').classList.add('open');}
 function closePModal(){document.getElementById('pModal').classList.remove('open');}
 async function savePModal(){
-  const navn=document.getElementById('pNavn').value.trim();
-  if(!navn){document.getElementById('pErr').textContent='Projektnavn mangler.';document.getElementById('pErr').style.display='block';return;}
+  const navn=document.getElementById('pNavn').value.trim();if(!navn){document.getElementById('pErr').textContent='Projektnavn mangler.';document.getElementById('pErr').style.display='block';return;}
   const dat={navn,addr:document.getElementById('pAddr').value.trim(),sag:document.getElementById('pSag').value.trim(),byg:document.getElementById('pByg').value.trim(),ans:document.getElementById('pAns').value.trim()};
   if(_pMode==='new'){
-    dat.created_by=CU.id;
-    const {data,error}=await sb.from('projects').insert(dat).select().single();
+    dat.created_by=CU.id;const {data,error}=await sb.from('projects').insert(dat).select().single();
     if(error){alert('Fejl: '+error.message);return;}
     await sb.from('project_access').insert({project_id:data.id,user_id:CU.id,role:'admin'});
   }else{
@@ -733,41 +790,31 @@ async function savePModal(){
   }
   closePModal();loadProjects();
 }
-async function delProj(pid){
-  if(!confirm('Slet projektet og alle punkter?'))return;
-  await sb.from('projects').delete().eq('id',pid);
-  loadProjects();
-}
+async function delProj(pid){if(!confirm('Slet projektet og alle punkter?'))return;await sb.from('projects').delete().eq('id',pid);loadProjects();}
 
-// ════════════════════════════════════════════════════
 // ACCESS
-// ════════════════════════════════════════════════════
 let _accPid=null;
 async function openAcc(pid){
-  _accPid=pid;
-  const p=(await sb.from('projects').select('navn').eq('id',pid).single()).data;
+  _accPid=pid;const p=(await sb.from('projects').select('navn').eq('id',pid).single()).data;
   document.getElementById('accT').textContent='Adgang: '+(p?.navn||'');
-  const {data:allProf}=await sb.from('profiles').select('*').neq('id',CU.id);
+  const others=allProfiles.filter(u=>u.id!==CU.id);
   const {data:existing}=await sb.from('project_access').select('*').eq('project_id',pid);
   const accMap={};(existing||[]).forEach(a=>accMap[a.user_id]=a.role);
-  const profs=allProf||[];
-  if(!profs.length){document.getElementById('accGrid').innerHTML='<div style="font-size:12px;color:var(--text-dim);padding:8px">Ingen andre brugere oprettet endnu.</div>';}
-  else{
-    document.getElementById('accGrid').innerHTML=profs.map(u=>{const cur=accMap[u.id]||'';const chk=!!cur;
-      return `<div class="acc-item"><input type="checkbox" id="ac_${u.id}" ${chk?'checked':''} onchange="updAcc('${u.id}')"><label for="ac_${u.id}" style="font-size:12px;cursor:pointer;flex:1">${u.display_name} <span style="font-size:10px;color:var(--text-dim)">(${u.id.slice(0,8)}...)</span></label>
+  document.getElementById('accGrid').innerHTML=!others.length
+    ?'<div style="font-size:12px;color:var(--text-dim);padding:8px">Ingen andre brugere.</div>'
+    :others.map(u=>{const cur=accMap[u.id]||'';const chk=!!cur;
+      return `<div class="acc-item"><input type="checkbox" id="ac_${u.id}" ${chk?'checked':''} onchange="updAcc('${u.id}')"><label for="ac_${u.id}" style="font-size:12px;cursor:pointer;flex:1">${u.display_name}</label>
         <select class="acc-rsel" id="acr_${u.id}" ${!chk?'disabled':''}><option value="bruger" ${cur==='bruger'?'selected':''}>Bruger</option><option value="gaest" ${cur==='gaest'?'selected':''}>Gæst</option><option value="admin" ${cur==='admin'?'selected':''}>Admin</option></select>
       </div>`;}).join('');
-  }
   document.getElementById('accModal').classList.add('open');
 }
 function updAcc(uid){document.getElementById('acr_'+uid).disabled=!document.getElementById('ac_'+uid).checked;}
 async function saveAcc(){
-  const {data:allProf}=await sb.from('profiles').select('id').neq('id',CU.id);
-  for(const u of allProf||[]){
-    const chk=document.getElementById('ac_'+u.id)?.checked;
-    const role=document.getElementById('acr_'+u.id)?.value;
-    if(chk&&role){await sb.from('project_access').upsert({project_id:_accPid,user_id:u.id,role});}
-    else{await sb.from('project_access').delete().eq('project_id',_accPid).eq('user_id',u.id);}
+  const others=allProfiles.filter(u=>u.id!==CU.id);
+  for(const u of others){
+    const chk=document.getElementById('ac_'+u.id)?.checked;const role=document.getElementById('acr_'+u.id)?.value;
+    if(chk&&role)await sb.from('project_access').upsert({project_id:_accPid,user_id:u.id,role});
+    else await sb.from('project_access').delete().eq('project_id',_accPid).eq('user_id',u.id);
   }
   closeAcc();loadProjects();
 }
@@ -781,25 +828,18 @@ async function openProj(pid){
   document.getElementById('eState').style.display='flex';
   document.getElementById('planCont').style.display='none';
   document.getElementById('loadBox').style.display='none';
-  // Load project
-  const {data:p}=await sb.from('projects').select('*').eq('id',pid).single();
-  CP=p;
-  // Determine role
+  const {data:p}=await sb.from('projects').select('*').eq('id',pid).single();CP=p;
   if(CU.role==='admin'){CProjRole='admin';}
   else{const {data:acc}=await sb.from('project_access').select('role').eq('project_id',pid).eq('user_id',CU.id).single();CProjRole=acc?.role||null;}
-  // Load markers
-  const {data:mkrs}=await sb.from('markers').select('*').eq('project_id',pid).order('id');
-  CMarkers=mkrs||[];
-  // Load page names
-  const {data:pgns}=await sb.from('page_names').select('*').eq('project_id',pid);
-  CPageNames={};(pgns||[]).forEach(r=>CPageNames[r.page_num]=r.name);
-  // Load profiles for display
-  const userIds=[...new Set(CMarkers.map(m=>m.created_by).filter(Boolean))];
-  if(userIds.length){const {data:profs}=await sb.from('profiles').select('id,display_name').in('id',userIds);(profs||[]).forEach(p=>CProfiles[p.id]=p.display_name);}
-  // Determine total pages from markers
+  const {data:mkrs}=await sb.from('markers').select('*').eq('project_id',pid).order('id');CMarkers=mkrs||[];
+  const {data:pgns}=await sb.from('page_names').select('*').eq('project_id',pid);CPageNames={};(pgns||[]).forEach(r=>CPageNames[r.page_num]=r.name);
+  const uids=[...new Set(CMarkers.map(m=>m.created_by).filter(Boolean))];
+  if(uids.length){const {data:profs}=await sb.from('profiles').select('id,display_name').in('id',uids);(profs||[]).forEach(p=>CProfiles[p.id]=p.display_name);}
   A.totalPages=CMarkers.length?Math.max(...CMarkers.map(m=>m.page_num||1)):0;
   A.currentPage=1;A.zoom=1;A.selMrk=null;A.fMode='all';A.fVal='all';A.pdfDoc=null;
   updateAppBar();buildFagGrid();buildStGrid();buildFagFilter();buildStFilter();buildStBar();setMode('add');buildPgTabs();renderDots();renderMList();
+  if(CP.plan_data||CP.plan_url)await loadPlan();
+  updateMsgBadge();
 }
 
 function updateAppBar(){
@@ -808,56 +848,36 @@ function updateAppBar(){
   document.getElementById('btnUp').style.display=can('upload')?'':'none';
   document.getElementById('btnRpt').style.display=can('export')?'':'none';
   document.getElementById('appProjBtn').style.cursor=can('edit_proj')?'pointer':'default';
-  const ini=(CU.display_name||'?').split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,2);
-  const av=document.getElementById('aAv');av.textContent=ini;av.style.background=RC[CU.role]||'#666';
+  const av=document.getElementById('aAv');av.textContent=initials(CU.display_name);av.style.background=avColor(CU.display_name);
   document.getElementById('aName').textContent=CU.display_name;
 }
 
 // ════════════════════════════════════════════════════
-// LOAD FILE (PDF/Image) — stored as base64 in Supabase Storage
+// FILE LOADING
 // ════════════════════════════════════════════════════
 async function loadFile(e){
   if(!can('upload'))return;const file=e.target.files[0];if(!file)return;
-  showLoad('Uploader tegning...');
+  showLoad('Uploader...');
   try{
-    // Upload to Supabase Storage
-    const ext=file.name.split('.').pop();
-    const path=`${CP.id}/plan.${ext}`;
-    const {error:upErr}=await sb.storage.from('plans').upload(path,file,{upsert:true});
-    if(upErr){
-      // Storage might not be set up - fall back to base64 in project record
-      const b64=await rdDU(file);
-      const isPdf=file.type==='application/pdf';
-      await sb.from('projects').update({plan_data:b64,plan_type:isPdf?'pdf':'image'}).eq('id',CP.id);
-      CP.plan_data=b64;CP.plan_type=isPdf?'pdf':'image';
-    }else{
-      const {data:urlData}=sb.storage.from('plans').getPublicUrl(path);
-      await sb.from('projects').update({plan_url:urlData.publicUrl,plan_type:file.type==='application/pdf'?'pdf':'image'}).eq('id',CP.id);
-      CP.plan_url=urlData.publicUrl;CP.plan_type=file.type==='application/pdf'?'pdf':'image';
-    }
-    // Load the plan
+    const b64=await rdDU(file);const isPdf=file.type==='application/pdf';
+    await sb.from('projects').update({plan_data:b64,plan_type:isPdf?'pdf':'image'}).eq('id',CP.id);
+    CP.plan_data=b64;CP.plan_type=isPdf?'pdf':'image';
     await loadPlan();
   }catch(err){showEmpty('Fejl: '+err.message);}
   e.target.value='';
 }
-
 function rdDU(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=ev=>res(ev.target.result);r.onerror=rej;r.readAsDataURL(f);});}
 
 async function loadPlan(){
-  if(!CP)return;
-  const src=CP.plan_data||CP.plan_url;
-  if(!src){showEmpty();return;}
+  const src=CP.plan_data||CP.plan_url;if(!src)return;
   if(CP.plan_type==='pdf'){
     showLoad('Indlæser PDF...');
     let data;
-    if(CP.plan_data){const bin=atob(CP.plan_data.split(',')[1]||CP.plan_data);const bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);data=bytes;}
-    else{const resp=await fetch(src);data=await resp.arrayBuffer();}
+    if(CP.plan_data&&CP.plan_data.startsWith('data:')){const b=atob(CP.plan_data.split(',')[1]);const by=new Uint8Array(b.length);for(let i=0;i<b.length;i++)by[i]=b.charCodeAt(i);data=by;}
+    else{const r=await fetch(src);data=await r.arrayBuffer();}
     A.pdfDoc=await pdfjsLib.getDocument({data}).promise;
-    A.totalPages=A.pdfDoc.numPages;A.currentPage=1;
-    buildPgTabs();await renderPdf(1);
-  }else{
-    A.totalPages=1;A.currentPage=1;buildPgTabs();await renderImgSrc(src);
-  }
+    A.totalPages=A.pdfDoc.numPages;A.currentPage=1;buildPgTabs();await renderPdf(1);
+  }else{A.totalPages=1;A.currentPage=1;buildPgTabs();await renderImgSrc(src);}
   renderDots();
 }
 
@@ -879,29 +899,20 @@ function buildPgTabs(){
   }
 }
 async function swPg(p){if(p===A.currentPage||A.pgRendering)return;A.currentPage=p;closeInfo();showLoad(pgNm(p)+'...');if(A.pdfDoc)await renderPdf(p);buildPgTabs();renderDots();renderMList();buildStBar();}
-
 function openRen(e,p){e.stopPropagation();A.renPg=p;document.getElementById('renT').textContent='Omdøb: '+pgNm(p);document.getElementById('renInp').value=CPageNames[p]||'';document.getElementById('renModal').classList.add('open');setTimeout(()=>document.getElementById('renInp').select(),100);}
 function closeRen(){document.getElementById('renModal').classList.remove('open');}
-async function saveRen(){
-  const v=document.getElementById('renInp').value.trim();
-  if(v){CPageNames[A.renPg]=v;await sb.from('page_names').upsert({project_id:CP.id,page_num:A.renPg,name:v});}
-  else{delete CPageNames[A.renPg];await sb.from('page_names').delete().eq('project_id',CP.id).eq('page_num',A.renPg);}
-  closeRen();buildPgTabs();buildStBar();
-}
+async function saveRen(){const v=document.getElementById('renInp').value.trim();if(v){CPageNames[A.renPg]=v;await sb.from('page_names').upsert({project_id:CP.id,page_num:A.renPg,name:v});}else{delete CPageNames[A.renPg];await sb.from('page_names').delete().eq('project_id',CP.id).eq('page_num',A.renPg);}closeRen();buildPgTabs();buildStBar();}
 async function clearPgN(){delete CPageNames[A.renPg];await sb.from('page_names').delete().eq('project_id',CP.id).eq('page_num',A.renPg);closeRen();buildPgTabs();buildStBar();}
 document.getElementById('renInp').addEventListener('keydown',e=>{if(e.key==='Enter')saveRen();});
 
 // RENDER
 async function renderPdf(pn){
   if(!A.pdfDoc)return;A.pgRendering=true;
-  const pg=await A.pdfDoc.getPage(pn);
-  const mw=document.getElementById('cWrap').clientWidth-60;
-  const vp0=pg.getViewport({scale:1});
-  const vp=pg.getViewport({scale:Math.min(mw/vp0.width,2)*A.zoom});
+  const pg=await A.pdfDoc.getPage(pn);const mw=document.getElementById('cWrap').clientWidth-60;
+  const vp0=pg.getViewport({scale:1});const vp=pg.getViewport({scale:Math.min(mw/vp0.width,2)*A.zoom});
   const cv=document.getElementById('planCv');cv.width=vp.width;cv.height=vp.height;
   const ctx=cv.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,cv.width,cv.height);
-  await pg.render({canvasContext:ctx,viewport:vp}).promise;
-  showCv();A.pgRendering=false;
+  await pg.render({canvasContext:ctx,viewport:vp}).promise;showCv();A.pgRendering=false;
 }
 async function renderImgSrc(src){
   return new Promise(res=>{const img=new Image();img.crossOrigin='anonymous';img.onload=()=>{
@@ -954,8 +965,7 @@ function handleCvClick(e){
   document.getElementById('mTit').value='';document.getElementById('mDes').value='';
   document.getElementById('mPhGrid').innerHTML='';
   document.getElementById('mMT').textContent='Tilføj punkt';
-  document.getElementById('mModal').classList.add('open');
-  setTimeout(()=>document.getElementById('mTit').focus(),100);
+  document.getElementById('mModal').classList.add('open');setTimeout(()=>document.getElementById('mTit').focus(),100);
 }
 function closeMModal(){document.getElementById('mModal').classList.remove('open');A.pendCoords=null;A.editMrkId=null;}
 function pickPhoto(){const i=document.createElement('input');i.type='file';i.accept='image/*';i.multiple=true;i.onchange=e=>{Array.from(e.target.files).forEach(f=>{const r=new FileReader();r.onload=ev=>{A.mPhotos.push(ev.target.result);renderMPh();};r.readAsDataURL(f);});};i.click();}
@@ -968,20 +978,15 @@ async function saveMrk(){
   try{
     if(A.editMrkId!==null){
       const m=CMarkers.find(m=>m.id===A.editMrkId);
-      if(m){
-        const ok=can('edit_any')||(can('edit_own')&&m.created_by===CU.id);
-        if(!ok){alert('Du kan kun redigere dine egne punkter.');btn.disabled=false;btn.textContent='Gem punkt';return;}
+      if(m){const ok=can('edit_any')||(can('edit_own')&&m.created_by===CU.id);if(!ok){alert('Du kan kun redigere egne punkter.');btn.disabled=false;btn.textContent='Gem punkt';return;}
         const upd={fag:A.selFag,status:A.selSt,title:tit,note:document.getElementById('mDes').value,photos:A.mPhotos,updated_at:new Date().toISOString(),updated_by:CU.id};
-        const {error}=await sb.from('markers').update(upd).eq('id',A.editMrkId);
-        if(error){alert('Fejl: '+error.message);btn.disabled=false;btn.textContent='Gem punkt';return;}
-        Object.assign(m,upd);
-      }
+        await sb.from('markers').update(upd).eq('id',A.editMrkId);Object.assign(m,upd);}
     }else{
+      if(!can('add')){alert('Du har ikke adgang til at tilføje punkter.');btn.disabled=false;btn.textContent='Gem punkt';return;}
       const ins={project_id:CP.id,page_num:A.pendCoords.page,fag:A.selFag,status:A.selSt,title:tit,note:document.getElementById('mDes').value,photos:A.mPhotos,px:A.pendCoords.px,py:A.pendCoords.py,created_by:CU.id,godkendt:false};
       const {data,error}=await sb.from('markers').insert(ins).select().single();
       if(error){alert('Fejl: '+error.message);btn.disabled=false;btn.textContent='Gem punkt';return;}
-      CMarkers.push(data);
-      if(data.page_num>A.totalPages){A.totalPages=data.page_num;buildPgTabs();}
+      CMarkers.push(data);if(data.page_num>A.totalPages){A.totalPages=data.page_num;buildPgTabs();}
     }
     btn.disabled=false;btn.textContent='Gem punkt';
     closeMModal();renderDots();renderMList();buildFagFilter();buildStFilter();buildStBar();buildPgTabs();
@@ -996,16 +1001,12 @@ async function godkend(id){
   renderDots();renderMList();buildFagFilter();buildStFilter();buildStBar();buildPgTabs();openInfo(id);
 }
 async function afvisGdk(id){
-  if(!can('approve'))return;
-  const upd={godkendt:false,godkendt_af:null,godkendt_dato:null};
-  await sb.from('markers').update(upd).eq('id',id);
-  const m=CMarkers.find(m=>m.id===id);if(m)Object.assign(m,upd);
-  renderDots();renderMList();openInfo(id);
+  if(!can('approve'))return;const upd={godkendt:false,godkendt_af:null,godkendt_dato:null};
+  await sb.from('markers').update(upd).eq('id',id);const m=CMarkers.find(m=>m.id===id);if(m)Object.assign(m,upd);renderDots();renderMList();openInfo(id);
 }
 
 function renderDots(){
-  const lyr=document.getElementById('dotsLyr');lyr.innerHTML='';
-  const cv=document.getElementById('planCv');
+  const lyr=document.getElementById('dotsLyr');lyr.innerHTML='';const cv=document.getElementById('planCv');
   CMarkers.filter(m=>(m.page_num||1)===A.currentPage&&mFit(m)).forEach(m=>{
     const f=gF(m.fag);const d=document.createElement('div');
     d.className='map-dot'+(A.selMrk===m.id?' on':'');d.dataset.id=m.id;d.textContent=m.id;
@@ -1018,13 +1019,13 @@ function renderDots(){
 }
 function showTip(e,t){const el=document.getElementById('tip');el.textContent=t;el.style.left=(e.clientX+14)+'px';el.style.top=(e.clientY-10)+'px';el.classList.add('show');}
 function hideTip(){document.getElementById('tip').classList.remove('show');}
-
 function selMrk(id){A.selMrk=id;renderDots();renderMList();openInfo(id);}
+
 function openInfo(id){
   const m=CMarkers.find(m=>m.id===id);if(!m)return;
   const f=gF(m.fag);const s=gS(m.status);
   document.getElementById('ipT').textContent=`#${m.id} — ${f.emoji} ${f.navn}`;
-  const cname=CProfiles[m.created_by]||m.created_by||'?';
+  const cname=CProfiles[m.created_by]||'?';
   const phs=m.photos&&m.photos.length?`<div><div class="ifl">Fotos (${m.photos.length})</div><div class="iphot">${m.photos.map(p=>`<div class="ipho" onclick="openLb('${p}')"><img src="${p}"></div>`).join('')}</div></div>`:'';
   const gst=m.godkendt?`<span class="gstamp">✅ Godkendt af ${m.godkendt_af} — ${m.godkendt_dato}</span>`:'';
   document.getElementById('ipB').innerHTML=`
@@ -1057,16 +1058,12 @@ function editMrk(id){
   document.getElementById('mModal').classList.add('open');
 }
 async function delMrk(id){
-  if(!can('delete')){alert('Kun admin kan slette.');return;}
-  if(!confirm('Slet punkt?'))return;
-  await sb.from('markers').delete().eq('id',id);
-  CMarkers=CMarkers.filter(m=>m.id!==id);A.selMrk=null;
+  if(!can('delete')){alert('Kun admin kan slette.');return;}if(!confirm('Slet punkt?'))return;
+  await sb.from('markers').delete().eq('id',id);CMarkers=CMarkers.filter(m=>m.id!==id);A.selMrk=null;
   closeInfo();renderDots();renderMList();buildFagFilter();buildStFilter();buildStBar();buildPgTabs();
 }
-
 function renderMList(){
-  const list=document.getElementById('mList');
-  const fil=CMarkers.filter(m=>mFit(m));
+  const list=document.getElementById('mList');const fil=CMarkers.filter(m=>mFit(m));
   if(!fil.length){list.innerHTML='<div style="padding:20px;text-align:center;color:var(--text-dim);font-size:12px">Ingen punkter</div>';return;}
   const pgs=[...new Set(fil.map(m=>m.page_num||1))].sort((a,b)=>a-b);
   list.innerHTML=pgs.map(pg=>{
@@ -1084,11 +1081,13 @@ async function jmpTo(id){const m=CMarkers.find(m=>m.id===id);if(!m)return;if((m.
 function openLb(src){document.getElementById('lbImg').src=src;document.getElementById('lb').classList.add('open');}
 function closeLb(){document.getElementById('lb').classList.remove('open');}
 
+// ════════════════════════════════════════════════════
 // ADMIN
+// ════════════════════════════════════════════════════
 async function openAdmin(){
   const {data:profs}=await sb.from('profiles').select('*');
-  document.getElementById('ausT').innerHTML=`<thead><tr><th>Navn</th><th>Email</th><th>Rolle</th></tr></thead><tbody>`+
-  (profs||[]).map(u=>`<tr><td>${u.display_name||'?'}</td><td style="font-size:11px;color:var(--text-dim)">${u.id.slice(0,12)}...</td>
+  document.getElementById('ausT').innerHTML=`<thead><tr><th>Navn</th><th>Rolle</th></tr></thead><tbody>`+
+  (profs||[]).map(u=>`<tr><td>${u.display_name||'?'}</td>
     <td><select class="rsel" onchange="chgRole('${u.id}',this.value)"><option value="admin" ${u.role==='admin'?'selected':''}>Admin</option><option value="bruger" ${u.role==='bruger'?'selected':''}>Bruger</option><option value="gaest" ${u.role==='gaest'?'selected':''}>Gæst</option></select></td>
   </tr>`).join('')+'</tbody>';
   document.getElementById('adminModal').classList.add('open');
@@ -1096,7 +1095,295 @@ async function openAdmin(){
 function closeAdmin(){document.getElementById('adminModal').classList.remove('open');}
 async function chgRole(uid,r){await sb.from('profiles').update({role:r}).eq('id',uid);}
 
+// ════════════════════════════════════════════════════
+// CHAT
+// ════════════════════════════════════════════════════
+async function goChat(){
+  showScreen('sChat');
+  const av=document.getElementById('chatAv');av.textContent=initials(CU.display_name);av.style.background=avColor(CU.display_name);
+  document.getElementById('chatUName').textContent=CU.display_name;
+  await buildChatList();
+}
+
+async function loadUnreadCounts(){
+  // Count unread direct messages
+  const {data}=await sb.from('direct_messages').select('id,sender_id').eq('receiver_id',CU.id).eq('is_read',false);
+  unreadCounts={};
+  (data||[]).forEach(m=>{unreadCounts[m.sender_id]=(unreadCounts[m.sender_id]||0)+1;});
+  const total=Object.values(unreadCounts).reduce((a,b)=>a+b,0);
+  updateMsgBadge(total);
+}
+
+function updateMsgBadge(count){
+  const total=count!==undefined?count:Object.values(unreadCounts).reduce((a,b)=>a+b,0);
+  ['dashMsgBadge','appMsgBadge'].forEach(id=>{
+    const el=document.getElementById(id);if(!el)return;
+    el.textContent=total>9?'9+':total;el.classList.toggle('show',total>0);
+  });
+}
+
+async function buildChatList(){
+  const list=document.getElementById('chatList');
+  list.innerHTML='<div style="padding:16px;text-align:center;color:var(--text-dim);font-size:12px"><div class="spinner" style="margin:0 auto 8px"></div>Indlæser...</div>';
+
+  // Get all projects user has access to (for group chats)
+  let projs=[];
+  if(CU.role==='admin'){const {data}=await sb.from('projects').select('id,navn').order('created_at',{ascending:false});projs=data||[];}
+  else{const {data}=await sb.from('project_access').select('project_id,projects(id,navn)').eq('user_id',CU.id);projs=(data||[]).map(r=>r.projects).filter(Boolean);}
+
+  // Get last message per project chat
+  const projLastMsg={};
+  if(projs.length){
+    for(const p of projs){
+      const {data}=await sb.from('project_messages').select('message,image_url,created_at,sender_id').eq('project_id',p.id).order('created_at',{ascending:false}).limit(1);
+      if(data&&data[0])projLastMsg[p.id]=data[0];
+    }
+  }
+
+  // Get all other users for direct messages
+  const others=allProfiles.filter(u=>u.id!==CU.id);
+
+  // Get last DM per user
+  const dmLastMsg={};
+  for(const u of others){
+    const {data}=await sb.from('direct_messages').select('message,image_url,created_at,sender_id,is_read,receiver_id')
+      .or(`and(sender_id.eq.${CU.id},receiver_id.eq.${u.id}),and(sender_id.eq.${u.id},receiver_id.eq.${CU.id})`)
+      .order('created_at',{ascending:false}).limit(1);
+    if(data&&data[0])dmLastMsg[u.id]=data[0];
+  }
+
+  let html='';
+
+  // PROJECT CHATS
+  if(projs.length){
+    html+=`<div style="padding:8px 10px 4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim)">Projekter</div>`;
+    html+=projs.map(p=>{
+      const last=projLastMsg[p.id];
+      const lastTxt=last?(last.image_url?'📷 Billede':last.message):'Ingen beskeder endnu';
+      const lastTime=last?fmtDate(last.created_at):'';
+      const isActive=activeChatType==='project'&&activeChatId===p.id;
+      return `<div class="chat-item${isActive?' on':''}" onclick="openProjectChat('${p.id}','${p.navn.replace(/'/g,"\\'")}')">
+        <div class="chat-item-av" style="background:${avColor(p.id)};font-size:14px">🏗️</div>
+        <div class="chat-item-info">
+          <div class="chat-item-name">${p.navn}</div>
+          <div class="chat-item-last">${lastTxt}</div>
+        </div>
+        ${lastTime?`<div style="font-size:10px;color:var(--text-dim);flex-shrink:0">${lastTime}</div>`:''}
+      </div>`;}).join('');
+  }
+
+  // DIRECT MESSAGES
+  if(others.length){
+    html+=`<div style="padding:12px 10px 4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim)">Direkte beskeder</div>`;
+    html+=others.map(u=>{
+      const last=dmLastMsg[u.id];const unread=unreadCounts[u.id]||0;
+      const lastTxt=last?(last.image_url?'📷 Billede':last.message):'Skriv en besked...';
+      const lastTime=last?fmtDate(last.created_at):'';
+      const isActive=activeChatType==='direct'&&activeChatId===u.id;
+      return `<div class="chat-item${isActive?' on':''}" onclick="openDirectChat('${u.id}')">
+        <div class="chat-item-av" style="background:${avColor(u.display_name)}">${initials(u.display_name)}</div>
+        <div class="chat-item-info">
+          <div class="chat-item-name">${u.display_name}</div>
+          <div class="chat-item-last" style="${unread?'color:var(--text);font-weight:600':''}">${lastTxt}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">
+          ${lastTime?`<div style="font-size:10px;color:var(--text-dim)">${lastTime}</div>`:''}
+          ${unread?`<div class="chat-item-badge">${unread}</div>`:''}
+        </div>
+      </div>`;}).join('');
+  }
+
+  if(!html)html='<div style="padding:20px;text-align:center;color:var(--text-dim);font-size:12px">Ingen samtaler endnu.</div>';
+  list.innerHTML=html;
+}
+
+async function openProjectChat(projId,projName){
+  activeChatType='project';activeChatId=projId;chatPendingImgs=[];
+  // Unsubscribe previous
+  chatSubs.forEach(s=>s.unsubscribe());chatSubs=[];
+  buildChatList();
+  renderChatHeader('🏗️',avColor(projId),projName,'Holdchat for projektet');
+  await loadProjectMessages(projId);
+  subscribeProjectChat(projId);
+}
+
+async function openDirectChat(userId){
+  activeChatType='direct';activeChatId=userId;chatPendingImgs=[];
+  chatSubs.forEach(s=>s.unsubscribe());chatSubs=[];
+  // Mark as read
+  await sb.from('direct_messages').update({is_read:true}).eq('sender_id',userId).eq('receiver_id',CU.id).eq('is_read',false);
+  delete unreadCounts[userId];updateMsgBadge();
+  buildChatList();
+  const u=allProfiles.find(p=>p.id===userId);
+  renderChatHeader(initials(u?.display_name||'?'),avColor(u?.display_name||userId),u?.display_name||'Bruger','Direkte besked');
+  await loadDirectMessages(userId);
+  subscribeDirectChat(userId);
+}
+
+function renderChatHeader(avText,avBg,name,sub){
+  document.getElementById('chatArea').innerHTML=`
+    <div class="chat-header">
+      <div class="chat-header-av" style="background:${avBg}">${avText}</div>
+      <div><div class="chat-header-name">${name}</div><div class="chat-header-sub">${sub}</div></div>
+    </div>
+    <div class="chat-messages" id="chatMsgs"></div>
+    <div class="chat-img-preview" id="chatImgPreview" style="display:none"></div>
+    <div class="chat-input-area">
+      <button class="chat-img-btn" onclick="document.getElementById('chatImgInput').click()" title="Send billede">📷</button>
+      <textarea class="chat-input" id="chatInput" placeholder="Skriv en besked..." rows="1" onkeydown="handleChatKey(event)"></textarea>
+      <button class="chat-send-btn" onclick="sendMessage()">➤</button>
+    </div>`;
+}
+
+async function loadProjectMessages(projId){
+  const {data}=await sb.from('project_messages').select('*').eq('project_id',projId).order('created_at',{ascending:true});
+  renderMessages(data||[],false);
+}
+
+async function loadDirectMessages(userId){
+  const {data}=await sb.from('direct_messages').select('*')
+    .or(`and(sender_id.eq.${CU.id},receiver_id.eq.${userId}),and(sender_id.eq.${userId},receiver_id.eq.${CU.id})`)
+    .order('created_at',{ascending:true});
+  renderMessages(data||[],true);
+}
+
+function renderMessages(msgs,isDirect){
+  const container=document.getElementById('chatMsgs');if(!container)return;
+  if(!msgs.length){container.innerHTML=`<div class="chat-empty"><div class="chat-empty-icon">💬</div><div style="font-size:13px">Ingen beskeder endnu. Vær den første til at skrive!</div></div>`;return;}
+  container.innerHTML=msgs.map(m=>{
+    const isMine=m.sender_id===CU.id;
+    const senderName=isMine?'Du':(CProfiles[m.sender_id]||'Bruger');
+    const avBg=avColor(CProfiles[m.sender_id]||m.sender_id||'x');
+    const avTxt=initials(CProfiles[m.sender_id]||'?');
+    const imgHtml=m.image_url?`<img src="${m.image_url}" class="msg-img" onclick="openLb('${m.image_url}')">`:'' ;
+    const txtHtml=m.message?`<div>${m.message}</div>`:'';
+    return `<div class="msg-row${isMine?' mine':''}">
+      ${!isMine?`<div class="msg-av" style="background:${avBg}">${avTxt}</div>`:''}
+      <div>
+        ${!isMine&&!isDirect?`<div class="msg-sender">${senderName}</div>`:''}
+        <div class="msg-bubble${isMine?' mine':' other'}">${txtHtml}${imgHtml}</div>
+        <div class="msg-time">${fmtDate(m.created_at)}</div>
+      </div>
+    </div>`;}).join('');
+  container.scrollTop=container.scrollHeight;
+}
+
+function appendMessage(m,isDirect){
+  const container=document.getElementById('chatMsgs');if(!container)return;
+  // Remove empty state if exists
+  const empty=container.querySelector('.chat-empty');if(empty)empty.remove();
+  const isMine=m.sender_id===CU.id;
+  const senderName=isMine?'Du':(CProfiles[m.sender_id]||'Bruger');
+  const avBg=avColor(CProfiles[m.sender_id]||m.sender_id||'x');
+  const avTxt=initials(CProfiles[m.sender_id]||'?');
+  const imgHtml=m.image_url?`<img src="${m.image_url}" class="msg-img" onclick="openLb('${m.image_url}')">`:'' ;
+  const txtHtml=m.message?`<div>${m.message}</div>`:'';
+  const div=document.createElement('div');
+  div.className=`msg-row${isMine?' mine':''}`;
+  div.innerHTML=`
+    ${!isMine?`<div class="msg-av" style="background:${avBg}">${avTxt}</div>`:''}
+    <div>
+      ${!isMine&&!isDirect?`<div class="msg-sender">${senderName}</div>`:''}
+      <div class="msg-bubble${isMine?' mine':' other'}">${txtHtml}${imgHtml}</div>
+      <div class="msg-time">${fmtDate(m.created_at)}</div>
+    </div>`;
+  container.appendChild(div);container.scrollTop=container.scrollHeight;
+}
+
+function subscribeProjectChat(projId){
+  const sub=sb.channel('proj_chat_'+projId)
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'project_messages',filter:`project_id=eq.${projId}`},payload=>{
+      if(payload.new.sender_id!==CU.id)appendMessage(payload.new,false);
+      buildChatList();
+    }).subscribe();
+  chatSubs.push(sub);
+}
+
+function subscribeDirectChat(userId){
+  const sub=sb.channel('dm_'+CU.id+'_'+userId)
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'direct_messages'},payload=>{
+      const m=payload.new;
+      const relevant=(m.sender_id===userId&&m.receiver_id===CU.id)||(m.sender_id===CU.id&&m.receiver_id===userId);
+      if(relevant&&m.sender_id!==CU.id){
+        appendMessage(m,true);
+        sb.from('direct_messages').update({is_read:true}).eq('id',m.id);
+        buildChatList();
+      }
+    }).subscribe();
+  chatSubs.push(sub);
+}
+
+function subscribeToMessages(){
+  // Global subscription for unread badge
+  const sub=sb.channel('global_dm_'+CU.id)
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'direct_messages',filter:`receiver_id=eq.${CU.id}`},payload=>{
+      if(activeChatType==='direct'&&activeChatId===payload.new.sender_id)return; // already open
+      unreadCounts[payload.new.sender_id]=(unreadCounts[payload.new.sender_id]||0)+1;
+      updateMsgBadge();
+      showBrowserNotification(payload.new);
+    }).subscribe();
+  chatSubs.push(sub);
+}
+
+function showBrowserNotification(msg){
+  const senderName=CProfiles[msg.sender_id]||'En bruger';
+  if('Notification' in window&&Notification.permission==='granted'){
+    new Notification('Ny besked fra '+senderName,{body:msg.message||'📷 Billede',icon:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">💬</text></svg>'});
+  }else if('Notification' in window&&Notification.permission!=='denied'){
+    Notification.requestPermission();
+  }
+}
+
+function handleChatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}}
+
+function handleChatImgPick(e){
+  Array.from(e.target.files).forEach(f=>{
+    const r=new FileReader();r.onload=ev=>{chatPendingImgs.push(ev.target.result);renderChatImgPreview();};r.readAsDataURL(f);
+  });e.target.value='';
+}
+
+function renderChatImgPreview(){
+  const prev=document.getElementById('chatImgPreview');if(!prev)return;
+  if(!chatPendingImgs.length){prev.style.display='none';return;}
+  prev.style.display='flex';
+  prev.innerHTML=chatPendingImgs.map((s,i)=>`<div class="chat-img-preview-item"><img src="${s}"><button class="chat-img-preview-del" onclick="removeChatImg(${i})">✕</button></div>`).join('');
+}
+function removeChatImg(i){chatPendingImgs.splice(i,1);renderChatImgPreview();}
+
+async function sendMessage(){
+  const input=document.getElementById('chatInput');if(!input)return;
+  const text=input.value.trim();
+  if(!text&&!chatPendingImgs.length)return;
+  input.value='';
+  // Send one message per image + text
+  const imagesToSend=[...chatPendingImgs];chatPendingImgs=[];renderChatImgPreview();
+  if(activeChatType==='project'){
+    // Text message
+    if(text){
+      const {data}=await sb.from('project_messages').insert({project_id:activeChatId,sender_id:CU.id,message:text}).select().single();
+      if(data)appendMessage(data,false);
+    }
+    // Image messages
+    for(const img of imagesToSend){
+      const {data}=await sb.from('project_messages').insert({project_id:activeChatId,sender_id:CU.id,message:'',image_url:img}).select().single();
+      if(data)appendMessage(data,false);
+    }
+  }else if(activeChatType==='direct'){
+    if(text){
+      const {data}=await sb.from('direct_messages').insert({sender_id:CU.id,receiver_id:activeChatId,message:text}).select().single();
+      if(data)appendMessage(data,true);
+    }
+    for(const img of imagesToSend){
+      const {data}=await sb.from('direct_messages').insert({sender_id:CU.id,receiver_id:activeChatId,message:'',image_url:img}).select().single();
+      if(data)appendMessage(data,true);
+    }
+  }
+  buildChatList();
+}
+
+// ════════════════════════════════════════════════════
 // RAPPORT
+// ════════════════════════════════════════════════════
 function openRapport(){
   if(!can('export'))return;
   A.rFag=new Set(FAGS.filter(f=>CMarkers.some(m=>m.fag===f.id)).map(f=>f.id));
@@ -1144,29 +1431,24 @@ async function genRpt(){
     const stats=[{label:'Inkluderede punkter',val:mkrs.length,col:[74,158,255]},{label:'Fejl & Mangler',val:mkrs.filter(m=>m.status==='fejl').length,col:[255,71,87]},{label:'Godkendt',val:mkrs.filter(m=>m.godkendt).length,col:[46,213,115]},{label:'Fremtidigt',val:mkrs.filter(m=>m.status==='fremtid').length,col:[74,158,255]},{label:'Igangværende',val:mkrs.filter(m=>m.status==='igangvaer').length,col:[255,165,2]},{label:'Afventer',val:mkrs.filter(m=>m.status==='afventer').length,col:[162,155,254]}];
     stats.forEach((st,i)=>{const cx=M+(i%3)*(CW/3);const cy=y+Math.floor(i/3)*14;doc.setFillColor(22,30,50);doc.roundedRect(cx,cy,CW/3-3,12,2,2,'F');doc.setFillColor(...st.col);doc.roundedRect(cx,cy,3,12,1,1,'F');doc.setTextColor(...st.col);doc.setFont('helvetica','bold');doc.setFontSize(14);doc.text(String(st.val),cx+8,cy+8.5);doc.setTextColor(180,190,210);doc.setFont('helvetica','normal');doc.setFontSize(8);doc.text(st.label,cx+18,cy+8.5);});y+=32;
     const fm=FAGS.filter(f=>mkrs.some(m=>m.fag===f.id));
-    if(fm.length){doc.setTextColor(74,158,255);doc.setFont('helvetica','bold');doc.setFontSize(10);doc.text('FORDELING PÅ FAGGRUPPER',M,y);y+=5;fm.forEach(f=>{const c=mkrs.filter(m=>m.fag===f.id).length;const bw=(c/mkrs.length)*(CW-50);const[r,g,b]=h2r(f.farve);doc.setTextColor(r,g,b);doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text(f.navn,M,y+3.5);doc.setFillColor(30,40,60);doc.rect(M+42,y,CW-52,5,'F');doc.setFillColor(r,g,b);doc.rect(M+42,y,bw,5,'F');doc.setTextColor(180,190,210);doc.setFont('helvetica','normal');doc.text(String(c),W-M,y+3.5,{align:'right'});y+=7;});y+=4;}
+    if(fm.length){doc.setTextColor(74,158,255);doc.setFont('helvetica','bold');doc.setFontSize(10);doc.text('FORDELING',M,y);y+=5;fm.forEach(f=>{const c=mkrs.filter(m=>m.fag===f.id).length;const bw=(c/mkrs.length)*(CW-50);const[r,g,b]=h2r(f.farve);doc.setTextColor(r,g,b);doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text(f.navn,M,y+3.5);doc.setFillColor(30,40,60);doc.rect(M+42,y,CW-52,5,'F');doc.setFillColor(r,g,b);doc.rect(M+42,y,bw,5,'F');doc.setTextColor(180,190,210);doc.setFont('helvetica','normal');doc.text(String(c),W-M,y+3.5,{align:'right'});y+=7;});y+=4;}
   }
   if(document.getElementById('rPkts').checked){
     setPrg(30,'Punkter...');await slp(50);const iF=document.getElementById('rFoto').checked;
     const fgs=FAGS.filter(f=>mkrs.some(m=>m.fag===f.id));
-    for(let fi=0;fi<fgs.length;fi++){
-      const f=fgs[fi];const fm=mkrs.filter(m=>m.fag===f.id);setPrg(30+fi/fgs.length*40,'Faggruppe: '+f.navn);await slp(15);
+    for(let fi2=0;fi2<fgs.length;fi2++){
+      const f=fgs[fi2];const fm=mkrs.filter(m=>m.fag===f.id);setPrg(30+fi2/fgs.length*40,'Faggruppe: '+f.navn);await slp(15);
       if(y>H-30){doc.addPage();y=M;}
       const[r,g,b]=h2r(f.farve);doc.setFillColor(r,g,b);doc.rect(M,y,CW,7,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(10);doc.text(`${f.navn}  (${fm.length} punkter)`,M+3,y+5);y+=9;
-      const pgs=[...new Set(fm.map(m=>m.page_num||1))].sort((a,b)=>a-b);
-      for(const pg of pgs){
-        const pm=fm.filter(m=>(m.page_num||1)===pg);
-        if(A.totalPages>1){if(y>H-20){doc.addPage();y=M;}doc.setFillColor(22,30,50);doc.rect(M,y,CW,6,'F');doc.setTextColor(140,160,190);doc.setFont('helvetica','italic');doc.setFontSize(8);doc.text(`📄 ${pgNm(pg)}`,M+3,y+4.2);y+=8;}
-        for(const m of pm){
-          const s=gS(m.status);if(y>H-45){doc.addPage();y=M;}
-          doc.setFillColor(22,30,50);doc.rect(M,y,CW,7,'F');doc.setFillColor(r,g,b);doc.rect(M,y,2,7,'F');doc.setTextColor(220,230,245);doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text(`#${m.id}  ${m.title}${m.godkendt?' ✓':''}`,M+5,y+4.8);
-          const[sr,sg,sb]=h2r(s.farve);doc.setFillColor(sr,sg,sb);doc.roundedRect(W-M-30,y+1.5,30,4,1,1,'F');doc.setTextColor(255,255,255);doc.setFontSize(7);doc.setFont('helvetica','bold');doc.text(s.navn,W-M-15,y+4.5,{align:'center'});y+=9;
-          const cn=CProfiles[m.created_by]||'';
-          doc.setTextColor(140,160,185);doc.setFont('helvetica','normal');doc.setFontSize(8);doc.text(['Oprettet: '+new Date(m.created_at).toLocaleDateString('da-DK')+(cn?' af '+cn:''),m.godkendt?'Godkendt: '+m.godkendt_af+' '+m.godkendt_dato:''].filter(Boolean).join('   ·   '),M+5,y);y+=5;
-          if(m.note){doc.setTextColor(180,190,210);doc.setFontSize(8);doc.splitTextToSize(m.note,CW-10).forEach(l=>{if(y>H-20){doc.addPage();y=M;}doc.text(l,M+5,y);y+=4;});}
-          if(iF&&m.photos&&m.photos.length){const ps=36;const ppr=Math.floor((CW-5)/(ps+3));for(let pi=0;pi<Math.min(m.photos.length,8);pi++){const col=pi%ppr;if(col===0&&pi>0)y+=ps+3;if(y+ps>H-10){doc.addPage();y=M;}try{doc.addImage(m.photos[pi],'JPEG',M+5+col*(ps+3),y,ps,ps);}catch(e){}}y+=ps+4;}
-          y+=4;doc.setFillColor(35,43,62);doc.rect(M,y-2,CW,.3,'F');
-        }
+      for(const m of fm){
+        const s=gS(m.status);if(y>H-45){doc.addPage();y=M;}
+        doc.setFillColor(22,30,50);doc.rect(M,y,CW,7,'F');doc.setFillColor(r,g,b);doc.rect(M,y,2,7,'F');doc.setTextColor(220,230,245);doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text(`#${m.id}  ${m.title}${m.godkendt?' ✓':''}`,M+5,y+4.8);
+        const[sr,sg,sb2]=h2r(s.farve);doc.setFillColor(sr,sg,sb2);doc.roundedRect(W-M-30,y+1.5,30,4,1,1,'F');doc.setTextColor(255,255,255);doc.setFontSize(7);doc.setFont('helvetica','bold');doc.text(s.navn,W-M-15,y+4.5,{align:'center'});y+=9;
+        const cn=CProfiles[m.created_by]||'';
+        doc.setTextColor(140,160,185);doc.setFont('helvetica','normal');doc.setFontSize(8);doc.text(['Oprettet: '+new Date(m.created_at).toLocaleDateString('da-DK')+(cn?' af '+cn:''),m.godkendt?'Godkendt: '+m.godkendt_af+' '+m.godkendt_dato:''].filter(Boolean).join('   ·   '),M+5,y);y+=5;
+        if(m.note){doc.setTextColor(180,190,210);doc.setFontSize(8);doc.splitTextToSize(m.note,CW-10).forEach(l=>{if(y>H-20){doc.addPage();y=M;}doc.text(l,M+5,y);y+=4;});}
+        if(iF&&m.photos&&m.photos.length){const ps=36;const ppr=Math.floor((CW-5)/(ps+3));for(let pi=0;pi<Math.min(m.photos.length,8);pi++){const col=pi%ppr;if(col===0&&pi>0)y+=ps+3;if(y+ps>H-10){doc.addPage();y=M;}try{doc.addImage(m.photos[pi],'JPEG',M+5+col*(ps+3),y,ps,ps);}catch(e){}}y+=ps+4;}
+        y+=4;doc.setFillColor(35,43,62);doc.rect(M,y-2,CW,.3,'F');
       }y+=6;
     }
   }
@@ -1191,21 +1473,20 @@ async function genRpt(){
 }
 
 // ════════════════════════════════════════════════════
-// INIT — check existing session
+// INIT
 // ════════════════════════════════════════════════════
 async function initApp(){
   const {data:{session}}=await sb.auth.getSession();
-  if(session){
-    await loadUserProfile(session.user);
-    showDash();
-  }else{
-    showScreen('sLogin');
-  }
-  // Listen for auth changes
+  if(session){await loadUserProfile(session.user);showDash();}
+  else{showScreen('sLogin');}
   sb.auth.onAuthStateChange(async(event,session)=>{
     if(event==='SIGNED_IN'&&session){await loadUserProfile(session.user);showDash();}
     else if(event==='SIGNED_OUT'){showScreen('sLogin');}
   });
+  // Request notification permission
+  if('Notification' in window&&Notification.permission==='default'){
+    Notification.requestPermission();
+  }
 }
 initApp();
 </script>
